@@ -547,7 +547,8 @@ export default function Index() {
               Hackathon <span className="text-yellow-300">Outcomes</span> 🎯
             </h2>
             <p className="text-xl text-green-100 font-medium max-w-3xl mx-auto">
-              Expected deliverables from the MRV4All prototype development
+              Key deliverables: identifying scalable MRV prototypes, developing farmer-friendly
+              protocols, and assessing barriers to adoption in rural India's fragmented landscapes
             </p>
           </div>
 
