@@ -289,8 +289,9 @@ export default function Index() {
               The <span className="text-red-600">MRV Challenge</span> 🎯
             </h2>
             <p className="text-xl text-gray-600 font-medium max-w-3xl mx-auto">
-              Current MRV systems are expensive, complex, and poorly adapted to
-              India's smallholder-dominated landscapes
+              Current MRV systems face critical limitations: prohibitively expensive,
+              overly complex, or poorly adapted to India's smallholder-dominated landscapes,
+              resulting in high transaction costs and fragmented data collection
             </p>
           </div>
           <div className="grid lg:grid-cols-3 gap-8">
