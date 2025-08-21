@@ -222,21 +222,20 @@ export default function Index() {
               🏆 Kisan CarbonTech Challenge - MRV4All Hackathon
             </Badge>
             <h1 className="text-hero font-display font-black text-gray-900 leading-none mb-8">
-              <span className="text-green-600">Carbon Roots:</span> <br />
+              <span className="text-green-600">Scalable MRV Solutions</span> <br />
               <span className="bg-gradient-to-r from-green-600 via-emerald-600 to-amber-500 bg-clip-text text-transparent">
-                Scalable MRV
-              </span>{" "}
-              for Farmers
+                Agroforestry & Rice Carbon Projects
+              </span>
             </h1>
             <p className="text-subtitle text-gray-700 font-medium mb-8 max-w-4xl mx-auto">
-              Design and prototype{" "}
+              Identifying{" "}
               <span className="font-bold text-emerald-600">
-                scalable, low-cost MRV solutions
+                scalable and affordable MRV prototypes with high accuracy
               </span>{" "}
-              for agroforestry and rice-based carbon projects. Farmer-friendly,
-              accurate, and globally interoperable solutions for India's{" "}
+              that facilitate automated carbon credit calculation, verification, and reporting
+              for agroforestry and rice-based carbon projects across India's{" "}
               <span className="font-bold text-amber-600">
-                146 million smallholder farmers.
+                smallholder-dominated landscapes.
               </span>
             </p>
 
