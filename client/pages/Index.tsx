@@ -178,14 +178,14 @@ export default function Index() {
   ];
 
   const outcomes = [
-    "Automated carbon credit calculation & verification",
-    "Farmer-friendly data collection in local languages",
-    "Integration with global carbon registries",
-    "Scalable solution for 1-3 acre smallholder farms",
-    "Real-time transparent earnings dashboard",
-    "Low-cost IoT sensors for rice methane monitoring",
-    "Open APIs for agri-platform integration",
-    "Blockchain-based transparent reporting",
+    "Scalable and affordable MRV prototypes with high accuracy",
+    "Automated carbon credit calculation, verification, and reporting",
+    "Localized, farmer-friendly data collection protocols",
+    "Integration with national and global carbon registries",
+    "Tools ensuring consistency, reliability, and interoperability of field data",
+    "Assessment of barriers to scalable MRV adoption in rural India",
+    "Curated list of startups for pilot collaborations and financing",
+    "Templates for standardized farmer-to-registry data integration",
   ];
 
   const hackathonMetrics = [
