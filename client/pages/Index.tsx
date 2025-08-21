@@ -281,6 +281,81 @@ export default function Index() {
         </div>
       </section>
 
+      {/* Context: Nature-based Solutions Potential */}
+      <section className="py-20 bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl lg:text-5xl font-display font-black text-gray-900 mb-6 leading-tight">
+              <span className="text-emerald-600">Nature-based Solutions</span> Potential 🌱
+            </h2>
+            <p className="text-xl text-gray-600 font-medium max-w-4xl mx-auto leading-relaxed">
+              Nature-based Solutions hold immense potential for carbon sequestration while enhancing
+              ecosystem health and community resilience
+            </p>
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="space-y-6">
+              <div className="bg-white rounded-2xl p-8 shadow-xl">
+                <div className="flex items-center space-x-4 mb-6">
+                  <div className="w-16 h-16 bg-green-100 rounded-xl flex items-center justify-center">
+                    <TreePine className="h-8 w-8 text-green-600" />
+                  </div>
+                  <div>
+                    <h3 className="text-2xl font-bold text-gray-900">Agroforestry Potential</h3>
+                    <p className="text-emerald-600 font-semibold">Carbon sequestration + ecosystem health</p>
+                  </div>
+                </div>
+                <p className="text-gray-600 font-medium text-lg leading-relaxed">
+                  Agroforestry and climate-smart agriculture present promising opportunities
+                  to mitigate emissions, particularly from high-emitting sectors like rice cultivation.
+                </p>
+              </div>
+
+              <div className="bg-white rounded-2xl p-8 shadow-xl">
+                <div className="flex items-center space-x-4 mb-6">
+                  <div className="w-16 h-16 bg-amber-100 rounded-xl flex items-center justify-center">
+                    <Wheat className="h-8 w-8 text-amber-600" />
+                  </div>
+                  <div>
+                    <h3 className="text-2xl font-bold text-gray-900">Climate Finance Gap</h3>
+                    <p className="text-amber-600 font-semibold">Unlocking sustainable transformation</p>
+                  </div>
+                </div>
+                <p className="text-gray-600 font-medium text-lg leading-relaxed">
+                  Bridging the MRV gap is essential to unlock climate finance and drive
+                  sustainable transformation in India's agriculture sector.
+                </p>
+              </div>
+            </div>
+
+            <div className="bg-gradient-to-br from-emerald-600 to-green-600 rounded-3xl p-8 text-white">
+              <h3 className="text-3xl font-bold mb-6">The Critical Gap</h3>
+              <div className="space-y-4">
+                <div className="flex items-start space-x-3">
+                  <AlertTriangle className="h-6 w-6 text-yellow-300 mt-1 flex-shrink-0" />
+                  <p className="text-green-100 font-medium text-lg">
+                    Growth of agriculture and agroforestry-based carbon markets is <strong className="text-white">limited by lack of robust MRV systems</strong>
+                  </p>
+                </div>
+                <div className="flex items-start space-x-3">
+                  <MapPin className="h-6 w-6 text-yellow-300 mt-1 flex-shrink-0" />
+                  <p className="text-green-100 font-medium text-lg">
+                    Systems must be <strong className="text-white">affordable and scalable</strong> for India's smallholder-dominated, fragmented landscapes
+                  </p>
+                </div>
+                <div className="flex items-start space-x-3">
+                  <Target className="h-6 w-6 text-yellow-300 mt-1 flex-shrink-0" />
+                  <p className="text-green-100 font-medium text-lg">
+                    Essential to unlock climate finance and drive <strong className="text-white">sustainable transformation</strong> in agriculture
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Challenge Overview */}
       <section className="py-20 bg-red-50">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
