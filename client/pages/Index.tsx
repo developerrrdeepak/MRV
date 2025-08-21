@@ -44,30 +44,30 @@ import { Link } from "react-router-dom";
 export default function Index() {
   const hackathonChallenges = [
     {
-      icon: TreePine,
-      title: "Agroforestry MRV Gap",
+      icon: IndianRupee,
+      title: "Prohibitively Expensive Systems",
       description:
-        "Complex carbon sequestration measurement across fragmented smallholder farms",
+        "Current MRV systems are too costly for smallholder farmers, creating high transaction costs that discourage participation",
       impact: "Critical",
       affected: "146 million farmers in India",
-      color: "green",
+      color: "red",
     },
     {
-      icon: Wheat,
-      title: "Rice Methane Emissions",
+      icon: Network,
+      title: "Fragmented & Complex Protocols",
       description:
-        "Lack of affordable monitoring for rice-based carbon reduction projects",
+        "Overly complex systems poorly adapted to India's fragmented landscapes with inconsistent ground-level data collection",
       impact: "High",
-      affected: "44 million hectares rice cultivation",
+      affected: "Smallholder-dominated landscapes",
       color: "amber",
     },
     {
-      icon: Eye,
-      title: "Transparency & Trust",
+      icon: Shield,
+      title: "Lack of Standardized Integration",
       description:
-        "Farmers can't track their carbon impact or earnings in real-time",
-      impact: "Medium",
-      affected: "89% smallholder farmers",
+        "No standardized protocols for integrating farmer-level data into carbon registries, creating verification barriers",
+      impact: "High",
+      affected: "Carbon credit monetization",
       color: "blue",
     },
   ];
