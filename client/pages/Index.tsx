@@ -425,8 +425,9 @@ export default function Index() {
               Architecture
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto font-medium leading-relaxed">
-              Comprehensive tech stack designed specifically for smallholder
-              farmers with global scalability
+              Developing localized, farmer-friendly data collection protocols that can be
+              integrated into national and global carbon registries with standardized,
+              interoperable frameworks
             </p>
           </div>
 
