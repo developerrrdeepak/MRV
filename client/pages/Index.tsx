@@ -222,7 +222,8 @@ export default function Index() {
               🏆 Kisan CarbonTech Challenge - MRV4All Hackathon
             </Badge>
             <h1 className="text-hero font-display font-black text-gray-900 leading-none mb-8">
-              <span className="text-green-600">Scalable MRV Solutions</span> <br />
+              <span className="text-green-600">Scalable MRV Solutions</span>{" "}
+              <br />
               <span className="bg-gradient-to-r from-green-600 via-emerald-600 to-amber-500 bg-clip-text text-transparent">
                 Agroforestry & Rice Carbon Projects
               </span>
@@ -232,8 +233,9 @@ export default function Index() {
               <span className="font-bold text-emerald-600">
                 scalable and affordable MRV prototypes with high accuracy
               </span>{" "}
-              that facilitate automated carbon credit calculation, verification, and reporting
-              for agroforestry and rice-based carbon projects across India's{" "}
+              that facilitate automated carbon credit calculation, verification,
+              and reporting for agroforestry and rice-based carbon projects
+              across India's{" "}
               <span className="font-bold text-amber-600">
                 smallholder-dominated landscapes.
               </span>
@@ -286,11 +288,13 @@ export default function Index() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl lg:text-5xl font-display font-black text-gray-900 mb-6 leading-tight">
-              <span className="text-emerald-600">Nature-based Solutions</span> Potential 🌱
+              <span className="text-emerald-600">Nature-based Solutions</span>{" "}
+              Potential 🌱
             </h2>
             <p className="text-xl text-gray-600 font-medium max-w-4xl mx-auto leading-relaxed">
-              Nature-based Solutions hold immense potential for carbon sequestration while enhancing
-              ecosystem health and community resilience
+              Nature-based Solutions hold immense potential for carbon
+              sequestration while enhancing ecosystem health and community
+              resilience
             </p>
           </div>
 
@@ -302,13 +306,18 @@ export default function Index() {
                     <TreePine className="h-8 w-8 text-green-600" />
                   </div>
                   <div>
-                    <h3 className="text-2xl font-bold text-gray-900">Agroforestry Potential</h3>
-                    <p className="text-emerald-600 font-semibold">Carbon sequestration + ecosystem health</p>
+                    <h3 className="text-2xl font-bold text-gray-900">
+                      Agroforestry Potential
+                    </h3>
+                    <p className="text-emerald-600 font-semibold">
+                      Carbon sequestration + ecosystem health
+                    </p>
                   </div>
                 </div>
                 <p className="text-gray-600 font-medium text-lg leading-relaxed">
-                  Agroforestry and climate-smart agriculture present promising opportunities
-                  to mitigate emissions, particularly from high-emitting sectors like rice cultivation.
+                  Agroforestry and climate-smart agriculture present promising
+                  opportunities to mitigate emissions, particularly from
+                  high-emitting sectors like rice cultivation.
                 </p>
               </div>
 
@@ -318,13 +327,18 @@ export default function Index() {
                     <Wheat className="h-8 w-8 text-amber-600" />
                   </div>
                   <div>
-                    <h3 className="text-2xl font-bold text-gray-900">Climate Finance Gap</h3>
-                    <p className="text-amber-600 font-semibold">Unlocking sustainable transformation</p>
+                    <h3 className="text-2xl font-bold text-gray-900">
+                      Climate Finance Gap
+                    </h3>
+                    <p className="text-amber-600 font-semibold">
+                      Unlocking sustainable transformation
+                    </p>
                   </div>
                 </div>
                 <p className="text-gray-600 font-medium text-lg leading-relaxed">
-                  Bridging the MRV gap is essential to unlock climate finance and drive
-                  sustainable transformation in India's agriculture sector.
+                  Bridging the MRV gap is essential to unlock climate finance
+                  and drive sustainable transformation in India's agriculture
+                  sector.
                 </p>
               </div>
             </div>
@@ -335,19 +349,31 @@ export default function Index() {
                 <div className="flex items-start space-x-3">
                   <AlertTriangle className="h-6 w-6 text-yellow-300 mt-1 flex-shrink-0" />
                   <p className="text-green-100 font-medium text-lg">
-                    Growth of agriculture and agroforestry-based carbon markets is <strong className="text-white">limited by lack of robust MRV systems</strong>
+                    Growth of agriculture and agroforestry-based carbon markets
+                    is{" "}
+                    <strong className="text-white">
+                      limited by lack of robust MRV systems
+                    </strong>
                   </p>
                 </div>
                 <div className="flex items-start space-x-3">
                   <MapPin className="h-6 w-6 text-yellow-300 mt-1 flex-shrink-0" />
                   <p className="text-green-100 font-medium text-lg">
-                    Systems must be <strong className="text-white">affordable and scalable</strong> for India's smallholder-dominated, fragmented landscapes
+                    Systems must be{" "}
+                    <strong className="text-white">
+                      affordable and scalable
+                    </strong>{" "}
+                    for India's smallholder-dominated, fragmented landscapes
                   </p>
                 </div>
                 <div className="flex items-start space-x-3">
                   <Target className="h-6 w-6 text-yellow-300 mt-1 flex-shrink-0" />
                   <p className="text-green-100 font-medium text-lg">
-                    Essential to unlock climate finance and drive <strong className="text-white">sustainable transformation</strong> in agriculture
+                    Essential to unlock climate finance and drive{" "}
+                    <strong className="text-white">
+                      sustainable transformation
+                    </strong>{" "}
+                    in agriculture
                   </p>
                 </div>
               </div>
@@ -364,9 +390,10 @@ export default function Index() {
               The <span className="text-red-600">MRV Challenge</span> 🎯
             </h2>
             <p className="text-xl text-gray-600 font-medium max-w-3xl mx-auto">
-              Current MRV systems face critical limitations: prohibitively expensive,
-              overly complex, or poorly adapted to India's smallholder-dominated landscapes,
-              resulting in high transaction costs and fragmented data collection
+              Current MRV systems face critical limitations: prohibitively
+              expensive, overly complex, or poorly adapted to India's
+              smallholder-dominated landscapes, resulting in high transaction
+              costs and fragmented data collection
             </p>
           </div>
           <div className="grid lg:grid-cols-3 gap-8">
@@ -425,9 +452,9 @@ export default function Index() {
               Architecture
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto font-medium leading-relaxed">
-              Developing localized, farmer-friendly data collection protocols that can be
-              integrated into national and global carbon registries with standardized,
-              interoperable frameworks
+              Developing localized, farmer-friendly data collection protocols
+              that can be integrated into national and global carbon registries
+              with standardized, interoperable frameworks
             </p>
           </div>
 
@@ -623,8 +650,9 @@ export default function Index() {
               Hackathon <span className="text-yellow-300">Outcomes</span> 🎯
             </h2>
             <p className="text-xl text-green-100 font-medium max-w-3xl mx-auto">
-              Key deliverables: identifying scalable MRV prototypes, developing farmer-friendly
-              protocols, and assessing barriers to adoption in rural India's fragmented landscapes
+              Key deliverables: identifying scalable MRV prototypes, developing
+              farmer-friendly protocols, and assessing barriers to adoption in
+              rural India's fragmented landscapes
             </p>
           </div>
 
