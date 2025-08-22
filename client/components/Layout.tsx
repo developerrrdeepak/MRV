@@ -17,7 +17,8 @@ export default function Layout({ children }: LayoutProps) {
     { name: "Solutions", href: "/solutions" },
     { name: "MRV Prototype", href: "/tools" },
     { name: "Farmer App", href: "/case-studies" },
-    { name: "Hackathon", href: "/resources" },
+    { name: "Resources", href: "/resources" },
+    { name: "Farmer Portal", href: "/farmer/auth" },
   ];
 
   return (
