@@ -21,17 +21,23 @@ export function createServer() {
   connectDB();
 
   // Security middleware
-  app.use(helmet({
-    contentSecurityPolicy: {
-      directives: {
-        defaultSrc: ["'self'"],
-        styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
-        fontSrc: ["'self'", "https://fonts.gstatic.com"],
-        imgSrc: ["'self'", "data:", "https:"],
-        scriptSrc: ["'self'"],
+  app.use(
+    helmet({
+      contentSecurityPolicy: {
+        directives: {
+          defaultSrc: ["'self'"],
+          styleSrc: [
+            "'self'",
+            "'unsafe-inline'",
+            "https://fonts.googleapis.com",
+          ],
+          fontSrc: ["'self'", "https://fonts.gstatic.com"],
+          imgSrc: ["'self'", "data:", "https:"],
+          scriptSrc: ["'self'"],
+        },
       },
-    },
-  }));
+    }),
+  );
 
   // Rate limiting
   const limiter = rateLimit({
@@ -42,14 +48,17 @@ export function createServer() {
   app.use("/api", limiter);
 
   // Basic middleware
-  app.use(cors({
-    origin: process.env.NODE_ENV === 'production'
-      ? ['https://your-domain.com']
-      : ['http://localhost:8080', 'http://localhost:3000'],
-    credentials: true
-  }));
-  app.use(express.json({ limit: '10mb' }));
-  app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+  app.use(
+    cors({
+      origin:
+        process.env.NODE_ENV === "production"
+          ? ["https://your-domain.com"]
+          : ["http://localhost:8080", "http://localhost:3000"],
+      credentials: true,
+    }),
+  );
+  app.use(express.json({ limit: "10mb" }));
+  app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
   // API routes
   app.get("/api/ping", (_req, res) => {
@@ -57,7 +66,7 @@ export function createServer() {
     res.json({
       message: ping,
       timestamp: new Date().toISOString(),
-      environment: process.env.NODE_ENV || 'development'
+      environment: process.env.NODE_ENV || "development",
     });
   });
 
@@ -72,17 +81,24 @@ export function createServer() {
   app.use("/api/payments", paymentRoutes);
 
   // Error handling middleware
-  app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
-    console.error('Error:', err);
-    res.status(err.status || 500).json({
-      message: err.message || 'Internal server error',
-      ...(process.env.NODE_ENV === 'development' && { stack: err.stack })
-    });
-  });
+  app.use(
+    (
+      err: any,
+      req: express.Request,
+      res: express.Response,
+      next: express.NextFunction,
+    ) => {
+      console.error("Error:", err);
+      res.status(err.status || 500).json({
+        message: err.message || "Internal server error",
+        ...(process.env.NODE_ENV === "development" && { stack: err.stack }),
+      });
+    },
+  );
 
   // 404 handler
-  app.use('*', (req, res) => {
-    res.status(404).json({ message: 'Route not found' });
+  app.use("*", (req, res) => {
+    res.status(404).json({ message: "Route not found" });
   });
 
   return app;

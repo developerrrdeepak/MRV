@@ -28,11 +28,46 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           {/* Public routes with Layout */}
-          <Route path="/" element={<Layout><Index /></Layout>} />
-          <Route path="/solutions" element={<Layout><Solutions /></Layout>} />
-          <Route path="/tools" element={<Layout><Tools /></Layout>} />
-          <Route path="/case-studies" element={<Layout><CaseStudies /></Layout>} />
-          <Route path="/resources" element={<Layout><Resources /></Layout>} />
+          <Route
+            path="/"
+            element={
+              <Layout>
+                <Index />
+              </Layout>
+            }
+          />
+          <Route
+            path="/solutions"
+            element={
+              <Layout>
+                <Solutions />
+              </Layout>
+            }
+          />
+          <Route
+            path="/tools"
+            element={
+              <Layout>
+                <Tools />
+              </Layout>
+            }
+          />
+          <Route
+            path="/case-studies"
+            element={
+              <Layout>
+                <CaseStudies />
+              </Layout>
+            }
+          />
+          <Route
+            path="/resources"
+            element={
+              <Layout>
+                <Resources />
+              </Layout>
+            }
+          />
 
           {/* Farmer portal routes without main Layout */}
           <Route path="/farmer/auth" element={<FarmerAuth />} />
@@ -41,7 +76,14 @@ const App = () => (
           <Route path="/admin" element={<AdminPanel />} />
 
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<Layout><NotFound /></Layout>} />
+          <Route
+            path="*"
+            element={
+              <Layout>
+                <NotFound />
+              </Layout>
+            }
+          />
         </Routes>
       </BrowserRouter>
     </TooltipProvider>

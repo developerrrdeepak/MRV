@@ -1,15 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import React, { useState, useEffect } from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { 
-  TreePine, 
-  Wheat, 
-  DollarSign, 
-  MapPin, 
+import {
+  TreePine,
+  Wheat,
+  DollarSign,
+  MapPin,
   Calendar,
   TrendingUp,
   Award,
@@ -22,7 +28,7 @@ import {
   Clock,
   CheckCircle,
   AlertCircle,
-  RefreshCw
+  RefreshCw,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
@@ -54,8 +60,10 @@ interface DashboardData {
 export default function FarmerDashboard() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
-  const [dashboardData, setDashboardData] = useState<DashboardData | null>(null);
+  const [error, setError] = useState("");
+  const [dashboardData, setDashboardData] = useState<DashboardData | null>(
+    null,
+  );
   const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
@@ -64,16 +72,16 @@ export default function FarmerDashboard() {
 
   const fetchDashboardData = async () => {
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem("token");
       if (!token) {
-        navigate('/farmer/auth');
+        navigate("/farmer/auth");
         return;
       }
 
-      const response = await fetch('/api/farmers/dashboard', {
+      const response = await fetch("/api/farmers/dashboard", {
         headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
         },
       });
 
@@ -83,15 +91,15 @@ export default function FarmerDashboard() {
         setDashboardData(data.data);
       } else {
         if (response.status === 401) {
-          localStorage.removeItem('token');
-          localStorage.removeItem('farmer');
-          navigate('/farmer/auth');
+          localStorage.removeItem("token");
+          localStorage.removeItem("farmer");
+          navigate("/farmer/auth");
         } else {
-          setError(data.message || 'Failed to fetch dashboard data');
+          setError(data.message || "Failed to fetch dashboard data");
         }
       }
     } catch (error) {
-      setError('Failed to load dashboard. Please check your connection.');
+      setError("Failed to load dashboard. Please check your connection.");
     } finally {
       setLoading(false);
     }
@@ -104,33 +112,45 @@ export default function FarmerDashboard() {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('farmer');
-    navigate('/');
+    localStorage.removeItem("token");
+    localStorage.removeItem("farmer");
+    navigate("/");
   };
 
   const getVerificationStatusBadge = (status: string) => {
     switch (status) {
-      case 'verified':
-        return <Badge className="bg-green-100 text-green-700 hover:bg-green-200">Verified ✓</Badge>;
-      case 'pending':
-        return <Badge className="bg-yellow-100 text-yellow-700 hover:bg-yellow-200">Pending Review</Badge>;
-      case 'rejected':
-        return <Badge className="bg-red-100 text-red-700 hover:bg-red-200">Rejected</Badge>;
+      case "verified":
+        return (
+          <Badge className="bg-green-100 text-green-700 hover:bg-green-200">
+            Verified ✓
+          </Badge>
+        );
+      case "pending":
+        return (
+          <Badge className="bg-yellow-100 text-yellow-700 hover:bg-yellow-200">
+            Pending Review
+          </Badge>
+        );
+      case "rejected":
+        return (
+          <Badge className="bg-red-100 text-red-700 hover:bg-red-200">
+            Rejected
+          </Badge>
+        );
       default:
         return <Badge variant="outline">Unknown</Badge>;
     }
   };
 
   const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('en-IN', {
-      style: 'currency',
-      currency: 'INR'
+    return new Intl.NumberFormat("en-IN", {
+      style: "currency",
+      currency: "INR",
     }).format(amount);
   };
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-IN');
+    return new Date(dateString).toLocaleDateString("en-IN");
   };
 
   if (loading) {
@@ -150,14 +170,20 @@ export default function FarmerDashboard() {
         <Alert className="max-w-md">
           <AlertCircle className="h-4 w-4" />
           <AlertDescription>
-            {error || 'Failed to load dashboard data'}
+            {error || "Failed to load dashboard data"}
           </AlertDescription>
         </Alert>
       </div>
     );
   }
 
-  const { farmer, statistics, recentMeasurements, carbonCredits, recentPayments } = dashboardData;
+  const {
+    farmer,
+    statistics,
+    recentMeasurements,
+    carbonCredits,
+    recentPayments,
+  } = dashboardData;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-teal-50">
@@ -178,7 +204,7 @@ export default function FarmerDashboard() {
                 </p>
               </div>
             </div>
-            
+
             <div className="flex items-center space-x-4">
               <Button
                 variant="outline"
@@ -186,7 +212,9 @@ export default function FarmerDashboard() {
                 onClick={handleRefresh}
                 disabled={refreshing}
               >
-                <RefreshCw className={`h-4 w-4 mr-2 ${refreshing ? 'animate-spin' : ''}`} />
+                <RefreshCw
+                  className={`h-4 w-4 mr-2 ${refreshing ? "animate-spin" : ""}`}
+                />
                 Refresh
               </Button>
               <Button variant="outline" size="sm" onClick={handleLogout}>
@@ -224,11 +252,15 @@ export default function FarmerDashboard() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <Card className="shadow-lg hover:shadow-xl transition-all duration-300">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Fields</CardTitle>
+              <CardTitle className="text-sm font-medium">
+                Total Fields
+              </CardTitle>
               <MapPin className="h-5 w-5 text-emerald-600" />
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-emerald-600">{statistics.totalFields}</div>
+              <div className="text-3xl font-bold text-emerald-600">
+                {statistics.totalFields}
+              </div>
               <p className="text-sm text-gray-600">
                 {statistics.totalArea.toFixed(1)} acres total
               </p>
@@ -237,11 +269,15 @@ export default function FarmerDashboard() {
 
           <Card className="shadow-lg hover:shadow-xl transition-all duration-300">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Carbon Credits</CardTitle>
+              <CardTitle className="text-sm font-medium">
+                Carbon Credits
+              </CardTitle>
               <Leaf className="h-5 w-5 text-green-600" />
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-green-600">{statistics.totalCredits.toFixed(2)}</div>
+              <div className="text-3xl font-bold text-green-600">
+                {statistics.totalCredits.toFixed(2)}
+              </div>
               <p className="text-sm text-gray-600">
                 {statistics.verifiedCredits} verified
               </p>
@@ -250,7 +286,9 @@ export default function FarmerDashboard() {
 
           <Card className="shadow-lg hover:shadow-xl transition-all duration-300">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Earnings</CardTitle>
+              <CardTitle className="text-sm font-medium">
+                Total Earnings
+              </CardTitle>
               <CircleDollarSign className="h-5 w-5 text-amber-600" />
             </CardHeader>
             <CardContent>
@@ -265,40 +303,42 @@ export default function FarmerDashboard() {
 
           <Card className="shadow-lg hover:shadow-xl transition-all duration-300">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Pending Tasks</CardTitle>
+              <CardTitle className="text-sm font-medium">
+                Pending Tasks
+              </CardTitle>
               <Clock className="h-5 w-5 text-orange-600" />
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-orange-600">{statistics.pendingMeasurements}</div>
-              <p className="text-sm text-gray-600">
-                measurements to verify
-              </p>
+              <div className="text-3xl font-bold text-orange-600">
+                {statistics.pendingMeasurements}
+              </div>
+              <p className="text-sm text-gray-600">measurements to verify</p>
             </CardContent>
           </Card>
         </div>
 
         {/* Action Buttons */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-          <Button 
+          <Button
             className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 h-16 text-lg font-semibold"
-            onClick={() => navigate('/farmer/fields/add')}
+            onClick={() => navigate("/farmer/fields/add")}
           >
             <Plus className="h-6 w-6 mr-2" />
             Add New Field
           </Button>
-          
-          <Button 
+
+          <Button
             className="bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 h-16 text-lg font-semibold"
-            onClick={() => navigate('/farmer/measurements/add')}
+            onClick={() => navigate("/farmer/measurements/add")}
           >
             <Camera className="h-6 w-6 mr-2" />
             Record Data
           </Button>
-          
-          <Button 
+
+          <Button
             variant="outline"
             className="border-emerald-600 text-emerald-600 hover:bg-emerald-50 h-16 text-lg font-semibold"
-            onClick={() => navigate('/farmer/reports')}
+            onClick={() => navigate("/farmer/reports")}
           >
             <BarChart3 className="h-6 w-6 mr-2" />
             View Reports
@@ -326,37 +366,47 @@ export default function FarmerDashboard() {
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
-                    {recentMeasurements.slice(0, 3).map((measurement, index) => (
-                      <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                        <div>
-                          <p className="font-medium text-gray-900">
-                            {measurement.measurementType} measurement
-                          </p>
-                          <p className="text-sm text-gray-600">
-                            {measurement.fieldId?.fieldName || 'Unknown Field'}
-                          </p>
+                    {recentMeasurements
+                      .slice(0, 3)
+                      .map((measurement, index) => (
+                        <div
+                          key={index}
+                          className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
+                        >
+                          <div>
+                            <p className="font-medium text-gray-900">
+                              {measurement.measurementType} measurement
+                            </p>
+                            <p className="text-sm text-gray-600">
+                              {measurement.fieldId?.fieldName ||
+                                "Unknown Field"}
+                            </p>
+                          </div>
+                          <div className="text-right">
+                            <Badge
+                              variant={
+                                measurement.verificationStatus === "verified"
+                                  ? "default"
+                                  : "secondary"
+                              }
+                            >
+                              {measurement.verificationStatus}
+                            </Badge>
+                            <p className="text-xs text-gray-500 mt-1">
+                              {formatDate(measurement.measurementDate)}
+                            </p>
+                          </div>
                         </div>
-                        <div className="text-right">
-                          <Badge 
-                            variant={measurement.verificationStatus === 'verified' ? 'default' : 'secondary'}
-                          >
-                            {measurement.verificationStatus}
-                          </Badge>
-                          <p className="text-xs text-gray-500 mt-1">
-                            {formatDate(measurement.measurementDate)}
-                          </p>
-                        </div>
-                      </div>
-                    ))}
-                    
+                      ))}
+
                     {recentMeasurements.length === 0 && (
                       <div className="text-center py-8 text-gray-500">
                         <Camera className="h-12 w-12 mx-auto mb-4 text-gray-300" />
                         <p>No measurements recorded yet</p>
-                        <Button 
-                          variant="outline" 
+                        <Button
+                          variant="outline"
                           className="mt-4"
-                          onClick={() => navigate('/farmer/measurements/add')}
+                          onClick={() => navigate("/farmer/measurements/add")}
                         >
                           Record First Measurement
                         </Button>
@@ -383,7 +433,7 @@ export default function FarmerDashboard() {
                       </div>
                       <Progress value={75} className="h-2" />
                     </div>
-                    
+
                     <div>
                       <div className="flex justify-between text-sm mb-2">
                         <span>Credit Verification</span>
@@ -391,7 +441,7 @@ export default function FarmerDashboard() {
                       </div>
                       <Progress value={60} className="h-2" />
                     </div>
-                    
+
                     <div>
                       <div className="flex justify-between text-sm mb-2">
                         <span>Earnings Target</span>
@@ -416,30 +466,48 @@ export default function FarmerDashboard() {
               <CardContent>
                 <div className="space-y-4">
                   {recentMeasurements.map((measurement, index) => (
-                    <div key={index} className="flex items-center justify-between p-4 border rounded-lg">
+                    <div
+                      key={index}
+                      className="flex items-center justify-between p-4 border rounded-lg"
+                    >
                       <div className="flex items-center space-x-4">
                         <div className="bg-emerald-100 p-2 rounded-lg">
-                          {measurement.measurementType === 'biomass' && <TreePine className="h-5 w-5 text-emerald-600" />}
-                          {measurement.measurementType === 'soil-carbon' && <Leaf className="h-5 w-5 text-green-600" />}
-                          {measurement.measurementType === 'methane-emission' && <Wheat className="h-5 w-5 text-amber-600" />}
+                          {measurement.measurementType === "biomass" && (
+                            <TreePine className="h-5 w-5 text-emerald-600" />
+                          )}
+                          {measurement.measurementType === "soil-carbon" && (
+                            <Leaf className="h-5 w-5 text-green-600" />
+                          )}
+                          {measurement.measurementType ===
+                            "methane-emission" && (
+                            <Wheat className="h-5 w-5 text-amber-600" />
+                          )}
                         </div>
                         <div>
-                          <p className="font-medium">{measurement.measurementType}</p>
+                          <p className="font-medium">
+                            {measurement.measurementType}
+                          </p>
                           <p className="text-sm text-gray-600">
-                            {measurement.fieldId?.fieldName} • {formatDate(measurement.measurementDate)}
+                            {measurement.fieldId?.fieldName} •{" "}
+                            {formatDate(measurement.measurementDate)}
                           </p>
                         </div>
                       </div>
-                      
+
                       <div className="flex items-center space-x-4">
                         <div className="text-right">
-                          <Badge 
-                            variant={measurement.verificationStatus === 'verified' ? 'default' : 'secondary'}
+                          <Badge
+                            variant={
+                              measurement.verificationStatus === "verified"
+                                ? "default"
+                                : "secondary"
+                            }
                           >
                             {measurement.verificationStatus}
                           </Badge>
                           <p className="text-xs text-gray-500 mt-1">
-                            Quality: {measurement.dataQuality?.overallScore || 0}%
+                            Quality:{" "}
+                            {measurement.dataQuality?.overallScore || 0}%
                           </p>
                         </div>
                         <Button variant="outline" size="sm">
@@ -458,13 +526,17 @@ export default function FarmerDashboard() {
               <CardHeader>
                 <CardTitle>Carbon Credits</CardTitle>
                 <CardDescription>
-                  Your verified carbon sequestration and emission reduction credits
+                  Your verified carbon sequestration and emission reduction
+                  credits
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
                   {carbonCredits.map((credit, index) => (
-                    <div key={index} className="flex items-center justify-between p-4 border rounded-lg">
+                    <div
+                      key={index}
+                      className="flex items-center justify-between p-4 border rounded-lg"
+                    >
                       <div className="flex items-center space-x-4">
                         <div className="bg-green-100 p-2 rounded-lg">
                           <Award className="h-5 w-5 text-green-600" />
@@ -474,29 +546,36 @@ export default function FarmerDashboard() {
                             {credit.creditDetails?.creditsIssued || 0} Credits
                           </p>
                           <p className="text-sm text-gray-600">
-                            {credit.fieldId?.fieldName} • Vintage {credit.creditDetails?.vintage}
+                            {credit.fieldId?.fieldName} • Vintage{" "}
+                            {credit.creditDetails?.vintage}
                           </p>
                         </div>
                       </div>
-                      
+
                       <div className="text-right">
                         <p className="font-semibold text-green-600">
                           {formatCurrency(credit.market?.totalValue || 0)}
                         </p>
-                        <Badge 
-                          variant={credit.verification?.status === 'verified' ? 'default' : 'secondary'}
+                        <Badge
+                          variant={
+                            credit.verification?.status === "verified"
+                              ? "default"
+                              : "secondary"
+                          }
                         >
                           {credit.verification?.status}
                         </Badge>
                       </div>
                     </div>
                   ))}
-                  
+
                   {carbonCredits.length === 0 && (
                     <div className="text-center py-8 text-gray-500">
                       <Award className="h-12 w-12 mx-auto mb-4 text-gray-300" />
                       <p>No carbon credits generated yet</p>
-                      <p className="text-sm">Complete field measurements to generate credits</p>
+                      <p className="text-sm">
+                        Complete field measurements to generate credits
+                      </p>
                     </div>
                   )}
                 </div>
@@ -515,37 +594,48 @@ export default function FarmerDashboard() {
               <CardContent>
                 <div className="space-y-4">
                   {recentPayments.map((payment, index) => (
-                    <div key={index} className="flex items-center justify-between p-4 border rounded-lg">
+                    <div
+                      key={index}
+                      className="flex items-center justify-between p-4 border rounded-lg"
+                    >
                       <div className="flex items-center space-x-4">
                         <div className="bg-amber-100 p-2 rounded-lg">
                           <DollarSign className="h-5 w-5 text-amber-600" />
                         </div>
                         <div>
-                          <p className="font-medium">{payment.paymentDetails?.description}</p>
+                          <p className="font-medium">
+                            {payment.paymentDetails?.description}
+                          </p>
                           <p className="text-sm text-gray-600">
                             {formatDate(payment.dates?.initiatedDate)}
                           </p>
                         </div>
                       </div>
-                      
+
                       <div className="text-right">
                         <p className="font-semibold text-amber-600">
                           {formatCurrency(payment.paymentDetails?.amount || 0)}
                         </p>
-                        <Badge 
-                          variant={payment.transaction?.status === 'completed' ? 'default' : 'secondary'}
+                        <Badge
+                          variant={
+                            payment.transaction?.status === "completed"
+                              ? "default"
+                              : "secondary"
+                          }
                         >
                           {payment.transaction?.status}
                         </Badge>
                       </div>
                     </div>
                   ))}
-                  
+
                   {recentPayments.length === 0 && (
                     <div className="text-center py-8 text-gray-500">
                       <DollarSign className="h-12 w-12 mx-auto mb-4 text-gray-300" />
                       <p>No payments yet</p>
-                      <p className="text-sm">Generate and sell carbon credits to receive payments</p>
+                      <p className="text-sm">
+                        Generate and sell carbon credits to receive payments
+                      </p>
                     </div>
                   )}
                 </div>

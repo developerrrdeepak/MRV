@@ -1,20 +1,40 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Loader2, User, MapPin, Wallet, Shield, TreePine, Smartphone } from "lucide-react";
+import {
+  Loader2,
+  User,
+  MapPin,
+  Wallet,
+  Shield,
+  TreePine,
+  Smartphone,
+} from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 interface FormData {
   // Login fields
   phone: string;
   password: string;
-  
+
   // Registration fields
   name: string;
   email: string;
@@ -42,52 +62,52 @@ interface FormData {
 
 export default function FarmerAuth() {
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState('login');
+  const [activeTab, setActiveTab] = useState("login");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
-  
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+
   const [formData, setFormData] = useState<FormData>({
-    phone: '',
-    password: '',
-    name: '',
-    email: '',
-    aadhaarNumber: '',
+    phone: "",
+    password: "",
+    name: "",
+    email: "",
+    aadhaarNumber: "",
     address: {
-      village: '',
-      district: '',
-      state: '',
-      pincode: ''
+      village: "",
+      district: "",
+      state: "",
+      pincode: "",
     },
     farmDetails: {
-      totalLandArea: '',
-      irrigatedArea: '',
-      drylandArea: '',
-      landRecordNumber: ''
+      totalLandArea: "",
+      irrigatedArea: "",
+      drylandArea: "",
+      landRecordNumber: "",
     },
     bankDetails: {
-      accountNumber: '',
-      ifscCode: '',
-      bankName: '',
-      accountHolderName: ''
+      accountNumber: "",
+      ifscCode: "",
+      bankName: "",
+      accountHolderName: "",
     },
-    upiId: ''
+    upiId: "",
   });
 
   const handleInputChange = (field: string, value: string) => {
-    if (field.includes('.')) {
-      const [parent, child] = field.split('.');
-      setFormData(prev => ({
+    if (field.includes(".")) {
+      const [parent, child] = field.split(".");
+      setFormData((prev) => ({
         ...prev,
         [parent]: {
           ...prev[parent as keyof FormData],
-          [child]: value
-        }
+          [child]: value,
+        },
       }));
     } else {
-      setFormData(prev => ({
+      setFormData((prev) => ({
         ...prev,
-        [field]: value
+        [field]: value,
       }));
     }
   };
@@ -95,31 +115,31 @@ export default function FarmerAuth() {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setError('');
+    setError("");
 
     try {
-      const response = await fetch('/api/auth/login', {
-        method: 'POST',
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           phone: formData.phone,
-          password: formData.password
+          password: formData.password,
         }),
       });
 
       const data = await response.json();
 
       if (data.success) {
-        localStorage.setItem('token', data.data.token);
-        localStorage.setItem('farmer', JSON.stringify(data.data.farmer));
-        navigate('/farmer/dashboard');
+        localStorage.setItem("token", data.data.token);
+        localStorage.setItem("farmer", JSON.stringify(data.data.farmer));
+        navigate("/farmer/dashboard");
       } else {
-        setError(data.message || 'Login failed');
+        setError(data.message || "Login failed");
       }
     } catch (error) {
-      setError('Login failed. Please try again.');
+      setError("Login failed. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -128,7 +148,7 @@ export default function FarmerAuth() {
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setError('');
+    setError("");
 
     // Validate farm details
     const totalLand = parseFloat(formData.farmDetails.totalLandArea);
@@ -136,16 +156,16 @@ export default function FarmerAuth() {
     const dryland = parseFloat(formData.farmDetails.drylandArea);
 
     if (irrigated + dryland !== totalLand) {
-      setError('Irrigated + Dryland area should equal total land area');
+      setError("Irrigated + Dryland area should equal total land area");
       setLoading(false);
       return;
     }
 
     try {
-      const response = await fetch('/api/auth/register', {
-        method: 'POST',
+      const response = await fetch("/api/auth/register", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           name: formData.name,
@@ -157,36 +177,64 @@ export default function FarmerAuth() {
             totalLandArea: totalLand,
             irrigatedArea: irrigated,
             drylandArea: dryland,
-            landRecordNumber: formData.farmDetails.landRecordNumber || undefined
+            landRecordNumber:
+              formData.farmDetails.landRecordNumber || undefined,
           },
-          bankDetails: formData.bankDetails.accountNumber ? formData.bankDetails : undefined,
+          bankDetails: formData.bankDetails.accountNumber
+            ? formData.bankDetails
+            : undefined,
           upiId: formData.upiId || undefined,
-          password: formData.password
+          password: formData.password,
         }),
       });
 
       const data = await response.json();
 
       if (data.success) {
-        setSuccess('Registration successful! Please login with your credentials.');
-        setActiveTab('login');
-        setFormData(prev => ({ ...prev, password: '' }));
+        setSuccess(
+          "Registration successful! Please login with your credentials.",
+        );
+        setActiveTab("login");
+        setFormData((prev) => ({ ...prev, password: "" }));
       } else {
-        setError(data.message || 'Registration failed');
+        setError(data.message || "Registration failed");
       }
     } catch (error) {
-      setError('Registration failed. Please try again.');
+      setError("Registration failed. Please try again.");
     } finally {
       setLoading(false);
     }
   };
 
   const indianStates = [
-    'Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh', 'Goa',
-    'Gujarat', 'Haryana', 'Himachal Pradesh', 'Jharkhand', 'Karnataka', 'Kerala',
-    'Madhya Pradesh', 'Maharashtra', 'Manipur', 'Meghalaya', 'Mizoram', 'Nagaland',
-    'Odisha', 'Punjab', 'Rajasthan', 'Sikkim', 'Tamil Nadu', 'Telangana',
-    'Tripura', 'Uttar Pradesh', 'Uttarakhand', 'West Bengal'
+    "Andhra Pradesh",
+    "Arunachal Pradesh",
+    "Assam",
+    "Bihar",
+    "Chhattisgarh",
+    "Goa",
+    "Gujarat",
+    "Haryana",
+    "Himachal Pradesh",
+    "Jharkhand",
+    "Karnataka",
+    "Kerala",
+    "Madhya Pradesh",
+    "Maharashtra",
+    "Manipur",
+    "Meghalaya",
+    "Mizoram",
+    "Nagaland",
+    "Odisha",
+    "Punjab",
+    "Rajasthan",
+    "Sikkim",
+    "Tamil Nadu",
+    "Telangana",
+    "Tripura",
+    "Uttar Pradesh",
+    "Uttarakhand",
+    "West Bengal",
   ];
 
   return (
@@ -202,11 +250,14 @@ export default function FarmerAuth() {
               <h1 className="text-3xl font-display font-black text-gray-900">
                 MRV Farmer Portal
               </h1>
-              <p className="text-emerald-600 font-semibold">Track your carbon impact</p>
+              <p className="text-emerald-600 font-semibold">
+                Track your carbon impact
+              </p>
             </div>
           </div>
           <p className="text-gray-600 font-medium">
-            Join the carbon farming revolution. Register your farm and start earning from sustainable practices.
+            Join the carbon farming revolution. Register your farm and start
+            earning from sustainable practices.
           </p>
         </div>
 
@@ -219,7 +270,7 @@ export default function FarmerAuth() {
               Login to your account or register as a new farmer
             </CardDescription>
           </CardHeader>
-          
+
           <CardContent className="p-6">
             {error && (
               <Alert className="mb-6 border-red-200 bg-red-50">
@@ -228,7 +279,7 @@ export default function FarmerAuth() {
                 </AlertDescription>
               </Alert>
             )}
-            
+
             {success && (
               <Alert className="mb-6 border-green-200 bg-green-50">
                 <AlertDescription className="text-green-700 font-medium">
@@ -239,11 +290,17 @@ export default function FarmerAuth() {
 
             <Tabs value={activeTab} onValueChange={setActiveTab}>
               <TabsList className="grid w-full grid-cols-2 mb-6">
-                <TabsTrigger value="login" className="flex items-center space-x-2">
+                <TabsTrigger
+                  value="login"
+                  className="flex items-center space-x-2"
+                >
                   <User className="h-4 w-4" />
                   <span>Login</span>
                 </TabsTrigger>
-                <TabsTrigger value="register" className="flex items-center space-x-2">
+                <TabsTrigger
+                  value="register"
+                  className="flex items-center space-x-2"
+                >
                   <Shield className="h-4 w-4" />
                   <span>Register</span>
                 </TabsTrigger>
@@ -259,11 +316,13 @@ export default function FarmerAuth() {
                       type="tel"
                       placeholder="Enter your phone number"
                       value={formData.phone}
-                      onChange={(e) => handleInputChange('phone', e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange("phone", e.target.value)
+                      }
                       required
                     />
                   </div>
-                  
+
                   <div className="space-y-2">
                     <Label htmlFor="password">Password</Label>
                     <Input
@@ -271,13 +330,15 @@ export default function FarmerAuth() {
                       type="password"
                       placeholder="Enter your password"
                       value={formData.password}
-                      onChange={(e) => handleInputChange('password', e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange("password", e.target.value)
+                      }
                       required
                     />
                   </div>
 
-                  <Button 
-                    type="submit" 
+                  <Button
+                    type="submit"
                     className="w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700"
                     disabled={loading}
                   >
@@ -287,7 +348,7 @@ export default function FarmerAuth() {
                         Signing in...
                       </>
                     ) : (
-                      'Sign In'
+                      "Sign In"
                     )}
                   </Button>
                 </form>
@@ -302,7 +363,7 @@ export default function FarmerAuth() {
                       <User className="h-5 w-5 mr-2 text-emerald-600" />
                       Personal Information
                     </h3>
-                    
+
                     <div className="grid md:grid-cols-2 gap-4">
                       <div className="space-y-2">
                         <Label htmlFor="name">Full Name *</Label>
@@ -310,11 +371,13 @@ export default function FarmerAuth() {
                           id="name"
                           placeholder="Enter your full name"
                           value={formData.name}
-                          onChange={(e) => handleInputChange('name', e.target.value)}
+                          onChange={(e) =>
+                            handleInputChange("name", e.target.value)
+                          }
                           required
                         />
                       </div>
-                      
+
                       <div className="space-y-2">
                         <Label htmlFor="reg-phone">Phone Number *</Label>
                         <Input
@@ -322,11 +385,13 @@ export default function FarmerAuth() {
                           type="tel"
                           placeholder="Enter your phone number"
                           value={formData.phone}
-                          onChange={(e) => handleInputChange('phone', e.target.value)}
+                          onChange={(e) =>
+                            handleInputChange("phone", e.target.value)
+                          }
                           required
                         />
                       </div>
-                      
+
                       <div className="space-y-2">
                         <Label htmlFor="email">Email (Optional)</Label>
                         <Input
@@ -334,20 +399,26 @@ export default function FarmerAuth() {
                           type="email"
                           placeholder="Enter your email"
                           value={formData.email}
-                          onChange={(e) => handleInputChange('email', e.target.value)}
+                          onChange={(e) =>
+                            handleInputChange("email", e.target.value)
+                          }
                         />
                       </div>
-                      
+
                       <div className="space-y-2">
-                        <Label htmlFor="aadhaar">Aadhaar Number (Optional)</Label>
+                        <Label htmlFor="aadhaar">
+                          Aadhaar Number (Optional)
+                        </Label>
                         <Input
                           id="aadhaar"
                           placeholder="Enter Aadhaar number"
                           value={formData.aadhaarNumber}
-                          onChange={(e) => handleInputChange('aadhaarNumber', e.target.value)}
+                          onChange={(e) =>
+                            handleInputChange("aadhaarNumber", e.target.value)
+                          }
                         />
                       </div>
-                      
+
                       <div className="space-y-2 md:col-span-2">
                         <Label htmlFor="reg-password">Password *</Label>
                         <Input
@@ -355,7 +426,9 @@ export default function FarmerAuth() {
                           type="password"
                           placeholder="Create a password (min 6 characters)"
                           value={formData.password}
-                          onChange={(e) => handleInputChange('password', e.target.value)}
+                          onChange={(e) =>
+                            handleInputChange("password", e.target.value)
+                          }
                           required
                           minLength={6}
                         />
@@ -369,7 +442,7 @@ export default function FarmerAuth() {
                       <MapPin className="h-5 w-5 mr-2 text-emerald-600" />
                       Address Details
                     </h3>
-                    
+
                     <div className="grid md:grid-cols-2 gap-4">
                       <div className="space-y-2">
                         <Label htmlFor="village">Village *</Label>
@@ -377,46 +450,59 @@ export default function FarmerAuth() {
                           id="village"
                           placeholder="Enter village name"
                           value={formData.address.village}
-                          onChange={(e) => handleInputChange('address.village', e.target.value)}
+                          onChange={(e) =>
+                            handleInputChange("address.village", e.target.value)
+                          }
                           required
                         />
                       </div>
-                      
+
                       <div className="space-y-2">
                         <Label htmlFor="district">District *</Label>
                         <Input
                           id="district"
                           placeholder="Enter district name"
                           value={formData.address.district}
-                          onChange={(e) => handleInputChange('address.district', e.target.value)}
+                          onChange={(e) =>
+                            handleInputChange(
+                              "address.district",
+                              e.target.value,
+                            )
+                          }
                           required
                         />
                       </div>
-                      
+
                       <div className="space-y-2">
                         <Label htmlFor="state">State *</Label>
-                        <Select 
-                          value={formData.address.state} 
-                          onValueChange={(value) => handleInputChange('address.state', value)}
+                        <Select
+                          value={formData.address.state}
+                          onValueChange={(value) =>
+                            handleInputChange("address.state", value)
+                          }
                         >
                           <SelectTrigger>
                             <SelectValue placeholder="Select state" />
                           </SelectTrigger>
                           <SelectContent>
-                            {indianStates.map(state => (
-                              <SelectItem key={state} value={state}>{state}</SelectItem>
+                            {indianStates.map((state) => (
+                              <SelectItem key={state} value={state}>
+                                {state}
+                              </SelectItem>
                             ))}
                           </SelectContent>
                         </Select>
                       </div>
-                      
+
                       <div className="space-y-2">
                         <Label htmlFor="pincode">Pincode *</Label>
                         <Input
                           id="pincode"
                           placeholder="Enter pincode"
                           value={formData.address.pincode}
-                          onChange={(e) => handleInputChange('address.pincode', e.target.value)}
+                          onChange={(e) =>
+                            handleInputChange("address.pincode", e.target.value)
+                          }
                           required
                         />
                       </div>
@@ -429,7 +515,7 @@ export default function FarmerAuth() {
                       <TreePine className="h-5 w-5 mr-2 text-emerald-600" />
                       Farm Details
                     </h3>
-                    
+
                     <div className="grid md:grid-cols-3 gap-4">
                       <div className="space-y-2">
                         <Label htmlFor="totalLand">Total Land (Acres) *</Label>
@@ -440,13 +526,20 @@ export default function FarmerAuth() {
                           min="0.1"
                           placeholder="e.g., 2.5"
                           value={formData.farmDetails.totalLandArea}
-                          onChange={(e) => handleInputChange('farmDetails.totalLandArea', e.target.value)}
+                          onChange={(e) =>
+                            handleInputChange(
+                              "farmDetails.totalLandArea",
+                              e.target.value,
+                            )
+                          }
                           required
                         />
                       </div>
-                      
+
                       <div className="space-y-2">
-                        <Label htmlFor="irrigated">Irrigated Area (Acres) *</Label>
+                        <Label htmlFor="irrigated">
+                          Irrigated Area (Acres) *
+                        </Label>
                         <Input
                           id="irrigated"
                           type="number"
@@ -454,11 +547,16 @@ export default function FarmerAuth() {
                           min="0"
                           placeholder="e.g., 1.5"
                           value={formData.farmDetails.irrigatedArea}
-                          onChange={(e) => handleInputChange('farmDetails.irrigatedArea', e.target.value)}
+                          onChange={(e) =>
+                            handleInputChange(
+                              "farmDetails.irrigatedArea",
+                              e.target.value,
+                            )
+                          }
                           required
                         />
                       </div>
-                      
+
                       <div className="space-y-2">
                         <Label htmlFor="dryland">Dryland Area (Acres) *</Label>
                         <Input
@@ -468,18 +566,30 @@ export default function FarmerAuth() {
                           min="0"
                           placeholder="e.g., 1.0"
                           value={formData.farmDetails.drylandArea}
-                          onChange={(e) => handleInputChange('farmDetails.drylandArea', e.target.value)}
+                          onChange={(e) =>
+                            handleInputChange(
+                              "farmDetails.drylandArea",
+                              e.target.value,
+                            )
+                          }
                           required
                         />
                       </div>
-                      
+
                       <div className="space-y-2 md:col-span-3">
-                        <Label htmlFor="landRecord">Land Record Number (Optional)</Label>
+                        <Label htmlFor="landRecord">
+                          Land Record Number (Optional)
+                        </Label>
                         <Input
                           id="landRecord"
                           placeholder="Enter land record/survey number"
                           value={formData.farmDetails.landRecordNumber}
-                          onChange={(e) => handleInputChange('farmDetails.landRecordNumber', e.target.value)}
+                          onChange={(e) =>
+                            handleInputChange(
+                              "farmDetails.landRecordNumber",
+                              e.target.value,
+                            )
+                          }
                         />
                       </div>
                     </div>
@@ -491,7 +601,7 @@ export default function FarmerAuth() {
                       <Wallet className="h-5 w-5 mr-2 text-emerald-600" />
                       Payment Details (Optional)
                     </h3>
-                    
+
                     <div className="space-y-4">
                       <div className="space-y-2">
                         <Label htmlFor="upi">UPI ID</Label>
@@ -499,14 +609,16 @@ export default function FarmerAuth() {
                           id="upi"
                           placeholder="yourname@paytm or yourname@gpay"
                           value={formData.upiId}
-                          onChange={(e) => handleInputChange('upiId', e.target.value)}
+                          onChange={(e) =>
+                            handleInputChange("upiId", e.target.value)
+                          }
                         />
                       </div>
-                      
+
                       <div className="text-sm text-gray-600 font-medium">
                         OR Bank Details:
                       </div>
-                      
+
                       <div className="grid md:grid-cols-2 gap-4">
                         <div className="space-y-2">
                           <Label htmlFor="accountNumber">Account Number</Label>
@@ -514,45 +626,67 @@ export default function FarmerAuth() {
                             id="accountNumber"
                             placeholder="Enter account number"
                             value={formData.bankDetails.accountNumber}
-                            onChange={(e) => handleInputChange('bankDetails.accountNumber', e.target.value)}
+                            onChange={(e) =>
+                              handleInputChange(
+                                "bankDetails.accountNumber",
+                                e.target.value,
+                              )
+                            }
                           />
                         </div>
-                        
+
                         <div className="space-y-2">
                           <Label htmlFor="ifsc">IFSC Code</Label>
                           <Input
                             id="ifsc"
                             placeholder="e.g., SBIN0001234"
                             value={formData.bankDetails.ifscCode}
-                            onChange={(e) => handleInputChange('bankDetails.ifscCode', e.target.value)}
+                            onChange={(e) =>
+                              handleInputChange(
+                                "bankDetails.ifscCode",
+                                e.target.value,
+                              )
+                            }
                           />
                         </div>
-                        
+
                         <div className="space-y-2">
                           <Label htmlFor="bankName">Bank Name</Label>
                           <Input
                             id="bankName"
                             placeholder="Enter bank name"
                             value={formData.bankDetails.bankName}
-                            onChange={(e) => handleInputChange('bankDetails.bankName', e.target.value)}
+                            onChange={(e) =>
+                              handleInputChange(
+                                "bankDetails.bankName",
+                                e.target.value,
+                              )
+                            }
                           />
                         </div>
-                        
+
                         <div className="space-y-2">
-                          <Label htmlFor="accountHolder">Account Holder Name</Label>
+                          <Label htmlFor="accountHolder">
+                            Account Holder Name
+                          </Label>
                           <Input
                             id="accountHolder"
                             placeholder="As per bank records"
                             value={formData.bankDetails.accountHolderName}
-                            onChange={(e) => handleInputChange('bankDetails.accountHolderName', e.target.value)}
+                            onChange={(e) =>
+                              handleInputChange(
+                                "bankDetails.accountHolderName",
+                                e.target.value,
+                              )
+                            }
                           />
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  <Button 
-                    type="submit" 
+                  <Button
+                    type="submit"
                     className="w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700"
                     disabled={loading}
                   >
@@ -562,7 +696,7 @@ export default function FarmerAuth() {
                         Creating Account...
                       </>
                     ) : (
-                      'Create Account'
+                      "Create Account"
                     )}
                   </Button>
                 </form>

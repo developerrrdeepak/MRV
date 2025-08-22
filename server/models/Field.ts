@@ -1,4 +1,4 @@
-import mongoose, { Schema, Document } from 'mongoose';
+import mongoose, { Schema, Document } from "mongoose";
 
 export interface IField extends Document {
   _id: string;
@@ -6,10 +6,10 @@ export interface IField extends Document {
   farmerId: mongoose.Types.ObjectId;
   fieldName: string;
   area: number; // in acres
-  cropType: 'rice' | 'agroforestry' | 'mixed' | 'other';
+  cropType: "rice" | "agroforestry" | "mixed" | "other";
   cropVariety?: string;
   coordinates: {
-    type: 'Polygon';
+    type: "Polygon";
     coordinates: number[][][]; // GeoJSON format
   };
   centerPoint: {
@@ -17,7 +17,7 @@ export interface IField extends Document {
     longitude: number;
   };
   soilType: string;
-  irrigationType: 'rain-fed' | 'irrigated' | 'mixed';
+  irrigationType: "rain-fed" | "irrigated" | "mixed";
   plantingDate?: Date;
   harvestDate?: Date;
   currentCrop?: {
@@ -35,7 +35,7 @@ export interface IField extends Document {
   };
   riceDetails?: {
     variety: string;
-    cultivationMethod: 'conventional' | 'sri' | 'organic';
+    cultivationMethod: "conventional" | "sri" | "organic";
     waterManagement: string;
     seedingDate: Date;
     transplantingDate?: Date;
@@ -50,112 +50,117 @@ export interface IField extends Document {
   lastUpdated: Date;
 }
 
-const FieldSchema = new Schema<IField>({
-  fieldId: { 
-    type: String, 
-    required: true, 
-    unique: true,
-    index: true 
-  },
-  farmerId: { 
-    type: Schema.Types.ObjectId, 
-    ref: 'Farmer', 
-    required: true,
-    index: true 
-  },
-  fieldName: { 
-    type: String, 
-    required: true,
-    trim: true 
-  },
-  area: { 
-    type: Number, 
-    required: true, 
-    min: 0.1 
-  },
-  cropType: { 
-    type: String, 
-    required: true,
-    enum: ['rice', 'agroforestry', 'mixed', 'other'] 
-  },
-  cropVariety: String,
-  coordinates: {
-    type: {
+const FieldSchema = new Schema<IField>(
+  {
+    fieldId: {
       type: String,
-      enum: ['Polygon'],
-      required: true
+      required: true,
+      unique: true,
+      index: true,
     },
+    farmerId: {
+      type: Schema.Types.ObjectId,
+      ref: "Farmer",
+      required: true,
+      index: true,
+    },
+    fieldName: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    area: {
+      type: Number,
+      required: true,
+      min: 0.1,
+    },
+    cropType: {
+      type: String,
+      required: true,
+      enum: ["rice", "agroforestry", "mixed", "other"],
+    },
+    cropVariety: String,
     coordinates: {
-      type: [[[Number]]],
-      required: true
-    }
-  },
-  centerPoint: {
-    latitude: { type: Number, required: true },
-    longitude: { type: Number, required: true }
-  },
-  soilType: { 
-    type: String, 
-    required: true 
-  },
-  irrigationType: { 
-    type: String, 
-    required: true,
-    enum: ['rain-fed', 'irrigated', 'mixed'] 
-  },
-  plantingDate: Date,
-  harvestDate: Date,
-  currentCrop: {
-    name: String,
-    variety: String,
-    plantingDate: Date,
-    expectedHarvest: Date
-  },
-  agroforestryDetails: {
-    treeSpecies: [String],
-    treeDensity: { type: Number, min: 0 },
-    treeAge: { type: Number, min: 0 },
-    plantingPattern: String,
-    canopyCover: { type: Number, min: 0, max: 100 }
-  },
-  riceDetails: {
-    variety: String,
-    cultivationMethod: { 
-      type: String, 
-      enum: ['conventional', 'sri', 'organic'] 
+      type: {
+        type: String,
+        enum: ["Polygon"],
+        required: true,
+      },
+      coordinates: {
+        type: [[[Number]]],
+        required: true,
+      },
     },
-    waterManagement: String,
-    seedingDate: Date,
-    transplantingDate: Date,
-    floodingPeriods: [{
-      startDate: Date,
-      endDate: Date,
-      floodDepth: Number
-    }]
+    centerPoint: {
+      latitude: { type: Number, required: true },
+      longitude: { type: Number, required: true },
+    },
+    soilType: {
+      type: String,
+      required: true,
+    },
+    irrigationType: {
+      type: String,
+      required: true,
+      enum: ["rain-fed", "irrigated", "mixed"],
+    },
+    plantingDate: Date,
+    harvestDate: Date,
+    currentCrop: {
+      name: String,
+      variety: String,
+      plantingDate: Date,
+      expectedHarvest: Date,
+    },
+    agroforestryDetails: {
+      treeSpecies: [String],
+      treeDensity: { type: Number, min: 0 },
+      treeAge: { type: Number, min: 0 },
+      plantingPattern: String,
+      canopyCover: { type: Number, min: 0, max: 100 },
+    },
+    riceDetails: {
+      variety: String,
+      cultivationMethod: {
+        type: String,
+        enum: ["conventional", "sri", "organic"],
+      },
+      waterManagement: String,
+      seedingDate: Date,
+      transplantingDate: Date,
+      floodingPeriods: [
+        {
+          startDate: Date,
+          endDate: Date,
+          floodDepth: Number,
+        },
+      ],
+    },
+    isActive: {
+      type: Boolean,
+      default: true,
+    },
+    registrationDate: {
+      type: Date,
+      default: Date.now,
+    },
+    lastUpdated: {
+      type: Date,
+      default: Date.now,
+    },
   },
-  isActive: { 
-    type: Boolean, 
-    default: true 
+  {
+    timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
   },
-  registrationDate: { 
-    type: Date, 
-    default: Date.now 
-  },
-  lastUpdated: { 
-    type: Date, 
-    default: Date.now 
-  }
-}, {
-  timestamps: true,
-  toJSON: { virtuals: true },
-  toObject: { virtuals: true }
-});
+);
 
 // Create geospatial index for location queries
-FieldSchema.index({ coordinates: '2dsphere' });
-FieldSchema.index({ centerPoint: '2dsphere' });
+FieldSchema.index({ coordinates: "2dsphere" });
+FieldSchema.index({ centerPoint: "2dsphere" });
 
 // Index for efficient farmer field queries
 FieldSchema.index({ farmerId: 1, isActive: 1 });
 
-export default mongoose.model<IField>('Field', FieldSchema);
+export default mongoose.model<IField>("Field", FieldSchema);
