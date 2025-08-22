@@ -3,6 +3,31 @@ import express from "express";
 import cors from "cors";
 import { handleDemo } from "./routes/demo";
 import { connectToDatabase } from "./lib/database";
+// Import farmer routes
+import {
+  getFarmers,
+  getFarmerById,
+  getFarmerByFarmerId,
+  createFarmer,
+  updateFarmer,
+  deleteFarmer,
+  addFarmerToProject,
+  getFarmersByLocation,
+  getFarmerStats
+} from "./routes/farmers";
+// Import project routes
+import {
+  getProjects,
+  getProjectById,
+  getProjectByProjectId,
+  createProject,
+  updateProject,
+  deleteProject,
+  addFarmersToProject,
+  removeFarmerFromProject,
+  getProjectMetrics,
+  getProjectStats
+} from "./routes/projects";
 
 export async function createServer() {
   const app = express();
