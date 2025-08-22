@@ -22,6 +22,7 @@ docker-compose ps
 ### 2. Connection Details
 
 **MongoDB Connection:**
+
 - Host: `localhost`
 - Port: `27017`
 - Database: `carbonmrv`
@@ -30,11 +31,13 @@ docker-compose ps
 - Connection String: `mongodb://carbonmrv_user:carbonmrv_password@localhost:27017/carbonmrv`
 
 **Admin Connection (for management):**
+
 - Username: `admin`
 - Password: `password123`
 - Connection String: `mongodb://admin:password123@localhost:27017/carbonmrv`
 
 **Mongo Express (Web UI):**
+
 - URL: http://localhost:8081
 - No authentication required (disabled for local development)
 
@@ -70,6 +73,7 @@ The MongoDB database includes the following collections:
 ### Sample Data
 
 The database is initialized with sample data:
+
 - 2 sample farmers (Punjab and Haryana)
 - 1 sample agroforestry project
 - Proper indexes for performance
@@ -153,6 +157,7 @@ docker-compose up -d
 ### 2. Adding More Sample Data
 
 You can add more sample data by:
+
 1. Using the API endpoints
 2. Using Mongo Express web interface
 3. Modifying `mongo-init/init-carbonmrv.js`
@@ -160,6 +165,7 @@ You can add more sample data by:
 ### 3. Performance Monitoring
 
 Use Mongo Express to:
+
 - View collection statistics
 - Monitor query performance
 - Manage indexes
@@ -168,6 +174,7 @@ Use Mongo Express to:
 ### 4. Production Considerations
 
 For production deployment:
+
 1. Change default passwords
 2. Enable authentication for Mongo Express
 3. Use MongoDB Atlas or proper MongoDB cluster
@@ -179,6 +186,7 @@ For production deployment:
 ### Common Issues
 
 1. **Port 27017 already in use**
+
    ```bash
    # Check what's using the port
    lsof -i :27017
@@ -187,6 +195,7 @@ For production deployment:
    ```
 
 2. **Docker permission issues**
+
    ```bash
    # Run with sudo or add user to docker group
    sudo docker-compose up -d
@@ -219,6 +228,7 @@ docker exec -it carbonmrv_mongodb bash
 ⚠️ **Important**: This setup is for local development only. The default passwords and configurations are not secure for production use.
 
 For production:
+
 - Use strong passwords
 - Enable SSL/TLS
 - Configure proper firewall rules

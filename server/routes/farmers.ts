@@ -11,21 +11,22 @@ export const getFarmers: RequestHandler = async (req, res) => {
 
     // Filtering options
     const filter: any = {};
-    if (req.query.state) filter['location.state'] = req.query.state;
-    if (req.query.district) filter['location.district'] = req.query.district;
-    if (req.query.isActive !== undefined) filter.isActive = req.query.isActive === 'true';
+    if (req.query.state) filter["location.state"] = req.query.state;
+    if (req.query.district) filter["location.district"] = req.query.district;
+    if (req.query.isActive !== undefined)
+      filter.isActive = req.query.isActive === "true";
 
     // Search by name or farmer ID
     if (req.query.search) {
-      const searchRegex = new RegExp(req.query.search as string, 'i');
+      const searchRegex = new RegExp(req.query.search as string, "i");
       filter.$or = [
         { name: { $regex: searchRegex } },
-        { farmerId: { $regex: searchRegex } }
+        { farmerId: { $regex: searchRegex } },
       ];
     }
 
     const farmers = await Farmer.find(filter)
-      .populate('carbonProjects', 'projectId name status')
+      .populate("carbonProjects", "projectId name status")
       .sort({ registrationDate: -1 })
       .skip(skip)
       .limit(limit)
@@ -39,12 +40,12 @@ export const getFarmers: RequestHandler = async (req, res) => {
         page,
         limit,
         total,
-        pages: Math.ceil(total / limit)
-      }
+        pages: Math.ceil(total / limit),
+      },
     });
   } catch (error) {
-    console.error('Error fetching farmers:', error);
-    res.status(500).json({ error: 'Failed to fetch farmers' });
+    console.error("Error fetching farmers:", error);
+    res.status(500).json({ error: "Failed to fetch farmers" });
   }
 };
 
@@ -52,35 +53,37 @@ export const getFarmers: RequestHandler = async (req, res) => {
 export const getFarmerById: RequestHandler = async (req, res) => {
   try {
     const farmer = await Farmer.findById(req.params.id)
-      .populate('carbonProjects')
+      .populate("carbonProjects")
       .lean();
 
     if (!farmer) {
-      return res.status(404).json({ error: 'Farmer not found' });
+      return res.status(404).json({ error: "Farmer not found" });
     }
 
     res.json(farmer);
   } catch (error) {
-    console.error('Error fetching farmer:', error);
-    res.status(500).json({ error: 'Failed to fetch farmer' });
+    console.error("Error fetching farmer:", error);
+    res.status(500).json({ error: "Failed to fetch farmer" });
   }
 };
 
 // Get farmer by farmer ID
 export const getFarmerByFarmerId: RequestHandler = async (req, res) => {
   try {
-    const farmer = await Farmer.findOne({ farmerId: req.params.farmerId.toUpperCase() })
-      .populate('carbonProjects')
+    const farmer = await Farmer.findOne({
+      farmerId: req.params.farmerId.toUpperCase(),
+    })
+      .populate("carbonProjects")
       .lean();
 
     if (!farmer) {
-      return res.status(404).json({ error: 'Farmer not found' });
+      return res.status(404).json({ error: "Farmer not found" });
     }
 
     res.json(farmer);
   } catch (error) {
-    console.error('Error fetching farmer:', error);
-    res.status(500).json({ error: 'Failed to fetch farmer' });
+    console.error("Error fetching farmer:", error);
+    res.status(500).json({ error: "Failed to fetch farmer" });
   }
 };
 
@@ -90,7 +93,7 @@ export const createFarmer: RequestHandler = async (req, res) => {
     // Generate farmer ID if not provided
     if (!req.body.farmerId) {
       const count = await Farmer.countDocuments();
-      req.body.farmerId = `FMR${String(count + 1).padStart(6, '0')}`;
+      req.body.farmerId = `FMR${String(count + 1).padStart(6, "0")}`;
     }
 
     const farmer = new Farmer(req.body);
@@ -98,24 +101,26 @@ export const createFarmer: RequestHandler = async (req, res) => {
 
     res.status(201).json(farmer);
   } catch (error: any) {
-    console.error('Error creating farmer:', error);
-    
+    console.error("Error creating farmer:", error);
+
     if (error.code === 11000) {
       // Duplicate key error
       const field = Object.keys(error.keyValue)[0];
-      return res.status(400).json({ 
+      return res.status(400).json({
         error: `Farmer with this ${field} already exists`,
         field,
-        value: error.keyValue[field]
+        value: error.keyValue[field],
       });
     }
 
-    if (error.name === 'ValidationError') {
+    if (error.name === "ValidationError") {
       const errors = Object.values(error.errors).map((err: any) => err.message);
-      return res.status(400).json({ error: 'Validation failed', details: errors });
+      return res
+        .status(400)
+        .json({ error: "Validation failed", details: errors });
     }
 
-    res.status(500).json({ error: 'Failed to create farmer' });
+    res.status(500).json({ error: "Failed to create farmer" });
   }
 };
 
@@ -125,23 +130,25 @@ export const updateFarmer: RequestHandler = async (req, res) => {
     const farmer = await Farmer.findByIdAndUpdate(
       req.params.id,
       { ...req.body, lastUpdated: new Date() },
-      { new: true, runValidators: true }
-    ).populate('carbonProjects');
+      { new: true, runValidators: true },
+    ).populate("carbonProjects");
 
     if (!farmer) {
-      return res.status(404).json({ error: 'Farmer not found' });
+      return res.status(404).json({ error: "Farmer not found" });
     }
 
     res.json(farmer);
   } catch (error: any) {
-    console.error('Error updating farmer:', error);
+    console.error("Error updating farmer:", error);
 
-    if (error.name === 'ValidationError') {
+    if (error.name === "ValidationError") {
       const errors = Object.values(error.errors).map((err: any) => err.message);
-      return res.status(400).json({ error: 'Validation failed', details: errors });
+      return res
+        .status(400)
+        .json({ error: "Validation failed", details: errors });
     }
 
-    res.status(500).json({ error: 'Failed to update farmer' });
+    res.status(500).json({ error: "Failed to update farmer" });
   }
 };
 
@@ -151,17 +158,17 @@ export const deleteFarmer: RequestHandler = async (req, res) => {
     const farmer = await Farmer.findByIdAndUpdate(
       req.params.id,
       { isActive: false, lastUpdated: new Date() },
-      { new: true }
+      { new: true },
     );
 
     if (!farmer) {
-      return res.status(404).json({ error: 'Farmer not found' });
+      return res.status(404).json({ error: "Farmer not found" });
     }
 
-    res.json({ message: 'Farmer deactivated successfully', farmer });
+    res.json({ message: "Farmer deactivated successfully", farmer });
   } catch (error) {
-    console.error('Error deleting farmer:', error);
-    res.status(500).json({ error: 'Failed to delete farmer' });
+    console.error("Error deleting farmer:", error);
+    res.status(500).json({ error: "Failed to delete farmer" });
   }
 };
 
@@ -173,33 +180,32 @@ export const addFarmerToProject: RequestHandler = async (req, res) => {
     // Check if project exists
     const project = await CarbonProject.findById(projectId);
     if (!project) {
-      return res.status(404).json({ error: 'Carbon project not found' });
+      return res.status(404).json({ error: "Carbon project not found" });
     }
 
     // Update farmer to add project reference
     const farmer = await Farmer.findByIdAndUpdate(
       farmerId,
-      { 
+      {
         $addToSet: { carbonProjects: projectId },
-        lastUpdated: new Date()
+        lastUpdated: new Date(),
       },
-      { new: true }
-    ).populate('carbonProjects');
+      { new: true },
+    ).populate("carbonProjects");
 
     if (!farmer) {
-      return res.status(404).json({ error: 'Farmer not found' });
+      return res.status(404).json({ error: "Farmer not found" });
     }
 
     // Update project to add farmer reference
-    await CarbonProject.findByIdAndUpdate(
-      projectId,
-      { $addToSet: { 'participants.farmers': farmerId } }
-    );
+    await CarbonProject.findByIdAndUpdate(projectId, {
+      $addToSet: { "participants.farmers": farmerId },
+    });
 
     res.json(farmer);
   } catch (error) {
-    console.error('Error adding farmer to project:', error);
-    res.status(500).json({ error: 'Failed to add farmer to project' });
+    console.error("Error adding farmer to project:", error);
+    res.status(500).json({ error: "Failed to add farmer to project" });
   }
 };
 
@@ -209,26 +215,31 @@ export const getFarmersByLocation: RequestHandler = async (req, res) => {
     const { latitude, longitude, radius = 10 } = req.query;
 
     if (!latitude || !longitude) {
-      return res.status(400).json({ error: 'Latitude and longitude are required' });
+      return res
+        .status(400)
+        .json({ error: "Latitude and longitude are required" });
     }
 
     const farmers = await Farmer.find({
-      'location.coordinates': {
+      "location.coordinates": {
         $near: {
           $geometry: {
-            type: 'Point',
-            coordinates: [parseFloat(longitude as string), parseFloat(latitude as string)]
+            type: "Point",
+            coordinates: [
+              parseFloat(longitude as string),
+              parseFloat(latitude as string),
+            ],
           },
-          $maxDistance: parseFloat(radius as string) * 1000 // Convert km to meters
-        }
+          $maxDistance: parseFloat(radius as string) * 1000, // Convert km to meters
+        },
       },
-      isActive: true
-    }).populate('carbonProjects', 'projectId name status');
+      isActive: true,
+    }).populate("carbonProjects", "projectId name status");
 
     res.json(farmers);
   } catch (error) {
-    console.error('Error fetching farmers by location:', error);
-    res.status(500).json({ error: 'Failed to fetch farmers by location' });
+    console.error("Error fetching farmers by location:", error);
+    res.status(500).json({ error: "Failed to fetch farmers by location" });
   }
 };
 
@@ -243,42 +254,44 @@ export const getFarmerStats: RequestHandler = async (req, res) => {
           byState: [
             { $match: { isActive: true } },
             { $group: { _id: "$location.state", count: { $sum: 1 } } },
-            { $sort: { count: -1 } }
+            { $sort: { count: -1 } },
           ],
           byGender: [
             { $match: { isActive: true, "profile.gender": { $ne: null } } },
-            { $group: { _id: "$profile.gender", count: { $sum: 1 } } }
+            { $group: { _id: "$profile.gender", count: { $sum: 1 } } },
           ],
           totalFarmArea: [
             { $match: { isActive: true } },
-            { $group: { _id: null, total: { $sum: "$farmDetails.totalArea" } } }
+            {
+              $group: { _id: null, total: { $sum: "$farmDetails.totalArea" } },
+            },
           ],
           recentRegistrations: [
-            { 
-              $match: { 
-                registrationDate: { 
-                  $gte: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000) // Last 30 days
-                } 
-              } 
+            {
+              $match: {
+                registrationDate: {
+                  $gte: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000), // Last 30 days
+                },
+              },
             },
-            { $count: "count" }
-          ]
-        }
-      }
+            { $count: "count" },
+          ],
+        },
+      },
     ]);
 
     const result = stats[0];
-    
+
     res.json({
       totalFarmers: result.total[0]?.count || 0,
       activeFarmers: result.active[0]?.count || 0,
       totalFarmArea: result.totalFarmArea[0]?.total || 0,
       recentRegistrations: result.recentRegistrations[0]?.count || 0,
       farmersByState: result.byState,
-      farmersByGender: result.byGender
+      farmersByGender: result.byGender,
     });
   } catch (error) {
-    console.error('Error fetching farmer statistics:', error);
-    res.status(500).json({ error: 'Failed to fetch farmer statistics' });
+    console.error("Error fetching farmer statistics:", error);
+    res.status(500).json({ error: "Failed to fetch farmer statistics" });
   }
 };

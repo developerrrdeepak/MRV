@@ -13,7 +13,7 @@ import {
   deleteFarmer,
   addFarmerToProject,
   getFarmersByLocation,
-  getFarmerStats
+  getFarmerStats,
 } from "./routes/farmers";
 // Import project routes
 import {
@@ -26,7 +26,7 @@ import {
   addFarmersToProject,
   removeFarmerFromProject,
   getProjectMetrics,
-  getProjectStats
+  getProjectStats,
 } from "./routes/projects";
 
 export async function createServer() {
@@ -36,7 +36,7 @@ export async function createServer() {
   try {
     await connectToDatabase();
   } catch (error) {
-    console.error('Failed to connect to MongoDB:', error);
+    console.error("Failed to connect to MongoDB:", error);
     // Continue without database for now
   }
 
@@ -74,7 +74,10 @@ export async function createServer() {
   app.put("/api/projects/:id", updateProject);
   app.delete("/api/projects/:id", deleteProject);
   app.post("/api/projects/:id/farmers", addFarmersToProject);
-  app.delete("/api/projects/:projectId/farmers/:farmerId", removeFarmerFromProject);
+  app.delete(
+    "/api/projects/:projectId/farmers/:farmerId",
+    removeFarmerFromProject,
+  );
 
   return app;
 }
