@@ -38,6 +38,7 @@ const App = () => (
           <Route path="/farmer/auth" element={<FarmerAuth />} />
           <Route path="/farmer/dashboard" element={<FarmerDashboard />} />
           <Route path="/farmer/measurements/add" element={<DataCollection />} />
+          <Route path="/admin" element={<AdminPanel />} />
 
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<Layout><NotFound /></Layout>} />
