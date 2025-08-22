@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { TreePine, Wheat, Menu, X, Satellite } from "lucide-react";
+import { TreePine, Wheat, Menu, X, Satellite, Leaf } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 
