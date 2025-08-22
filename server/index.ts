@@ -4,8 +4,16 @@ import cors from "cors";
 import { handleDemo } from "./routes/demo";
 import { connectToDatabase } from "./lib/database";
 
-export function createServer() {
+export async function createServer() {
   const app = express();
+
+  // Connect to MongoDB
+  try {
+    await connectToDatabase();
+  } catch (error) {
+    console.error('Failed to connect to MongoDB:', error);
+    // Continue without database for now
+  }
 
   // Middleware
   app.use(cors());
