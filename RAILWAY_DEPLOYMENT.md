@@ -51,6 +51,7 @@ VITE_PUBLIC_BUILDER_KEY=__BUILDER_PUBLIC_KEY__
 ```
 
 **For MongoDB Atlas (if using):**
+
 ```env
 MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/carbonmrv
 ```
@@ -58,6 +59,7 @@ MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/carbonmrv
 ### 4. Deploy Settings
 
 Railway will automatically:
+
 - ✅ Detect Node.js project
 - ✅ Install dependencies with `pnpm install`
 - ✅ Build with `npm run build`
@@ -72,6 +74,7 @@ Railway will automatically:
 ## Expected Deployment URL
 
 Your app will be available at:
+
 ```
 https://your-project-name.up.railway.app
 ```
@@ -87,7 +90,7 @@ curl https://your-app.railway.app/api/ping
 # Test farmer API
 curl https://your-app.railway.app/api/farmers
 
-# Test projects API  
+# Test projects API
 curl https://your-app.railway.app/api/projects
 ```
 
@@ -123,12 +126,14 @@ const MONGODB_URI = process.env.MONGODB_URI;
 ## Monitoring & Logs
 
 ### View Logs
+
 1. Go to your Railway project
 2. Click on your service
 3. View **"Deployments"** tab for build logs
 4. View **"Logs"** tab for runtime logs
 
 ### Health Check
+
 ```bash
 # Check if app is running
 curl https://your-app.railway.app/api/ping
@@ -141,12 +146,14 @@ curl https://your-app.railway.app/api/ping
 ### Common Issues
 
 1. **Build Fails**
+
    ```bash
    # Check if all dependencies are in package.json
    # Railway logs will show exact error
    ```
 
 2. **MongoDB Connection Error**
+
    ```bash
    # Verify MONGODB_URI environment variable
    # Check MongoDB service is running
@@ -154,6 +161,7 @@ curl https://your-app.railway.app/api/ping
    ```
 
 3. **Port Issues**
+
    ```bash
    # Railway automatically sets PORT environment variable
    # Your app listens on process.env.PORT || 3000
@@ -204,6 +212,7 @@ railway variables
 ### Database Backups
 
 **Railway MongoDB Plugin:**
+
 ```bash
 # Railway handles automatic backups
 # Manual backup via CLI
@@ -212,6 +221,7 @@ mongodump --db carbonmrv
 ```
 
 **MongoDB Atlas:**
+
 - Automatic backups included
 - Point-in-time recovery available
 
