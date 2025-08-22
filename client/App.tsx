@@ -16,6 +16,7 @@ import Layout from "./components/Layout";
 import FarmerAuth from "./pages/FarmerAuth";
 import FarmerDashboard from "./pages/FarmerDashboard";
 import DataCollection from "./pages/DataCollection";
+import AdminPanel from "./pages/AdminPanel";
 
 const queryClient = new QueryClient();
 
