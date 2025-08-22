@@ -53,5 +53,28 @@ export async function createServer() {
 
   app.get("/api/demo", handleDemo);
 
+  // Farmer routes
+  app.get("/api/farmers", getFarmers);
+  app.get("/api/farmers/stats", getFarmerStats);
+  app.get("/api/farmers/location", getFarmersByLocation);
+  app.get("/api/farmers/id/:farmerId", getFarmerByFarmerId);
+  app.get("/api/farmers/:id", getFarmerById);
+  app.post("/api/farmers", createFarmer);
+  app.put("/api/farmers/:id", updateFarmer);
+  app.delete("/api/farmers/:id", deleteFarmer);
+  app.post("/api/farmers/project", addFarmerToProject);
+
+  // Carbon Project routes
+  app.get("/api/projects", getProjects);
+  app.get("/api/projects/stats", getProjectStats);
+  app.get("/api/projects/id/:projectId", getProjectByProjectId);
+  app.get("/api/projects/:id", getProjectById);
+  app.get("/api/projects/:id/metrics", getProjectMetrics);
+  app.post("/api/projects", createProject);
+  app.put("/api/projects/:id", updateProject);
+  app.delete("/api/projects/:id", deleteProject);
+  app.post("/api/projects/:id/farmers", addFarmersToProject);
+  app.delete("/api/projects/:projectId/farmers/:farmerId", removeFarmerFromProject);
+
   return app;
 }
