@@ -24,17 +24,21 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <Layout>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/solutions" element={<Solutions />} />
-            <Route path="/tools" element={<Tools />} />
-            <Route path="/case-studies" element={<CaseStudies />} />
-            <Route path="/resources" element={<Resources />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </Layout>
+        <Routes>
+          {/* Public routes with Layout */}
+          <Route path="/" element={<Layout><Index /></Layout>} />
+          <Route path="/solutions" element={<Layout><Solutions /></Layout>} />
+          <Route path="/tools" element={<Layout><Tools /></Layout>} />
+          <Route path="/case-studies" element={<Layout><CaseStudies /></Layout>} />
+          <Route path="/resources" element={<Layout><Resources /></Layout>} />
+
+          {/* Farmer portal routes without main Layout */}
+          <Route path="/farmer/auth" element={<FarmerAuth />} />
+          <Route path="/farmer/dashboard" element={<FarmerDashboard />} />
+
+          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          <Route path="*" element={<Layout><NotFound /></Layout>} />
+        </Routes>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
