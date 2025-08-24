@@ -13,8 +13,15 @@ import { useFarmerAuth } from "@/hooks/use-farmer-auth";
 
 export default function FarmerAuth() {
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(false);
+  const { signInFarmer, registerFarmer, isLoading, isAuthenticated } = useFarmerAuth();
   const [activeTab, setActiveTab] = useState("signin");
+
+  // Redirect if already authenticated
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/farmer-dashboard');
+    }
+  }, [isAuthenticated, navigate]);
 
   // Sign In Form State
   const [signInForm, setSignInForm] = useState({
