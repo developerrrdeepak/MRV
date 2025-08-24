@@ -65,11 +65,18 @@ export default function Layout({ children }: LayoutProps) {
                   {item.name}
                 </Link>
               ))}
-              <Link to="/farmer-auth">
-                <Button className="bg-gradient-to-r from-green-600 via-emerald-600 to-amber-500 hover:from-green-700 hover:via-emerald-700 hover:to-amber-600 font-bold text-sm tracking-wide shadow-lg hover:shadow-xl transition-all duration-200">
-                  Sign In Farmer
-                </Button>
-              </Link>
+              <div className="flex items-center space-x-3">
+                <Link to="/farmer-auth">
+                  <Button className="bg-gradient-to-r from-green-600 via-emerald-600 to-amber-500 hover:from-green-700 hover:via-emerald-700 hover:to-amber-600 font-bold text-sm tracking-wide shadow-lg hover:shadow-xl transition-all duration-200">
+                    Sign In Farmer
+                  </Button>
+                </Link>
+                <Link to="/admin-auth">
+                  <Button variant="outline" className="border-blue-600 text-blue-600 hover:bg-blue-50 font-semibold text-sm tracking-wide shadow-sm hover:shadow-md transition-all duration-200">
+                    Admin
+                  </Button>
+                </Link>
+              </div>
             </div>
 
             {/* Mobile menu button */}
