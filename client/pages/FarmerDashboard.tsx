@@ -110,7 +110,7 @@ export default function FarmerDashboard() {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('farmer');
+    signOutFarmer();
     navigate('/');
   };
 
