@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -9,6 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Phone, User, MapPin, Wheat, FileText, Camera, CreditCard } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useFarmerAuth } from "@/hooks/use-farmer-auth";
 
 export default function FarmerAuth() {
   const navigate = useNavigate();
