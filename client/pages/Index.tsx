@@ -241,12 +241,14 @@ export default function Index() {
             </div>
 
             {/* Enhanced Hero Title */}
-            <h1 className="text-6xl lg:text-7xl font-display font-black text-gray-900 leading-none mb-8">
-              <span className="block text-green-600 mb-4">किसानों के लि��</span>
-              <span className="block bg-gradient-to-r from-green-600 via-emerald-600 to-amber-500 bg-clip-text text-transparent animate-pulse">
+            <h1 className="text-6xl lg:text-8xl font-display font-black leading-none mb-8 drop-shadow-2xl">
+              <span className="block text-green-700 mb-4 text-shadow-lg drop-shadow-xl">
+                किसानों के लिए
+              </span>
+              <span className="block bg-gradient-to-r from-green-600 via-emerald-600 to-amber-500 bg-clip-text text-transparent animate-pulse drop-shadow-2xl">
                 Carbon Income
               </span>
-              <span className="block text-4xl lg:text-5xl mt-4 text-gray-700 font-semibold">
+              <span className="block text-4xl lg:text-6xl mt-4 text-gray-800 font-bold drop-shadow-xl">
                 का नया रास्ता 🚀
               </span>
             </h1>
