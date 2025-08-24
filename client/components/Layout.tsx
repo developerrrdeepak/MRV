@@ -114,10 +114,15 @@ export default function Layout({ children }: LayoutProps) {
                     {item.name}
                   </Link>
                 ))}
-                <div className="px-3 pt-2">
+                <div className="px-3 pt-2 space-y-2">
                   <Link to="/farmer-auth" className="block">
                     <Button className="w-full bg-gradient-to-r from-green-600 via-emerald-600 to-amber-500 hover:from-green-700 hover:via-emerald-700 hover:to-amber-600 font-bold tracking-wide">
                       Sign In Farmer
+                    </Button>
+                  </Link>
+                  <Link to="/admin-auth" className="block">
+                    <Button variant="outline" className="w-full border-blue-600 text-blue-600 hover:bg-blue-50 font-semibold tracking-wide">
+                      Admin Login
                     </Button>
                   </Link>
                 </div>
