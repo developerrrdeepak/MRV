@@ -62,30 +62,22 @@ interface Farmer {
 
 export default function FarmerDashboard() {
   const navigate = useNavigate();
-  const [farmer, setFarmer] = useState<Farmer | null>(null);
+  const { farmer, signOutFarmer, isLoading: authLoading, isAuthenticated } = useFarmerAuth();
   const [projects, setProjects] = useState<any[]>([]);
   const [measurements, setMeasurements] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Get farmer data from localStorage
-    const farmerData = localStorage.getItem('farmer');
-    if (!farmerData) {
+    if (!isAuthenticated) {
       navigate('/farmer-auth');
       return;
     }
 
-    try {
-      const parsedFarmer = JSON.parse(farmerData);
-      setFarmer(parsedFarmer);
-      
+    if (farmer) {
       // Fetch farmer's projects and measurements
-      fetchFarmerData(parsedFarmer._id);
-    } catch (error) {
-      console.error('Error parsing farmer data:', error);
-      navigate('/farmer-auth');
+      fetchFarmerData(farmer._id);
     }
-  }, [navigate]);
+  }, [farmer, isAuthenticated, navigate]);
 
   const fetchFarmerData = async (farmerId: string) => {
     try {
