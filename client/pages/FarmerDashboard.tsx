@@ -7,6 +7,7 @@ import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { useFarmerAuth } from "@/hooks/use-farmer-auth";
+import DataCollection from "./DataCollection";
 import {
   User,
   MapPin,
@@ -24,7 +25,13 @@ import {
   Upload,
   Activity,
   Target,
-  CheckCircle
+  CheckCircle,
+  Bell,
+  CreditCard,
+  FileText,
+  HelpCircle,
+  Settings,
+  Download
 } from "lucide-react";
 
 interface Farmer {
