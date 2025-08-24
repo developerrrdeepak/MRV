@@ -288,19 +288,25 @@ export default function Layout({ children }: LayoutProps) {
                   <span className="text-3xl font-display font-black tracking-tight bg-gradient-to-r from-green-400 to-emerald-400 bg-clip-text text-transparent">
                     Carbon Roots
                   </span>
-                  <p className="text-green-400 text-sm font-bold">🌾 किसानों का भविष्य</p>
+                  <p className="text-green-400 text-sm font-bold">
+                    🌾 किसानों का भविष्य
+                  </p>
                 </div>
               </div>
               <p className="text-gray-300 max-w-md leading-relaxed font-medium text-lg mb-6">
-                भारत के smallholder farming communities के लिए scalable और affordable
-                carbon farming solutions enable करते हैं।
+                भारत के smallholder farming communities के लिए scalable और
+                affordable carbon farming solutions enable करते हैं।
               </p>
               <div className="flex space-x-4">
                 <div className="bg-green-600/20 p-3 rounded-full">
-                  <span className="text-green-400 font-bold">🌱 Sustainable</span>
+                  <span className="text-green-400 font-bold">
+                    🌱 Sustainable
+                  </span>
                 </div>
                 <div className="bg-blue-600/20 p-3 rounded-full">
-                  <span className="text-blue-400 font-bold">🔬 Tech-Driven</span>
+                  <span className="text-blue-400 font-bold">
+                    🔬 Tech-Driven
+                  </span>
                 </div>
               </div>
             </div>
@@ -404,10 +410,14 @@ export default function Layout({ children }: LayoutProps) {
               <div className="flex items-center space-x-6">
                 <div className="flex items-center text-green-400">
                   <Heart className="h-4 w-4 mr-1 animate-pulse" />
-                  <span className="text-sm font-medium">Made with love for farmers</span>
+                  <span className="text-sm font-medium">
+                    Made with love for farmers
+                  </span>
                 </div>
                 <div className="bg-gradient-to-r from-green-600 to-emerald-600 px-4 py-2 rounded-full">
-                  <span className="text-white text-sm font-bold">🇮🇳 Made in India</span>
+                  <span className="text-white text-sm font-bold">
+                    🇮🇳 Made in India
+                  </span>
                 </div>
               </div>
             </div>

@@ -145,7 +145,7 @@ export default function Index() {
       color: "from-green-400 to-emerald-500",
     },
     {
-      step: "02", 
+      step: "02",
       title: "खेती की फोटो लें",
       description: "अपनी farming activities की photos upload करें",
       icon: Camera,
@@ -173,14 +173,16 @@ export default function Index() {
       location: "पंजाब",
       text: "मैंने पिछले साल ₹12,000 extra कमाए सिर्फ अपनी धान की खेती से!",
       rating: 5,
-      image: "https://images.pexels.com/photos/6457626/pexels-photo-6457626.jpeg",
+      image:
+        "https://images.pexels.com/photos/6457626/pexels-photo-6457626.jpeg",
     },
     {
       name: "सुनीता देवी",
-      location: "उत्तर प्रदेश", 
+      location: "उत्तर प्रदेश",
       text: "Carbon farming से हमारी आय दोगुनी हो गई। बहुत आसान है!",
       rating: 5,
-      image: "https://images.pexels.com/photos/6457528/pexels-photo-6457528.jpeg",
+      image:
+        "https://images.pexels.com/photos/6457528/pexels-photo-6457528.jpeg",
     },
   ];
 
@@ -194,7 +196,7 @@ export default function Index() {
           <div
             className="absolute inset-0 bg-cover bg-center bg-no-repeat"
             style={{
-              backgroundImage: `url('https://images.pexels.com/photos/2132180/pexels-photo-2132180.jpeg')`
+              backgroundImage: `url('https://images.pexels.com/photos/2132180/pexels-photo-2132180.jpeg')`,
             }}
           ></div>
 
@@ -222,11 +224,21 @@ export default function Index() {
 
           {/* Floating elements */}
           <div className="absolute inset-0 pointer-events-none">
-            <div className="absolute top-20 left-20 text-6xl opacity-10 animate-float">🌾</div>
-            <div className="absolute top-40 right-32 text-5xl opacity-15 animate-float animation-delay-2000">🚜</div>
-            <div className="absolute bottom-40 right-20 text-4xl opacity-10 animate-float animation-delay-4000">🌱</div>
-            <div className="absolute bottom-60 left-32 text-5xl opacity-15 animate-float">🌿</div>
-            <div className="absolute top-60 left-1/2 text-3xl opacity-10 animate-float animation-delay-4000">🌍</div>
+            <div className="absolute top-20 left-20 text-6xl opacity-10 animate-float">
+              🌾
+            </div>
+            <div className="absolute top-40 right-32 text-5xl opacity-15 animate-float animation-delay-2000">
+              🚜
+            </div>
+            <div className="absolute bottom-40 right-20 text-4xl opacity-10 animate-float animation-delay-4000">
+              🌱
+            </div>
+            <div className="absolute bottom-60 left-32 text-5xl opacity-15 animate-float">
+              🌿
+            </div>
+            <div className="absolute top-60 left-1/2 text-3xl opacity-10 animate-float animation-delay-4000">
+              🌍
+            </div>
           </div>
         </div>
 
@@ -295,7 +307,9 @@ export default function Index() {
                     className="border-0 shadow-xl bg-white/90 backdrop-blur-md hover:shadow-2xl transform hover:scale-105 transition-all duration-300 hover:-translate-y-2"
                   >
                     <CardContent className="p-6 text-center">
-                      <div className={`inline-flex p-3 rounded-full ${stat.bgColor} mb-4`}>
+                      <div
+                        className={`inline-flex p-3 rounded-full ${stat.bgColor} mb-4`}
+                      >
                         <Icon className={`h-6 w-6 ${stat.color}`} />
                       </div>
                       <div className="stat-number text-3xl font-black mb-2 bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
@@ -350,7 +364,9 @@ export default function Index() {
                     <Star className="h-5 w-5 text-yellow-400 mr-2" />
                     <p className="font-bold text-xl">पारंपरिक ज्ञान</p>
                   </div>
-                  <p className="text-green-300 font-semibold">+ आधुनिक तकनीक = सफलता</p>
+                  <p className="text-green-300 font-semibold">
+                    + आधुनिक तकनीक = सफलता
+                  </p>
                 </div>
               </div>
 
@@ -366,7 +382,9 @@ export default function Index() {
                     <Heart className="h-5 w-5 text-pink-400 mr-2" />
                     <p className="font-bold text-xl">महिला किसान</p>
                   </div>
-                  <p className="text-pink-300 font-semibold">बदलाव की मुख्य शक्ति</p>
+                  <p className="text-pink-300 font-semibold">
+                    बदलाव की मुख्य शक्ति
+                  </p>
                 </div>
               </div>
 
@@ -382,7 +400,9 @@ export default function Index() {
                     <Sparkles className="h-5 w-5 text-amber-400 mr-2" />
                     <p className="font-bold text-xl">बदलाव के बीज</p>
                   </div>
-                  <p className="text-amber-300 font-semibold">भविष्य की खुशहाली</p>
+                  <p className="text-amber-300 font-semibold">
+                    भविष्य की खुशहाली
+                  </p>
                 </div>
               </div>
             </div>
@@ -402,7 +422,8 @@ export default function Index() {
               सिर्फ <span className="text-blue-600">4 आसान</span> स्टेप्स
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              हमारा AI-powered system आपकी farming को track कर��े automatic carbon credits calculate करता है
+              हमारा AI-powered system आपकी farming को track कर��े automatic
+              carbon credits calculate करता है
             </p>
           </div>
 
@@ -415,18 +436,26 @@ export default function Index() {
                   {index < howItWorks.length - 1 && (
                     <div className="hidden md:block absolute top-16 left-full w-full h-0.5 bg-gradient-to-r from-gray-300 to-gray-200"></div>
                   )}
-                  
+
                   <div className="relative">
-                    <div className={`inline-flex p-6 rounded-3xl bg-gradient-to-r ${step.color} text-white shadow-2xl mb-6 group-hover:scale-110 transition-transform duration-300`}>
+                    <div
+                      className={`inline-flex p-6 rounded-3xl bg-gradient-to-r ${step.color} text-white shadow-2xl mb-6 group-hover:scale-110 transition-transform duration-300`}
+                    >
                       <Icon className="h-8 w-8" />
                     </div>
                     <div className="absolute -top-2 -right-2 bg-white rounded-full p-2 shadow-lg">
-                      <span className="text-lg font-black text-gray-700">{step.step}</span>
+                      <span className="text-lg font-black text-gray-700">
+                        {step.step}
+                      </span>
                     </div>
                   </div>
-                  
-                  <h3 className="text-xl font-bold text-gray-900 mb-4">{step.title}</h3>
-                  <p className="text-gray-600 leading-relaxed">{step.description}</p>
+
+                  <h3 className="text-xl font-bold text-gray-900 mb-4">
+                    {step.title}
+                  </h3>
+                  <p className="text-gray-600 leading-relaxed">
+                    {step.description}
+                  </p>
                 </div>
               );
             })}
@@ -448,8 +477,12 @@ export default function Index() {
                 </h3>
               </div>
               <p className="text-xl text-gray-700 mb-8 leading-relaxed">
-                हम <span className="font-bold text-green-600">15+ भारतीय भाषाओं</span> में support करते हैं।
-                किसानों के लिए - अपनी सुविधाजनक भाषा में जानकारी पाएं
+                हम{" "}
+                <span className="font-bold text-green-600">
+                  15+ भारतीय भाषाओं
+                </span>{" "}
+                में support करते हैं। किसानों के लिए - अपनी सुविधाजनक भाषा में
+                जानकारी पाएं
               </p>
               <div className="bg-gradient-to-r from-green-50 to-emerald-50 p-6 rounded-2xl">
                 <LanguageSelector
@@ -473,7 +506,8 @@ export default function Index() {
               खासियतें
             </Badge>
             <h2 className="text-4xl lg:text-5xl font-display font-black text-gray-900 mb-6">
-              क्यों चुनें <span className="text-emerald-600">Carbon Roots?</span>
+              क्यों चुनें{" "}
+              <span className="text-emerald-600">Carbon Roots?</span>
             </h2>
           </div>
 
@@ -486,7 +520,9 @@ export default function Index() {
                   className="border-0 shadow-xl bg-white hover:shadow-2xl transform hover:scale-105 transition-all duration-500 group overflow-hidden"
                 >
                   <CardHeader className="pb-4">
-                    <div className={`inline-flex p-4 rounded-2xl bg-gradient-to-r ${feature.gradient} text-white shadow-lg mb-4 group-hover:scale-110 transition-transform duration-300`}>
+                    <div
+                      className={`inline-flex p-4 rounded-2xl bg-gradient-to-r ${feature.gradient} text-white shadow-lg mb-4 group-hover:scale-110 transition-transform duration-300`}
+                    >
                       <Icon className="h-8 w-8" />
                     </div>
                     <CardTitle className="text-2xl font-bold text-gray-900 group-hover:text-emerald-600 transition-colors duration-300">
@@ -520,7 +556,10 @@ export default function Index() {
 
           <div className="grid lg:grid-cols-2 gap-12">
             {testimonials.map((testimonial, index) => (
-              <Card key={index} className="border-0 shadow-2xl bg-white/10 backdrop-blur-md text-white hover:bg-white/20 transition-all duration-300">
+              <Card
+                key={index}
+                className="border-0 shadow-2xl bg-white/10 backdrop-blur-md text-white hover:bg-white/20 transition-all duration-300"
+              >
                 <CardContent className="p-8">
                   <div className="flex items-center mb-6">
                     <img
@@ -533,12 +572,17 @@ export default function Index() {
                       <p className="text-green-300">{testimonial.location}</p>
                       <div className="flex">
                         {[...Array(testimonial.rating)].map((_, i) => (
-                          <Star key={i} className="h-4 w-4 text-yellow-400 fill-current" />
+                          <Star
+                            key={i}
+                            className="h-4 w-4 text-yellow-400 fill-current"
+                          />
                         ))}
                       </div>
                     </div>
                   </div>
-                  <p className="text-lg italic leading-relaxed">"{testimonial.text}"</p>
+                  <p className="text-lg italic leading-relaxed">
+                    "{testimonial.text}"
+                  </p>
                 </CardContent>
               </Card>
             ))}
@@ -579,16 +623,16 @@ export default function Index() {
           <div className="absolute top-0 left-0 w-96 h-96 bg-white/10 rounded-full mix-blend-overlay filter blur-3xl animate-pulse"></div>
           <div className="absolute bottom-0 right-0 w-96 h-96 bg-white/10 rounded-full mix-blend-overlay filter blur-3xl animate-pulse animation-delay-2000"></div>
         </div>
-        
+
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-5xl lg:text-6xl font-display font-black mb-8">
             तैयार हैं <span className="text-yellow-300">कमाने के लिए?</span>
           </h2>
           <p className="text-2xl mb-12 max-w-4xl mx-auto leading-relaxed">
-            आज ही join करें और अपनी farming को profitable बनाएं।
-            हजारों किसान पहले से ही कमा रहे हैं!
+            आज ही join करें और अपनी farming को profitable बनाएं। हजारों किसान
+            पहले से ही कमा रहे हैं!
           </p>
-          
+
           <div className="flex flex-col sm:flex-row gap-8 justify-center items-center">
             <Button
               size="lg"
@@ -599,14 +643,12 @@ export default function Index() {
               अभी शुरू करें
               <ArrowRight className="ml-4 h-8 w-8 animate-bounce" />
             </Button>
-            
+
             <div className="text-center">
               <p className="text-yellow-200 text-lg font-semibold mb-2">
                 📞 तुरंत सहायता चाहिए?
               </p>
-              <p className="text-2xl font-bold">
-                1800-CARBON-HELP
-              </p>
+              <p className="text-2xl font-bold">1800-CARBON-HELP</p>
             </div>
           </div>
         </div>
