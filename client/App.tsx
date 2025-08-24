@@ -13,6 +13,8 @@ import CaseStudies from "./pages/CaseStudies";
 import Resources from "./pages/Resources";
 import FarmerAuth from "./pages/FarmerAuth";
 import FarmerDashboard from "./pages/FarmerDashboard";
+import AdminAuth from "./pages/AdminAuth";
+import AdminDashboard from "./pages/AdminDashboard";
 import NotFound from "./pages/NotFound";
 import Layout from "./components/Layout";
 
