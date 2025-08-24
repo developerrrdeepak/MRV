@@ -384,11 +384,24 @@ export default function Layout({ children }: LayoutProps) {
               </ul>
             </div>
           </div>
-          <div className="mt-8 pt-8 border-t border-gray-800">
-            <p className="text-sm text-gray-400 text-center font-medium">
-              © 2024 CarbonMRV. All rights reserved. Empowering climate-smart
-              agriculture through technology.
-            </p>
+          <div className="mt-12 pt-8 border-t border-gray-700">
+            <div className="flex flex-col md:flex-row justify-between items-center">
+              <p className="text-gray-400 text-center md:text-left font-medium mb-4 md:mb-0">
+                © 2024 Carbon Roots. All rights reserved.
+                <span className="text-green-400 font-bold block md:inline md:ml-2">
+                  🌱 Empowering climate-smart agriculture through technology.
+                </span>
+              </p>
+              <div className="flex items-center space-x-6">
+                <div className="flex items-center text-green-400">
+                  <Heart className="h-4 w-4 mr-1 animate-pulse" />
+                  <span className="text-sm font-medium">Made with love for farmers</span>
+                </div>
+                <div className="bg-gradient-to-r from-green-600 to-emerald-600 px-4 py-2 rounded-full">
+                  <span className="text-white text-sm font-bold">🇮🇳 Made in India</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </footer>
