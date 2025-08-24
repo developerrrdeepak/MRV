@@ -2,7 +2,13 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Shield, Mail, Lock, AlertCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
@@ -10,10 +16,10 @@ export default function AdminAuth() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  
+
   const [loginForm, setLoginForm] = useState({
     email: "",
-    password: ""
+    password: "",
   });
 
   const handleAdminLogin = async (e: React.FormEvent) => {
@@ -26,24 +32,27 @@ export default function AdminAuth() {
       const adminEmail = "developerrdeepak@gmail.com";
       const adminPassword = "IITdelhi2023@";
 
-      if (loginForm.email === adminEmail && loginForm.password === adminPassword) {
+      if (
+        loginForm.email === adminEmail &&
+        loginForm.password === adminPassword
+      ) {
         // Create admin session
         const adminData = {
           email: adminEmail,
           name: "Deepak (Admin)",
           role: "admin",
-          loginTime: new Date().toISOString()
+          loginTime: new Date().toISOString(),
         };
 
-        localStorage.setItem('admin', JSON.stringify(adminData));
-        
+        localStorage.setItem("admin", JSON.stringify(adminData));
+
         // Redirect to admin dashboard
-        navigate('/admin-dashboard');
+        navigate("/admin-dashboard");
       } else {
         setError("Invalid email or password. Please check your credentials.");
       }
     } catch (error) {
-      console.error('Admin login error:', error);
+      console.error("Admin login error:", error);
       setError("Login failed. Please try again.");
     } finally {
       setIsLoading(false);
@@ -66,7 +75,7 @@ export default function AdminAuth() {
             Carbon MRV System Administration
           </CardDescription>
         </CardHeader>
-        
+
         <CardContent>
           <form onSubmit={handleAdminLogin} className="space-y-6">
             {error && (
@@ -86,13 +95,18 @@ export default function AdminAuth() {
                     type="email"
                     placeholder="Enter admin email"
                     value={loginForm.email}
-                    onChange={(e) => setLoginForm(prev => ({ ...prev, email: e.target.value }))}
+                    onChange={(e) =>
+                      setLoginForm((prev) => ({
+                        ...prev,
+                        email: e.target.value,
+                      }))
+                    }
                     className="pl-10"
                     required
                   />
                 </div>
               </div>
-              
+
               <div className="space-y-2">
                 <Label htmlFor="password">Password</Label>
                 <div className="relative">
@@ -102,16 +116,21 @@ export default function AdminAuth() {
                     type="password"
                     placeholder="Enter admin password"
                     value={loginForm.password}
-                    onChange={(e) => setLoginForm(prev => ({ ...prev, password: e.target.value }))}
+                    onChange={(e) =>
+                      setLoginForm((prev) => ({
+                        ...prev,
+                        password: e.target.value,
+                      }))
+                    }
                     className="pl-10"
                     required
                   />
                 </div>
               </div>
             </div>
-            
-            <Button 
-              type="submit" 
+
+            <Button
+              type="submit"
               className="w-full bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:from-blue-700 hover:via-indigo-700 hover:to-purple-700 font-semibold text-lg py-6"
               disabled={isLoading}
             >
@@ -133,8 +152,8 @@ export default function AdminAuth() {
             <div className="text-center space-y-2">
               <p className="text-sm text-gray-600">Authorized Personnel Only</p>
               <p className="text-xs text-gray-500">
-                This portal is for system administrators to manage the Carbon MRV platform.
-                Unauthorized access is prohibited.
+                This portal is for system administrators to manage the Carbon
+                MRV platform. Unauthorized access is prohibited.
               </p>
             </div>
           </div>

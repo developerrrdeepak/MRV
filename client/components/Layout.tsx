@@ -72,7 +72,10 @@ export default function Layout({ children }: LayoutProps) {
                   </Button>
                 </Link>
                 <Link to="/admin-auth">
-                  <Button variant="outline" className="border-blue-600 text-blue-600 hover:bg-blue-50 font-semibold text-sm tracking-wide shadow-sm hover:shadow-md transition-all duration-200">
+                  <Button
+                    variant="outline"
+                    className="border-blue-600 text-blue-600 hover:bg-blue-50 font-semibold text-sm tracking-wide shadow-sm hover:shadow-md transition-all duration-200"
+                  >
                     Admin
                   </Button>
                 </Link>
@@ -121,7 +124,10 @@ export default function Layout({ children }: LayoutProps) {
                     </Button>
                   </Link>
                   <Link to="/admin-auth" className="block">
-                    <Button variant="outline" className="w-full border-blue-600 text-blue-600 hover:bg-blue-50 font-semibold tracking-wide">
+                    <Button
+                      variant="outline"
+                      className="w-full border-blue-600 text-blue-600 hover:bg-blue-50 font-semibold tracking-wide"
+                    >
                       Admin Login
                     </Button>
                   </Link>

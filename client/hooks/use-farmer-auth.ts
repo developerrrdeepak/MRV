@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 interface Farmer {
   _id: string;
@@ -44,14 +44,14 @@ export function useFarmerAuth() {
 
   const checkFarmerSession = () => {
     try {
-      const farmerData = localStorage.getItem('farmer');
+      const farmerData = localStorage.getItem("farmer");
       if (farmerData) {
         const parsedFarmer = JSON.parse(farmerData);
         setFarmer(parsedFarmer);
       }
     } catch (error) {
-      console.error('Error parsing farmer session:', error);
-      localStorage.removeItem('farmer');
+      console.error("Error parsing farmer session:", error);
+      localStorage.removeItem("farmer");
     } finally {
       setIsLoading(false);
     }
@@ -60,34 +60,37 @@ export function useFarmerAuth() {
   const signInFarmer = async (farmerId: string, phone?: string) => {
     try {
       setIsLoading(true);
-      
+
       // Try to find farmer by Farmer ID
-      const response = await fetch(`/api/farmers/id/${farmerId.toUpperCase()}`, {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json' }
-      });
+      const response = await fetch(
+        `/api/farmers/id/${farmerId.toUpperCase()}`,
+        {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+        },
+      );
 
       if (response.ok) {
         const farmerData = await response.json();
-        
+
         // Verify phone number if provided
         if (phone && farmerData.phone !== phone) {
-          throw new Error('Phone number does not match');
+          throw new Error("Phone number does not match");
         }
 
         // Store farmer session
-        localStorage.setItem('farmer', JSON.stringify(farmerData));
+        localStorage.setItem("farmer", JSON.stringify(farmerData));
         setFarmer(farmerData);
-        
+
         return { success: true, farmer: farmerData };
       } else {
-        throw new Error('Farmer not found');
+        throw new Error("Farmer not found");
       }
     } catch (error) {
-      console.error('Sign in error:', error);
-      return { 
-        success: false, 
-        error: error instanceof Error ? error.message : 'Sign in failed' 
+      console.error("Sign in error:", error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : "Sign in failed",
       };
     } finally {
       setIsLoading(false);
@@ -97,30 +100,30 @@ export function useFarmerAuth() {
   const registerFarmer = async (farmerData: any) => {
     try {
       setIsLoading(true);
-      
-      const response = await fetch('/api/farmers', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(farmerData)
+
+      const response = await fetch("/api/farmers", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(farmerData),
       });
 
       if (response.ok) {
         const newFarmer = await response.json();
-        
+
         // Store farmer session
-        localStorage.setItem('farmer', JSON.stringify(newFarmer));
+        localStorage.setItem("farmer", JSON.stringify(newFarmer));
         setFarmer(newFarmer);
-        
+
         return { success: true, farmer: newFarmer };
       } else {
         const error = await response.json();
-        throw new Error(error.error || 'Registration failed');
+        throw new Error(error.error || "Registration failed");
       }
     } catch (error) {
-      console.error('Registration error:', error);
-      return { 
-        success: false, 
-        error: error instanceof Error ? error.message : 'Registration failed' 
+      console.error("Registration error:", error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : "Registration failed",
       };
     } finally {
       setIsLoading(false);
@@ -128,39 +131,39 @@ export function useFarmerAuth() {
   };
 
   const signOutFarmer = () => {
-    localStorage.removeItem('farmer');
+    localStorage.removeItem("farmer");
     setFarmer(null);
   };
 
   const updateFarmerData = async (updates: Partial<Farmer>) => {
-    if (!farmer) return { success: false, error: 'No farmer logged in' };
+    if (!farmer) return { success: false, error: "No farmer logged in" };
 
     try {
       setIsLoading(true);
-      
+
       const response = await fetch(`/api/farmers/${farmer._id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(updates)
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updates),
       });
 
       if (response.ok) {
         const updatedFarmer = await response.json();
-        
+
         // Update local storage and state
-        localStorage.setItem('farmer', JSON.stringify(updatedFarmer));
+        localStorage.setItem("farmer", JSON.stringify(updatedFarmer));
         setFarmer(updatedFarmer);
-        
+
         return { success: true, farmer: updatedFarmer };
       } else {
         const error = await response.json();
-        throw new Error(error.error || 'Update failed');
+        throw new Error(error.error || "Update failed");
       }
     } catch (error) {
-      console.error('Update error:', error);
-      return { 
-        success: false, 
-        error: error instanceof Error ? error.message : 'Update failed' 
+      console.error("Update error:", error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : "Update failed",
       };
     } finally {
       setIsLoading(false);
@@ -175,6 +178,6 @@ export function useFarmerAuth() {
     registerFarmer,
     signOutFarmer,
     updateFarmerData,
-    checkFarmerSession
+    checkFarmerSession,
   };
 }

@@ -1,7 +1,13 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -31,7 +37,7 @@ import {
   FileText,
   HelpCircle,
   Settings,
-  Download
+  Download,
 } from "lucide-react";
 
 interface Farmer {
@@ -69,14 +75,19 @@ interface Farmer {
 
 export default function FarmerDashboard() {
   const navigate = useNavigate();
-  const { farmer, signOutFarmer, isLoading: authLoading, isAuthenticated } = useFarmerAuth();
+  const {
+    farmer,
+    signOutFarmer,
+    isLoading: authLoading,
+    isAuthenticated,
+  } = useFarmerAuth();
   const [projects, setProjects] = useState<any[]>([]);
   const [measurements, setMeasurements] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!isAuthenticated) {
-      navigate('/farmer-auth');
+      navigate("/farmer-auth");
       return;
     }
 
@@ -92,25 +103,25 @@ export default function FarmerDashboard() {
       // For now, we'll use mock data since the relationships are complex
       setProjects([
         {
-          _id: '1',
-          name: 'Punjab Agroforestry Project',
-          status: 'implementation',
+          _id: "1",
+          name: "Punjab Agroforestry Project",
+          status: "implementation",
           carbonCredits: 150,
-          nextMeasurement: '2024-02-15'
-        }
+          nextMeasurement: "2024-02-15",
+        },
       ]);
-      
+
       setMeasurements([
         {
-          _id: '1',
-          date: '2024-01-15',
-          type: 'Tree Count',
+          _id: "1",
+          date: "2024-01-15",
+          type: "Tree Count",
           value: 50,
-          carbonStored: 12.5
-        }
+          carbonStored: 12.5,
+        },
       ]);
     } catch (error) {
-      console.error('Error fetching farmer data:', error);
+      console.error("Error fetching farmer data:", error);
     } finally {
       setLoading(false);
     }
@@ -118,11 +129,14 @@ export default function FarmerDashboard() {
 
   const handleLogout = () => {
     signOutFarmer();
-    navigate('/');
+    navigate("/");
   };
 
   const calculateTotalCarbon = () => {
-    return measurements.reduce((total, measurement) => total + (measurement.carbonStored || 0), 0);
+    return measurements.reduce(
+      (total, measurement) => total + (measurement.carbonStored || 0),
+      0,
+    );
   };
 
   const calculateEstimatedEarnings = () => {
@@ -155,16 +169,28 @@ export default function FarmerDashboard() {
             <div className="flex items-center space-x-4">
               <Avatar className="h-12 w-12">
                 <AvatarFallback className="bg-gradient-to-r from-green-600 to-emerald-600 text-white">
-                  {farmer.name.split(' ').map(n => n[0]).join('').substring(0, 2)}
+                  {farmer.name
+                    .split(" ")
+                    .map((n) => n[0])
+                    .join("")
+                    .substring(0, 2)}
                 </AvatarFallback>
               </Avatar>
               <div>
-                <h1 className="text-xl font-bold text-gray-900">Welcome, {farmer.name}</h1>
-                <p className="text-sm text-gray-600">Farmer ID: {farmer.farmerId}</p>
+                <h1 className="text-xl font-bold text-gray-900">
+                  Welcome, {farmer.name}
+                </h1>
+                <p className="text-sm text-gray-600">
+                  Farmer ID: {farmer.farmerId}
+                </p>
               </div>
             </div>
-            
-            <Button variant="outline" onClick={handleLogout} className="flex items-center gap-2">
+
+            <Button
+              variant="outline"
+              onClick={handleLogout}
+              className="flex items-center gap-2"
+            >
               <LogOut className="h-4 w-4" />
               Logout
             </Button>
@@ -181,8 +207,12 @@ export default function FarmerDashboard() {
               <div className="flex items-center space-x-2">
                 <TreePine className="h-8 w-8 text-green-600" />
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Carbon Stored</p>
-                  <p className="text-2xl font-bold text-gray-900">{calculateTotalCarbon().toFixed(1)} tCO₂e</p>
+                  <p className="text-sm font-medium text-gray-600">
+                    Carbon Stored
+                  </p>
+                  <p className="text-2xl font-bold text-gray-900">
+                    {calculateTotalCarbon().toFixed(1)} tCO₂e
+                  </p>
                 </div>
               </div>
             </CardContent>
@@ -193,8 +223,12 @@ export default function FarmerDashboard() {
               <div className="flex items-center space-x-2">
                 <IndianRupee className="h-8 w-8 text-amber-600" />
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Est. Earnings</p>
-                  <p className="text-2xl font-bold text-gray-900">₹{calculateEstimatedEarnings().toLocaleString()}</p>
+                  <p className="text-sm font-medium text-gray-600">
+                    Est. Earnings
+                  </p>
+                  <p className="text-2xl font-bold text-gray-900">
+                    ₹{calculateEstimatedEarnings().toLocaleString()}
+                  </p>
                 </div>
               </div>
             </CardContent>
@@ -206,7 +240,9 @@ export default function FarmerDashboard() {
                 <Wheat className="h-8 w-8 text-yellow-600" />
                 <div>
                   <p className="text-sm font-medium text-gray-600">Farm Area</p>
-                  <p className="text-2xl font-bold text-gray-900">{farmer.farmDetails.totalArea} ha</p>
+                  <p className="text-2xl font-bold text-gray-900">
+                    {farmer.farmDetails.totalArea} ha
+                  </p>
                 </div>
               </div>
             </CardContent>
@@ -217,8 +253,12 @@ export default function FarmerDashboard() {
               <div className="flex items-center space-x-2">
                 <Award className="h-8 w-8 text-blue-600" />
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Active Projects</p>
-                  <p className="text-2xl font-bold text-gray-900">{projects.length}</p>
+                  <p className="text-sm font-medium text-gray-600">
+                    Active Projects
+                  </p>
+                  <p className="text-2xl font-bold text-gray-900">
+                    {projects.length}
+                  </p>
                 </div>
               </div>
             </CardContent>
@@ -253,21 +293,27 @@ export default function FarmerDashboard() {
                     <div className="flex items-center space-x-3">
                       <div className="w-2 h-2 bg-green-500 rounded-full"></div>
                       <div className="flex-1">
-                        <p className="text-sm font-medium">Tree measurement completed</p>
+                        <p className="text-sm font-medium">
+                          Tree measurement completed
+                        </p>
                         <p className="text-xs text-gray-500">2 days ago</p>
                       </div>
                     </div>
                     <div className="flex items-center space-x-3">
                       <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
                       <div className="flex-1">
-                        <p className="text-sm font-medium">Joined agroforestry project</p>
+                        <p className="text-sm font-medium">
+                          Joined agroforestry project
+                        </p>
                         <p className="text-xs text-gray-500">1 week ago</p>
                       </div>
                     </div>
                     <div className="flex items-center space-x-3">
                       <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
                       <div className="flex-1">
-                        <p className="text-sm font-medium">Profile registered</p>
+                        <p className="text-sm font-medium">
+                          Profile registered
+                        </p>
                         <p className="text-xs text-gray-500">2 weeks ago</p>
                       </div>
                     </div>
@@ -287,20 +333,36 @@ export default function FarmerDashboard() {
                   <div className="space-y-4">
                     <div className="flex items-center justify-between p-3 bg-amber-50 rounded-lg">
                       <div>
-                        <p className="font-medium text-amber-900">Monthly Tree Count Due</p>
-                        <p className="text-sm text-amber-700">Due: Feb 15, 2024</p>
+                        <p className="font-medium text-amber-900">
+                          Monthly Tree Count Due
+                        </p>
+                        <p className="text-sm text-amber-700">
+                          Due: Feb 15, 2024
+                        </p>
                       </div>
-                      <Button size="sm" variant="outline" className="border-amber-300">
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="border-amber-300"
+                      >
                         Start
                       </Button>
                     </div>
-                    
+
                     <div className="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
                       <div>
-                        <p className="font-medium text-blue-900">Upload Farm Photos</p>
-                        <p className="text-sm text-blue-700">Show your progress</p>
+                        <p className="font-medium text-blue-900">
+                          Upload Farm Photos
+                        </p>
+                        <p className="text-sm text-blue-700">
+                          Show your progress
+                        </p>
                       </div>
-                      <Button size="sm" variant="outline" className="border-blue-300">
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="border-blue-300"
+                      >
                         <Camera className="h-4 w-4 mr-2" />
                         Upload
                       </Button>
@@ -316,7 +378,9 @@ export default function FarmerDashboard() {
             <Card>
               <CardHeader>
                 <CardTitle>My Carbon Projects</CardTitle>
-                <CardDescription>Track your participation in carbon offset projects</CardDescription>
+                <CardDescription>
+                  Track your participation in carbon offset projects
+                </CardDescription>
               </CardHeader>
               <CardContent>
                 {projects.length > 0 ? (
@@ -326,15 +390,20 @@ export default function FarmerDashboard() {
                         <div className="flex items-center justify-between">
                           <div>
                             <h4 className="font-semibold">{project.name}</h4>
-                            <p className="text-sm text-gray-600">Status: 
+                            <p className="text-sm text-gray-600">
+                              Status:
                               <Badge variant="secondary" className="ml-2">
                                 {project.status}
                               </Badge>
                             </p>
                           </div>
                           <div className="text-right">
-                            <p className="text-sm text-gray-600">Carbon Credits</p>
-                            <p className="text-lg font-bold text-green-600">{project.carbonCredits} tCO₂e</p>
+                            <p className="text-sm text-gray-600">
+                              Carbon Credits
+                            </p>
+                            <p className="text-lg font-bold text-green-600">
+                              {project.carbonCredits} tCO₂e
+                            </p>
                           </div>
                         </div>
                         <div className="mt-4">
@@ -350,7 +419,10 @@ export default function FarmerDashboard() {
                 ) : (
                   <div className="text-center py-8">
                     <TreePine className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                    <p className="text-gray-600">No projects yet. Contact your coordinator to join a carbon project.</p>
+                    <p className="text-gray-600">
+                      No projects yet. Contact your coordinator to join a carbon
+                      project.
+                    </p>
                   </div>
                 )}
               </CardContent>
@@ -376,29 +448,47 @@ export default function FarmerDashboard() {
                 <CardContent className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">
                     <div className="text-center p-4 bg-green-50 rounded-lg">
-                      <p className="text-sm text-green-600 font-medium">Total Credits</p>
-                      <p className="text-2xl font-bold text-green-700">{calculateTotalCarbon().toFixed(1)}</p>
+                      <p className="text-sm text-green-600 font-medium">
+                        Total Credits
+                      </p>
+                      <p className="text-2xl font-bold text-green-700">
+                        {calculateTotalCarbon().toFixed(1)}
+                      </p>
                       <p className="text-xs text-green-600">tCO₂e</p>
                     </div>
                     <div className="text-center p-4 bg-amber-50 rounded-lg">
-                      <p className="text-sm text-amber-600 font-medium">Verified Credits</p>
-                      <p className="text-2xl font-bold text-amber-700">{(calculateTotalCarbon() * 0.8).toFixed(1)}</p>
+                      <p className="text-sm text-amber-600 font-medium">
+                        Verified Credits
+                      </p>
+                      <p className="text-2xl font-bold text-amber-700">
+                        {(calculateTotalCarbon() * 0.8).toFixed(1)}
+                      </p>
                       <p className="text-xs text-amber-600">tCO₂e</p>
                     </div>
                   </div>
 
                   <div className="border-t pt-4">
                     <div className="flex justify-between items-center mb-2">
-                      <span className="text-sm text-gray-600">Carbon Price</span>
+                      <span className="text-sm text-gray-600">
+                        Carbon Price
+                      </span>
                       <span className="font-medium">₹15 per tCO₂e</span>
                     </div>
                     <div className="flex justify-between items-center mb-2">
-                      <span className="text-sm text-gray-600">Total Earnings</span>
-                      <span className="font-bold text-green-600">₹{calculateEstimatedEarnings().toLocaleString()}</span>
+                      <span className="text-sm text-gray-600">
+                        Total Earnings
+                      </span>
+                      <span className="font-bold text-green-600">
+                        ₹{calculateEstimatedEarnings().toLocaleString()}
+                      </span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-sm text-gray-600">Pending Verification</span>
-                      <span className="text-amber-600">₹{(calculateTotalCarbon() * 0.2 * 15).toLocaleString()}</span>
+                      <span className="text-sm text-gray-600">
+                        Pending Verification
+                      </span>
+                      <span className="text-amber-600">
+                        ₹{(calculateTotalCarbon() * 0.2 * 15).toLocaleString()}
+                      </span>
                     </div>
                   </div>
                 </CardContent>
@@ -417,36 +507,50 @@ export default function FarmerDashboard() {
                     <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                       <div>
                         <p className="font-medium">Carbon Credit Payment</p>
-                        <p className="text-sm text-gray-600">Project: Agroforestry Phase 1</p>
+                        <p className="text-sm text-gray-600">
+                          Project: Agroforestry Phase 1
+                        </p>
                         <p className="text-xs text-gray-500">Jan 15, 2024</p>
                       </div>
                       <div className="text-right">
                         <p className="font-bold text-green-600">₹2,250</p>
-                        <Badge variant="secondary" className="text-xs">Paid</Badge>
+                        <Badge variant="secondary" className="text-xs">
+                          Paid
+                        </Badge>
                       </div>
                     </div>
 
                     <div className="flex items-center justify-between p-3 bg-amber-50 rounded-lg">
                       <div>
                         <p className="font-medium">Verification Bonus</p>
-                        <p className="text-sm text-gray-600">Q4 2023 Measurements</p>
+                        <p className="text-sm text-gray-600">
+                          Q4 2023 Measurements
+                        </p>
                         <p className="text-xs text-gray-500">Dec 30, 2023</p>
                       </div>
                       <div className="text-right">
                         <p className="font-bold text-green-600">₹500</p>
-                        <Badge variant="secondary" className="text-xs">Paid</Badge>
+                        <Badge variant="secondary" className="text-xs">
+                          Paid
+                        </Badge>
                       </div>
                     </div>
 
                     <div className="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
                       <div>
                         <p className="font-medium">Upcoming Payment</p>
-                        <p className="text-sm text-gray-600">Q1 2024 Carbon Credits</p>
-                        <p className="text-xs text-gray-500">Expected: Mar 31, 2024</p>
+                        <p className="text-sm text-gray-600">
+                          Q1 2024 Carbon Credits
+                        </p>
+                        <p className="text-xs text-gray-500">
+                          Expected: Mar 31, 2024
+                        </p>
                       </div>
                       <div className="text-right">
                         <p className="font-bold text-blue-600">₹1,875</p>
-                        <Badge variant="outline" className="text-xs">Pending</Badge>
+                        <Badge variant="outline" className="text-xs">
+                          Pending
+                        </Badge>
                       </div>
                     </div>
                   </div>
@@ -484,7 +588,9 @@ export default function FarmerDashboard() {
                           <FileText className="h-5 w-5 text-blue-600" />
                           <div>
                             <p className="font-medium">Aadhar Card</p>
-                            <p className="text-sm text-gray-600">Identity Verification</p>
+                            <p className="text-sm text-gray-600">
+                              Identity Verification
+                            </p>
                           </div>
                         </div>
                         <Badge variant="secondary">Verified</Badge>
@@ -495,7 +601,9 @@ export default function FarmerDashboard() {
                           <FileText className="h-5 w-5 text-green-600" />
                           <div>
                             <p className="font-medium">Land Records</p>
-                            <p className="text-sm text-gray-600">Farm Ownership Proof</p>
+                            <p className="text-sm text-gray-600">
+                              Farm Ownership Proof
+                            </p>
                           </div>
                         </div>
                         <Badge variant="secondary">Verified</Badge>
@@ -506,7 +614,9 @@ export default function FarmerDashboard() {
                           <FileText className="h-5 w-5 text-purple-600" />
                           <div>
                             <p className="font-medium">Bank Details</p>
-                            <p className="text-sm text-gray-600">Payment Information</p>
+                            <p className="text-sm text-gray-600">
+                              Payment Information
+                            </p>
                           </div>
                         </div>
                         <Badge variant="secondary">Verified</Badge>
@@ -529,7 +639,9 @@ export default function FarmerDashboard() {
                           <Award className="h-5 w-5 text-green-600" />
                           <div>
                             <p className="font-medium">Carbon Certificate</p>
-                            <p className="text-sm text-gray-600">Q4 2023 - 12.5 tCO₂e</p>
+                            <p className="text-sm text-gray-600">
+                              Q4 2023 - 12.5 tCO₂e
+                            </p>
                           </div>
                         </div>
                         <Button size="sm" variant="outline">
@@ -542,7 +654,9 @@ export default function FarmerDashboard() {
                           <FileText className="h-5 w-5 text-blue-600" />
                           <div>
                             <p className="font-medium">Verification Report</p>
-                            <p className="text-sm text-gray-600">Third-party verification</p>
+                            <p className="text-sm text-gray-600">
+                              Third-party verification
+                            </p>
                           </div>
                         </div>
                         <Button size="sm" variant="outline">
@@ -555,7 +669,9 @@ export default function FarmerDashboard() {
                           <FileText className="h-5 w-5 text-amber-600" />
                           <div>
                             <p className="font-medium">Training Certificate</p>
-                            <p className="text-sm text-gray-600">MRV Training Completed</p>
+                            <p className="text-sm text-gray-600">
+                              MRV Training Completed
+                            </p>
                           </div>
                         </div>
                         <Button size="sm" variant="outline">
@@ -588,34 +704,48 @@ export default function FarmerDashboard() {
                 <CardContent className="space-y-4">
                   <div className="space-y-4">
                     <div className="border-b pb-3">
-                      <h4 className="font-medium mb-1">How do I earn carbon credits?</h4>
+                      <h4 className="font-medium mb-1">
+                        How do I earn carbon credits?
+                      </h4>
                       <p className="text-sm text-gray-600">
-                        You earn carbon credits by implementing sustainable farming practices like tree planting,
-                        organic farming, and soil carbon management. Regular measurements and verification are required.
+                        You earn carbon credits by implementing sustainable
+                        farming practices like tree planting, organic farming,
+                        and soil carbon management. Regular measurements and
+                        verification are required.
                       </p>
                     </div>
 
                     <div className="border-b pb-3">
-                      <h4 className="font-medium mb-1">When will I receive payments?</h4>
+                      <h4 className="font-medium mb-1">
+                        When will I receive payments?
+                      </h4>
                       <p className="text-sm text-gray-600">
-                        Payments are made quarterly after verification of your carbon sequestration activities.
-                        The payment amount depends on verified carbon credits.
+                        Payments are made quarterly after verification of your
+                        carbon sequestration activities. The payment amount
+                        depends on verified carbon credits.
                       </p>
                     </div>
 
                     <div className="border-b pb-3">
-                      <h4 className="font-medium mb-1">How do I record measurements?</h4>
+                      <h4 className="font-medium mb-1">
+                        How do I record measurements?
+                      </h4>
                       <p className="text-sm text-gray-600">
-                        Use the Data Collection tab to record field measurements. Take photos, enter GPS coordinates,
-                        and submit your data regularly for carbon credit calculation.
+                        Use the Data Collection tab to record field
+                        measurements. Take photos, enter GPS coordinates, and
+                        submit your data regularly for carbon credit
+                        calculation.
                       </p>
                     </div>
 
                     <div>
-                      <h4 className="font-medium mb-1">What documents do I need?</h4>
+                      <h4 className="font-medium mb-1">
+                        What documents do I need?
+                      </h4>
                       <p className="text-sm text-gray-600">
-                        You need Aadhar card, land ownership documents, and bank details for payments.
-                        All documents should be uploaded in the Documents section.
+                        You need Aadhar card, land ownership documents, and bank
+                        details for payments. All documents should be uploaded
+                        in the Documents section.
                       </p>
                     </div>
                   </div>
@@ -637,7 +767,9 @@ export default function FarmerDashboard() {
                       <div>
                         <p className="font-medium">Phone Support</p>
                         <p className="text-sm text-gray-600">+91 98765 43210</p>
-                        <p className="text-xs text-gray-500">Mon-Fri, 9 AM - 6 PM</p>
+                        <p className="text-xs text-gray-500">
+                          Mon-Fri, 9 AM - 6 PM
+                        </p>
                       </div>
                     </div>
 
@@ -645,8 +777,12 @@ export default function FarmerDashboard() {
                       <Mail className="h-5 w-5 text-green-600" />
                       <div>
                         <p className="font-medium">Email Support</p>
-                        <p className="text-sm text-gray-600">support@carbonmrv.com</p>
-                        <p className="text-xs text-gray-500">Response within 24 hours</p>
+                        <p className="text-sm text-gray-600">
+                          support@carbonmrv.com
+                        </p>
+                        <p className="text-xs text-gray-500">
+                          Response within 24 hours
+                        </p>
                       </div>
                     </div>
 
@@ -655,7 +791,9 @@ export default function FarmerDashboard() {
                       <div>
                         <p className="font-medium">Field Coordinator</p>
                         <p className="text-sm text-gray-600">Rajesh Kumar</p>
-                        <p className="text-xs text-gray-500">Local area support</p>
+                        <p className="text-xs text-gray-500">
+                          Local area support
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -675,13 +813,25 @@ export default function FarmerDashboard() {
                   <div className="pt-4 border-t">
                     <h4 className="font-medium mb-2">Video Tutorials</h4>
                     <div className="space-y-2">
-                      <Button variant="outline" size="sm" className="w-full justify-start">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="w-full justify-start"
+                      >
                         📹 How to Record Measurements
                       </Button>
-                      <Button variant="outline" size="sm" className="w-full justify-start">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="w-full justify-start"
+                      >
                         📹 Understanding Carbon Credits
                       </Button>
-                      <Button variant="outline" size="sm" className="w-full justify-start">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="w-full justify-start"
+                      >
                         📹 Using the Mobile App
                       </Button>
                     </div>
@@ -722,7 +872,9 @@ export default function FarmerDashboard() {
                   {farmer.profile.experience && (
                     <div className="flex items-center gap-3">
                       <Wheat className="h-4 w-4 text-gray-500" />
-                      <span>{farmer.profile.experience} years farming experience</span>
+                      <span>
+                        {farmer.profile.experience} years farming experience
+                      </span>
                     </div>
                   )}
                 </CardContent>
@@ -740,24 +892,33 @@ export default function FarmerDashboard() {
                   <div>
                     <p className="font-medium">Location</p>
                     <p className="text-sm text-gray-600">
-                      {farmer.location.village}, {farmer.location.district}, {farmer.location.state}
+                      {farmer.location.village}, {farmer.location.district},{" "}
+                      {farmer.location.state}
                     </p>
                   </div>
                   <div>
                     <p className="font-medium">Farm Size</p>
-                    <p className="text-sm text-gray-600">{farmer.farmDetails.totalArea} hectares</p>
+                    <p className="text-sm text-gray-600">
+                      {farmer.farmDetails.totalArea} hectares
+                    </p>
                   </div>
                   <div>
                     <p className="font-medium">Crops</p>
-                    <p className="text-sm text-gray-600">{farmer.farmDetails.croppingPattern.join(', ')}</p>
+                    <p className="text-sm text-gray-600">
+                      {farmer.farmDetails.croppingPattern.join(", ")}
+                    </p>
                   </div>
                   <div>
                     <p className="font-medium">Soil Type</p>
-                    <p className="text-sm text-gray-600">{farmer.farmDetails.soilType}</p>
+                    <p className="text-sm text-gray-600">
+                      {farmer.farmDetails.soilType}
+                    </p>
                   </div>
                   <div>
                     <p className="font-medium">Irrigation</p>
-                    <p className="text-sm text-gray-600">{farmer.farmDetails.irrigationType}</p>
+                    <p className="text-sm text-gray-600">
+                      {farmer.farmDetails.irrigationType}
+                    </p>
                   </div>
                 </CardContent>
               </Card>
