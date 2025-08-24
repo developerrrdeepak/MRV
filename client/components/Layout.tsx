@@ -108,9 +108,11 @@ export default function Layout({ children }: LayoutProps) {
                   </Link>
                 ))}
                 <div className="px-3 pt-2">
-                  <Button className="w-full bg-gradient-to-r from-green-600 via-emerald-600 to-amber-500 hover:from-green-700 hover:via-emerald-700 hover:to-amber-600 font-bold tracking-wide">
-                    Join Hackathon
-                  </Button>
+                  <Link to="/farmer-auth" className="block">
+                    <Button className="w-full bg-gradient-to-r from-green-600 via-emerald-600 to-amber-500 hover:from-green-700 hover:via-emerald-700 hover:to-amber-600 font-bold tracking-wide">
+                      Sign In Farmer
+                    </Button>
+                  </Link>
                 </div>
               </div>
             </div>
