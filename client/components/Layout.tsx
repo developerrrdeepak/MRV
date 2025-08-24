@@ -65,9 +65,11 @@ export default function Layout({ children }: LayoutProps) {
                   {item.name}
                 </Link>
               ))}
-              <Button className="bg-gradient-to-r from-green-600 via-emerald-600 to-amber-500 hover:from-green-700 hover:via-emerald-700 hover:to-amber-600 font-bold text-sm tracking-wide shadow-lg hover:shadow-xl transition-all duration-200">
-                Join Hackathon
-              </Button>
+              <Link to="/farmer-auth">
+                <Button className="bg-gradient-to-r from-green-600 via-emerald-600 to-amber-500 hover:from-green-700 hover:via-emerald-700 hover:to-amber-600 font-bold text-sm tracking-wide shadow-lg hover:shadow-xl transition-all duration-200">
+                  Sign In Farmer
+                </Button>
+              </Link>
             </div>
 
             {/* Mobile menu button */}
