@@ -416,4 +416,43 @@
     background-size: 200% 100%;
     animation: shimmer 1.5s infinite;
   }
+
+  /* Text shadow utilities for readability over images */
+  .text-shadow-sm {
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  }
+
+  .text-shadow {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  }
+
+  .text-shadow-lg {
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  }
+
+  .text-shadow-xl {
+    text-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+  }
+
+  /* Enhanced drop shadows for better contrast */
+  .drop-shadow-text {
+    filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.5));
+  }
+
+  .drop-shadow-text-lg {
+    filter: drop-shadow(4px 4px 8px rgba(0, 0, 0, 0.5));
+  }
+
+  /* Floating animations with different delays */
+  .animation-delay-1000 {
+    animation-delay: 1s;
+  }
+
+  .animation-delay-3000 {
+    animation-delay: 3s;
+  }
+
+  .animation-delay-5000 {
+    animation-delay: 5s;
+  }
 }
