@@ -186,13 +186,48 @@ export default function Index() {
 
   return (
     <div className="flex flex-col">
-      {/* Enhanced Hero Section */}
-      <section className="relative overflow-hidden py-16 lg:py-24 bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50">
-        {/* Animated Background */}
+      {/* Enhanced Hero Section with Background Images */}
+      <section className="relative overflow-hidden py-16 lg:py-24 min-h-screen">
+        {/* Background Images */}
         <div className="absolute inset-0">
-          <div className="absolute top-0 left-0 w-72 h-72 bg-green-300 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob"></div>
-          <div className="absolute top-0 right-0 w-72 h-72 bg-emerald-300 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-2000"></div>
-          <div className="absolute bottom-0 left-1/2 w-72 h-72 bg-amber-300 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-4000"></div>
+          {/* Main Background Image */}
+          <div
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+            style={{
+              backgroundImage: `url('https://images.pexels.com/photos/2132180/pexels-photo-2132180.jpeg')`
+            }}
+          ></div>
+
+          {/* Overlay for readability */}
+          <div className="absolute inset-0 bg-gradient-to-b from-white/95 via-white/85 to-white/90"></div>
+
+          {/* Additional farming elements */}
+          <div className="absolute top-0 left-0 w-full h-full">
+            <img
+              src="https://images.pexels.com/photos/20527463/pexels-photo-20527463.jpeg"
+              alt="Farmer with wheat"
+              className="absolute top-10 right-10 w-48 h-48 object-cover rounded-full opacity-20 animate-float"
+            />
+            <img
+              src="https://images.pexels.com/photos/20527455/pexels-photo-20527455.jpeg"
+              alt="Female farmer with vegetables"
+              className="absolute bottom-20 left-10 w-56 h-56 object-cover rounded-full opacity-20 animate-float animation-delay-2000"
+            />
+            <img
+              src="https://images.pexels.com/photos/7782861/pexels-photo-7782861.jpeg"
+              alt="Seeds in hands"
+              className="absolute top-1/2 left-1/4 w-40 h-40 object-cover rounded-full opacity-15 animate-float animation-delay-4000"
+            />
+          </div>
+
+          {/* Floating elements */}
+          <div className="absolute inset-0 pointer-events-none">
+            <div className="absolute top-20 left-20 text-6xl opacity-10 animate-float">🌾</div>
+            <div className="absolute top-40 right-32 text-5xl opacity-15 animate-float animation-delay-2000">🚜</div>
+            <div className="absolute bottom-40 right-20 text-4xl opacity-10 animate-float animation-delay-4000">🌱</div>
+            <div className="absolute bottom-60 left-32 text-5xl opacity-15 animate-float">🌿</div>
+            <div className="absolute top-60 left-1/2 text-3xl opacity-10 animate-float animation-delay-4000">🌍</div>
+          </div>
         </div>
 
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -207,7 +242,7 @@ export default function Index() {
 
             {/* Enhanced Hero Title */}
             <h1 className="text-6xl lg:text-7xl font-display font-black text-gray-900 leading-none mb-8">
-              <span className="block text-green-600 mb-4">किसानों के लिए</span>
+              <span className="block text-green-600 mb-4">किसानों के लि��</span>
               <span className="block bg-gradient-to-r from-green-600 via-emerald-600 to-amber-500 bg-clip-text text-transparent animate-pulse">
                 Carbon Income
               </span>
