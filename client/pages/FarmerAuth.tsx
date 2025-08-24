@@ -75,31 +75,13 @@ export default function FarmerAuth() {
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
-    
-    try {
-      // Call API to verify farmer
-      const response = await fetch(`/api/farmers/id/${signInForm.farmerId}`, {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json' }
-      });
 
-      if (response.ok) {
-        const farmer = await response.json();
-        
-        // Store farmer data in localStorage (simple session)
-        localStorage.setItem('farmer', JSON.stringify(farmer));
-        
-        // Redirect to farmer dashboard
-        navigate('/farmer-dashboard');
-      } else {
-        alert('Farmer not found. Please check your Farmer ID or register first.');
-      }
-    } catch (error) {
-      console.error('Sign in error:', error);
-      alert('Sign in failed. Please try again.');
-    } finally {
-      setIsLoading(false);
+    const result = await signInFarmer(signInForm.farmerId, signInForm.phone);
+
+    if (result.success) {
+      navigate('/farmer-dashboard');
+    } else {
+      alert(result.error || 'Sign in failed. Please check your details and try again.');
     }
   };
 
