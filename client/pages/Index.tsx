@@ -270,13 +270,15 @@ export default function Index() {
                 View MRV Prototype
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
-              <Button
-                size="lg"
-                variant="outline"
-                className="border-green-600 text-green-600 hover:bg-green-50 text-lg px-8 font-semibold tracking-wide hover:shadow-lg transition-all duration-200"
-              >
-                Join Hackathon
-              </Button>
+              <Link to="/farmer-auth">
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="border-green-600 text-green-600 hover:bg-green-50 text-lg px-8 font-semibold tracking-wide hover:shadow-lg transition-all duration-200"
+                >
+                  Sign In Farmer
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
