@@ -77,19 +77,22 @@ export default function Layout({ children }: LayoutProps) {
             </div>
 
             {/* Desktop navigation */}
-            <div className="hidden md:flex md:items-center md:space-x-6">
+            <div className="hidden md:flex md:items-center md:space-x-8">
               {navigation.map((item) => (
                 <Link
                   key={item.name}
                   to={item.href}
                   className={cn(
-                    "text-sm font-semibold transition-all duration-200 hover:text-emerald-600 hover:scale-105",
+                    "relative text-sm font-bold transition-all duration-300 hover:text-emerald-600 hover:scale-110 px-4 py-2 rounded-full",
                     location.pathname === item.href
-                      ? "text-emerald-600 font-bold"
-                      : "text-gray-700",
+                      ? "text-emerald-600 bg-emerald-50 shadow-md"
+                      : "text-gray-700 hover:bg-emerald-50/50",
                   )}
                 >
                   {item.name}
+                  {location.pathname === item.href && (
+                    <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-emerald-600 rounded-full"></div>
+                  )}
                 </Link>
               ))}
 
