@@ -124,7 +124,7 @@ export default function FarmerDashboard() {
     return totalCarbon * carbonPrice;
   };
 
-  if (loading) {
+  if (authLoading || loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-teal-50 flex items-center justify-center">
         <div className="text-center">
