@@ -261,23 +261,39 @@ export default function Layout({ children }: LayoutProps) {
 
       <main>{children}</main>
 
-      <footer className="bg-gray-900 text-white">
-        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+      <footer className="bg-gradient-to-r from-gray-900 via-slate-800 to-gray-900 text-white relative overflow-hidden">
+        {/* Background Pattern */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-0 left-0 w-64 h-64 bg-green-500 rounded-full mix-blend-multiply filter blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-0 right-0 w-64 h-64 bg-emerald-500 rounded-full mix-blend-multiply filter blur-3xl animate-pulse animation-delay-2000"></div>
+        </div>
+
+        <div className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
             <div className="col-span-1 md:col-span-2">
-              <div className="flex items-center space-x-2 mb-4">
-                <div className="bg-gradient-to-r from-emerald-600 to-teal-600 p-2 rounded-lg">
-                  <Leaf className="h-6 w-6 text-white" />
+              <div className="flex items-center space-x-3 mb-6">
+                <div className="bg-gradient-to-r from-emerald-500 to-teal-500 p-3 rounded-2xl shadow-xl">
+                  <Leaf className="h-8 w-8 text-white" />
                 </div>
-                <span className="text-2xl font-display font-extrabold tracking-tight">
-                  CarbonMRV
-                </span>
+                <div>
+                  <span className="text-3xl font-display font-black tracking-tight bg-gradient-to-r from-green-400 to-emerald-400 bg-clip-text text-transparent">
+                    Carbon Roots
+                  </span>
+                  <p className="text-green-400 text-sm font-bold">🌾 किसानों का भविष्य</p>
+                </div>
               </div>
-              <p className="text-gray-400 max-w-md leading-relaxed font-medium">
-                Enabling scalable and affordable MRV solutions for agroforestry
-                and rice-based carbon projects across India's smallholder
-                farming communities.
+              <p className="text-gray-300 max-w-md leading-relaxed font-medium text-lg mb-6">
+                भारत के smallholder farming communities के लिए scalable और affordable
+                carbon farming solutions enable करते हैं।
               </p>
+              <div className="flex space-x-4">
+                <div className="bg-green-600/20 p-3 rounded-full">
+                  <span className="text-green-400 font-bold">🌱 Sustainable</span>
+                </div>
+                <div className="bg-blue-600/20 p-3 rounded-full">
+                  <span className="text-blue-400 font-bold">🔬 Tech-Driven</span>
+                </div>
+              </div>
             </div>
             <div>
               <h3 className="text-sm font-bold mb-4 tracking-wide uppercase">
