@@ -87,70 +87,50 @@ export default function FarmerAuth() {
 
   const handleRegistration = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
-    
-    try {
-      // Prepare farmer data
-      const farmerData = {
-        name: registrationForm.name,
-        phone: registrationForm.phone,
-        email: registrationForm.email || undefined,
-        location: {
-          state: registrationForm.state,
-          district: registrationForm.district,
-          village: registrationForm.village,
-          coordinates: registrationForm.latitude && registrationForm.longitude ? {
-            latitude: parseFloat(registrationForm.latitude),
-            longitude: parseFloat(registrationForm.longitude)
-          } : undefined
-        },
-        farmDetails: {
-          totalArea: parseFloat(registrationForm.totalArea),
-          croppingPattern: registrationForm.croppingPattern.split(',').map(crop => crop.trim()),
-          soilType: registrationForm.soilType,
-          irrigationType: registrationForm.irrigationType
-        },
-        profile: {
-          age: registrationForm.age ? parseInt(registrationForm.age) : undefined,
-          gender: registrationForm.gender || undefined,
-          education: registrationForm.education || undefined,
-          experience: registrationForm.experience ? parseInt(registrationForm.experience) : undefined
-        },
-        bankDetails: registrationForm.accountNumber ? {
-          accountNumber: registrationForm.accountNumber,
-          ifscCode: registrationForm.ifscCode,
-          bankName: registrationForm.bankName
-        } : undefined,
-        documents: registrationForm.aadharNumber ? {
-          aadharNumber: registrationForm.aadharNumber
+
+    // Prepare farmer data
+    const farmerData = {
+      name: registrationForm.name,
+      phone: registrationForm.phone,
+      email: registrationForm.email || undefined,
+      location: {
+        state: registrationForm.state,
+        district: registrationForm.district,
+        village: registrationForm.village,
+        coordinates: registrationForm.latitude && registrationForm.longitude ? {
+          latitude: parseFloat(registrationForm.latitude),
+          longitude: parseFloat(registrationForm.longitude)
         } : undefined
-      };
+      },
+      farmDetails: {
+        totalArea: parseFloat(registrationForm.totalArea),
+        croppingPattern: registrationForm.croppingPattern.split(',').map(crop => crop.trim()),
+        soilType: registrationForm.soilType,
+        irrigationType: registrationForm.irrigationType
+      },
+      profile: {
+        age: registrationForm.age ? parseInt(registrationForm.age) : undefined,
+        gender: registrationForm.gender || undefined,
+        education: registrationForm.education || undefined,
+        experience: registrationForm.experience ? parseInt(registrationForm.experience) : undefined
+      },
+      bankDetails: registrationForm.accountNumber ? {
+        accountNumber: registrationForm.accountNumber,
+        ifscCode: registrationForm.ifscCode,
+        bankName: registrationForm.bankName
+      } : undefined,
+      documents: registrationForm.aadharNumber ? {
+        aadharNumber: registrationForm.aadharNumber
+      } : undefined
+    };
 
-      const response = await fetch('/api/farmers', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(farmerData)
-      });
+    const result = await registerFarmer(farmerData);
 
-      if (response.ok) {
-        const newFarmer = await response.json();
-        
-        // Store farmer data
-        localStorage.setItem('farmer', JSON.stringify(newFarmer));
-        
-        alert(`Registration successful! Your Farmer ID is: ${newFarmer.farmerId}`);
-        
-        // Redirect to dashboard
-        navigate('/farmer-dashboard');
-      } else {
-        const error = await response.json();
-        alert(`Registration failed: ${error.error}`);
-      }
-    } catch (error) {
-      console.error('Registration error:', error);
-      alert('Registration failed. Please try again.');
-    } finally {
-      setIsLoading(false);
+    if (result.success) {
+      alert(`Registration successful! Your Farmer ID is: ${result.farmer?.farmerId}`);
+      navigate('/farmer-dashboard');
+    } else {
+      alert(`Registration failed: ${result.error}`);
     }
   };
 
