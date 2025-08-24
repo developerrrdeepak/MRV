@@ -296,79 +296,89 @@ export default function Layout({ children }: LayoutProps) {
               </div>
             </div>
             <div>
-              <h3 className="text-sm font-bold mb-4 tracking-wide uppercase">
+              <h3 className="text-lg font-bold mb-6 tracking-wide text-green-400 flex items-center">
+                <Zap className="mr-2 h-5 w-5" />
                 Solutions
               </h3>
-              <ul className="space-y-2 text-sm text-gray-400 font-medium">
+              <ul className="space-y-3 text-gray-300 font-medium">
                 <li>
                   <Link
                     to="/solutions"
-                    className="hover:text-white transition-colors"
+                    className="hover:text-green-400 transition-all duration-300 flex items-center hover:translate-x-2"
                   >
+                    <TreePine className="mr-2 h-4 w-4" />
                     MRV Prototypes
                   </Link>
                 </li>
                 <li>
                   <Link
                     to="/tools"
-                    className="hover:text-white transition-colors"
+                    className="hover:text-green-400 transition-all duration-300 flex items-center hover:translate-x-2"
                   >
+                    <Smartphone className="mr-2 h-4 w-4" />
                     Data Collection
                   </Link>
                 </li>
                 <li>
                   <Link
                     to="/case-studies"
-                    className="hover:text-white transition-colors"
+                    className="hover:text-green-400 transition-all duration-300 flex items-center hover:translate-x-2"
                   >
+                    <Shield className="mr-2 h-4 w-4" />
                     Verification
                   </Link>
                 </li>
                 <li>
                   <Link
                     to="/resources"
-                    className="hover:text-white transition-colors"
+                    className="hover:text-green-400 transition-all duration-300 flex items-center hover:translate-x-2"
                   >
+                    <BarChart3 className="mr-2 h-4 w-4" />
                     Reporting
                   </Link>
                 </li>
               </ul>
             </div>
             <div>
-              <h3 className="text-sm font-bold mb-4 tracking-wide uppercase">
+              <h3 className="text-lg font-bold mb-6 tracking-wide text-emerald-400 flex items-center">
+                <Award className="mr-2 h-5 w-5" />
                 Resources
               </h3>
-              <ul className="space-y-2 text-sm text-gray-400 font-medium">
+              <ul className="space-y-3 text-gray-300 font-medium">
                 <li>
                   <Link
                     to="/resources"
-                    className="hover:text-white transition-colors"
+                    className="hover:text-emerald-400 transition-all duration-300 flex items-center hover:translate-x-2"
                   >
+                    <Globe className="mr-2 h-4 w-4" />
                     Documentation
                   </Link>
                 </li>
                 <li>
                   <Link
                     to="/case-studies"
-                    className="hover:text-white transition-colors"
+                    className="hover:text-emerald-400 transition-all duration-300 flex items-center hover:translate-x-2"
                   >
+                    <Users className="mr-2 h-4 w-4" />
                     Case Studies
                   </Link>
                 </li>
                 <li>
                   <Link
                     to="/resources"
-                    className="hover:text-white transition-colors"
+                    className="hover:text-emerald-400 transition-all duration-300 flex items-center hover:translate-x-2"
                   >
+                    <MessageCircle className="mr-2 h-4 w-4" />
                     API Reference
                   </Link>
                 </li>
                 <li>
                   <Link
                     to="/resources"
-                    className="hover:text-white transition-colors"
+                    className="hover:text-emerald-400 transition-all duration-300 flex items-center hover:translate-x-2"
                   >
-                    Support
+                    <Phone className="mr-2 h-4 w-4" />
+                    24/7 Support
                   </Link>
                 </li>
               </ul>
