@@ -254,31 +254,33 @@ export default function Index() {
             </h1>
 
             {/* Enhanced Subtitle */}
-            <div className="max-w-5xl mx-auto mb-12">
-              <p className="text-xl lg:text-2xl text-gray-700 font-medium mb-6 leading-relaxed">
-                अप��ी farming practices से{" "}
-                <span className="font-bold text-emerald-600 bg-emerald-100 px-3 py-1 rounded-full">
-                  carbon credits earn करें
-                </span>{" "}
-                और महीने में{" "}
-                <span className="font-bold text-amber-600 bg-amber-100 px-3 py-1 rounded-full">
-                  ₹5,000-15,000 extra income
-                </span>{" "}
-                पाएं। सबसे आसान तरीका sustainable farming का।
-              </p>
-              
-              <div className="flex flex-wrap justify-center gap-4 text-sm text-gray-600">
-                <div className="flex items-center bg-white px-4 py-2 rounded-full shadow-md">
-                  <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
-                  100% सुरक्षित
-                </div>
-                <div className="flex items-center bg-white px-4 py-2 rounded-full shadow-md">
-                  <Wifi className="h-4 w-4 text-blue-500 mr-2" />
-                  ऑफलाइन भी काम करता है
-                </div>
-                <div className="flex items-center bg-white px-4 py-2 rounded-full shadow-md">
-                  <Heart className="h-4 w-4 text-red-500 mr-2" />
-                  किसानों द्वारा बनाया गया
+            <div className="max-w-6xl mx-auto mb-12">
+              <div className="bg-white/90 backdrop-blur-md rounded-3xl p-8 shadow-2xl border border-green-100">
+                <p className="text-xl lg:text-3xl text-gray-800 font-bold mb-6 leading-relaxed drop-shadow-lg">
+                  अपनी farming practices से{" "}
+                  <span className="font-black text-emerald-700 bg-gradient-to-r from-emerald-100 to-green-100 px-4 py-2 rounded-full shadow-lg border-2 border-emerald-200">
+                    🌱 carbon credits earn करें
+                  </span>{" "}
+                  और महीने में{" "}
+                  <span className="font-black text-amber-700 bg-gradient-to-r from-amber-100 to-yellow-100 px-4 py-2 rounded-full shadow-lg border-2 border-amber-200">
+                    💰 ₹5,000-15,000 extra income
+                  </span>{" "}
+                  पाएं। सबसे आसान तरीका sustainable farming का।
+                </p>
+
+                <div className="flex flex-wrap justify-center gap-6 text-lg text-gray-700">
+                  <div className="flex items-center bg-gradient-to-r from-green-50 to-emerald-50 px-6 py-4 rounded-full shadow-lg border-2 border-green-200 hover:scale-105 transition-transform duration-300">
+                    <CheckCircle className="h-6 w-6 text-green-600 mr-3" />
+                    <span className="font-bold">100% सुरक्षित</span>
+                  </div>
+                  <div className="flex items-center bg-gradient-to-r from-blue-50 to-cyan-50 px-6 py-4 rounded-full shadow-lg border-2 border-blue-200 hover:scale-105 transition-transform duration-300">
+                    <Wifi className="h-6 w-6 text-blue-600 mr-3" />
+                    <span className="font-bold">ऑफलाइन भी काम करता है</span>
+                  </div>
+                  <div className="flex items-center bg-gradient-to-r from-red-50 to-pink-50 px-6 py-4 rounded-full shadow-lg border-2 border-red-200 hover:scale-105 transition-transform duration-300">
+                    <Heart className="h-6 w-6 text-red-600 mr-3" />
+                    <span className="font-bold">किसानों द्वारा बनाया गया</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -339,7 +341,7 @@ export default function Index() {
               <div className="group relative overflow-hidden rounded-3xl shadow-2xl transform hover:scale-105 transition-all duration-500">
                 <img
                   src="https://images.pexels.com/photos/20527463/pexels-photo-20527463.jpeg"
-                  alt="भारतीय महिला किसान गेहूं की फसल के साथ"
+                  alt="भारतीय महिला किसा�� गेहूं की फसल के साथ"
                   className="w-full h-80 object-cover group-hover:scale-110 transition-transform duration-500"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
@@ -400,7 +402,7 @@ export default function Index() {
               सिर्फ <span className="text-blue-600">4 आसान</span> स्टेप्स
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              हमारा AI-powered system आपकी farming को track करके automatic carbon credits calculate करता है
+              हमारा AI-powered system आपकी farming को track कर��े automatic carbon credits calculate करता है
             </p>
           </div>
 
