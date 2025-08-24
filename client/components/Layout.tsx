@@ -10,6 +10,15 @@ import {
   User,
   LogOut,
   MessageCircle,
+  Zap,
+  Award,
+  BarChart3,
+  Shield,
+  Globe,
+  Users,
+  Phone,
+  Smartphone,
+  Heart,
 } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
