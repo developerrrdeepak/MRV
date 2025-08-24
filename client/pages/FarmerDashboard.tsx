@@ -359,44 +359,336 @@ export default function FarmerDashboard() {
 
           {/* Measurements Tab */}
           <TabsContent value="measurements" className="space-y-6">
+            <DataCollection farmerId={farmer._id} projects={projects} />
+          </TabsContent>
+
+          {/* Earnings Tab */}
+          <TabsContent value="earnings" className="space-y-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {/* Carbon Credits Overview */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <IndianRupee className="h-5 w-5" />
+                    Carbon Credit Earnings
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="text-center p-4 bg-green-50 rounded-lg">
+                      <p className="text-sm text-green-600 font-medium">Total Credits</p>
+                      <p className="text-2xl font-bold text-green-700">{calculateTotalCarbon().toFixed(1)}</p>
+                      <p className="text-xs text-green-600">tCO₂e</p>
+                    </div>
+                    <div className="text-center p-4 bg-amber-50 rounded-lg">
+                      <p className="text-sm text-amber-600 font-medium">Verified Credits</p>
+                      <p className="text-2xl font-bold text-amber-700">{(calculateTotalCarbon() * 0.8).toFixed(1)}</p>
+                      <p className="text-xs text-amber-600">tCO₂e</p>
+                    </div>
+                  </div>
+
+                  <div className="border-t pt-4">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="text-sm text-gray-600">Carbon Price</span>
+                      <span className="font-medium">₹15 per tCO₂e</span>
+                    </div>
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="text-sm text-gray-600">Total Earnings</span>
+                      <span className="font-bold text-green-600">₹{calculateEstimatedEarnings().toLocaleString()}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-gray-600">Pending Verification</span>
+                      <span className="text-amber-600">₹{(calculateTotalCarbon() * 0.2 * 15).toLocaleString()}</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Payment History */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <CreditCard className="h-5 w-5" />
+                    Payment History
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                      <div>
+                        <p className="font-medium">Carbon Credit Payment</p>
+                        <p className="text-sm text-gray-600">Project: Agroforestry Phase 1</p>
+                        <p className="text-xs text-gray-500">Jan 15, 2024</p>
+                      </div>
+                      <div className="text-right">
+                        <p className="font-bold text-green-600">₹2,250</p>
+                        <Badge variant="secondary" className="text-xs">Paid</Badge>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center justify-between p-3 bg-amber-50 rounded-lg">
+                      <div>
+                        <p className="font-medium">Verification Bonus</p>
+                        <p className="text-sm text-gray-600">Q4 2023 Measurements</p>
+                        <p className="text-xs text-gray-500">Dec 30, 2023</p>
+                      </div>
+                      <div className="text-right">
+                        <p className="font-bold text-green-600">₹500</p>
+                        <Badge variant="secondary" className="text-xs">Paid</Badge>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
+                      <div>
+                        <p className="font-medium">Upcoming Payment</p>
+                        <p className="text-sm text-gray-600">Q1 2024 Carbon Credits</p>
+                        <p className="text-xs text-gray-500">Expected: Mar 31, 2024</p>
+                      </div>
+                      <div className="text-right">
+                        <p className="font-bold text-blue-600">₹1,875</p>
+                        <Badge variant="outline" className="text-xs">Pending</Badge>
+                      </div>
+                    </div>
+                  </div>
+
+                  <Button variant="outline" className="w-full mt-4">
+                    <Download className="h-4 w-4 mr-2" />
+                    Download Payment Report
+                  </Button>
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
+
+          {/* Documents Tab */}
+          <TabsContent value="documents" className="space-y-6">
             <Card>
               <CardHeader>
-                <CardTitle>Data Collection & Measurements</CardTitle>
-                <CardDescription>Record and track your farm's carbon sequestration data</CardDescription>
+                <CardTitle className="flex items-center gap-2">
+                  <FileText className="h-5 w-5" />
+                  Documents & Certificates
+                </CardTitle>
+                <CardDescription>
+                  Manage your documents, certificates, and verification reports
+                </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="mb-6">
-                  <Button className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700">
-                    <Upload className="h-4 w-4 mr-2" />
-                    Add New Measurement
-                  </Button>
-                </div>
-                
-                {measurements.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {/* Personal Documents */}
                   <div className="space-y-4">
-                    {measurements.map((measurement) => (
-                      <div key={measurement._id} className="border rounded-lg p-4">
-                        <div className="flex items-center justify-between">
+                    <h4 className="font-semibold">Personal Documents</h4>
+
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between p-3 border rounded-lg">
+                        <div className="flex items-center gap-3">
+                          <FileText className="h-5 w-5 text-blue-600" />
                           <div>
-                            <h4 className="font-semibold">{measurement.type}</h4>
-                            <p className="text-sm text-gray-600">{new Date(measurement.date).toLocaleDateString()}</p>
-                          </div>
-                          <div className="text-right">
-                            <p className="text-sm text-gray-600">Carbon Stored</p>
-                            <p className="text-lg font-bold text-green-600">{measurement.carbonStored} tCO₂e</p>
+                            <p className="font-medium">Aadhar Card</p>
+                            <p className="text-sm text-gray-600">Identity Verification</p>
                           </div>
                         </div>
+                        <Badge variant="secondary">Verified</Badge>
                       </div>
-                    ))}
+
+                      <div className="flex items-center justify-between p-3 border rounded-lg">
+                        <div className="flex items-center gap-3">
+                          <FileText className="h-5 w-5 text-green-600" />
+                          <div>
+                            <p className="font-medium">Land Records</p>
+                            <p className="text-sm text-gray-600">Farm Ownership Proof</p>
+                          </div>
+                        </div>
+                        <Badge variant="secondary">Verified</Badge>
+                      </div>
+
+                      <div className="flex items-center justify-between p-3 border rounded-lg">
+                        <div className="flex items-center gap-3">
+                          <FileText className="h-5 w-5 text-purple-600" />
+                          <div>
+                            <p className="font-medium">Bank Details</p>
+                            <p className="text-sm text-gray-600">Payment Information</p>
+                          </div>
+                        </div>
+                        <Badge variant="secondary">Verified</Badge>
+                      </div>
+                    </div>
+
+                    <Button variant="outline" className="w-full">
+                      <Upload className="h-4 w-4 mr-2" />
+                      Upload New Document
+                    </Button>
                   </div>
-                ) : (
-                  <div className="text-center py-8">
-                    <BarChart3 className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                    <p className="text-gray-600">No measurements recorded yet. Start collecting data to track your carbon impact.</p>
+
+                  {/* Carbon Project Documents */}
+                  <div className="space-y-4">
+                    <h4 className="font-semibold">Carbon Project Documents</h4>
+
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between p-3 border rounded-lg">
+                        <div className="flex items-center gap-3">
+                          <Award className="h-5 w-5 text-green-600" />
+                          <div>
+                            <p className="font-medium">Carbon Certificate</p>
+                            <p className="text-sm text-gray-600">Q4 2023 - 12.5 tCO₂e</p>
+                          </div>
+                        </div>
+                        <Button size="sm" variant="outline">
+                          <Download className="h-4 w-4" />
+                        </Button>
+                      </div>
+
+                      <div className="flex items-center justify-between p-3 border rounded-lg">
+                        <div className="flex items-center gap-3">
+                          <FileText className="h-5 w-5 text-blue-600" />
+                          <div>
+                            <p className="font-medium">Verification Report</p>
+                            <p className="text-sm text-gray-600">Third-party verification</p>
+                          </div>
+                        </div>
+                        <Button size="sm" variant="outline">
+                          <Download className="h-4 w-4" />
+                        </Button>
+                      </div>
+
+                      <div className="flex items-center justify-between p-3 border rounded-lg">
+                        <div className="flex items-center gap-3">
+                          <FileText className="h-5 w-5 text-amber-600" />
+                          <div>
+                            <p className="font-medium">Training Certificate</p>
+                            <p className="text-sm text-gray-600">MRV Training Completed</p>
+                          </div>
+                        </div>
+                        <Button size="sm" variant="outline">
+                          <Download className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    </div>
+
+                    <Button className="w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700">
+                      <Award className="h-4 w-4 mr-2" />
+                      Request New Certificate
+                    </Button>
                   </div>
-                )}
+                </div>
               </CardContent>
             </Card>
+          </TabsContent>
+
+          {/* Help Tab */}
+          <TabsContent value="help" className="space-y-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {/* FAQ Section */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <HelpCircle className="h-5 w-5" />
+                    Frequently Asked Questions
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="space-y-4">
+                    <div className="border-b pb-3">
+                      <h4 className="font-medium mb-1">How do I earn carbon credits?</h4>
+                      <p className="text-sm text-gray-600">
+                        You earn carbon credits by implementing sustainable farming practices like tree planting,
+                        organic farming, and soil carbon management. Regular measurements and verification are required.
+                      </p>
+                    </div>
+
+                    <div className="border-b pb-3">
+                      <h4 className="font-medium mb-1">When will I receive payments?</h4>
+                      <p className="text-sm text-gray-600">
+                        Payments are made quarterly after verification of your carbon sequestration activities.
+                        The payment amount depends on verified carbon credits.
+                      </p>
+                    </div>
+
+                    <div className="border-b pb-3">
+                      <h4 className="font-medium mb-1">How do I record measurements?</h4>
+                      <p className="text-sm text-gray-600">
+                        Use the Data Collection tab to record field measurements. Take photos, enter GPS coordinates,
+                        and submit your data regularly for carbon credit calculation.
+                      </p>
+                    </div>
+
+                    <div>
+                      <h4 className="font-medium mb-1">What documents do I need?</h4>
+                      <p className="text-sm text-gray-600">
+                        You need Aadhar card, land ownership documents, and bank details for payments.
+                        All documents should be uploaded in the Documents section.
+                      </p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Contact Support */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Phone className="h-5 w-5" />
+                    Contact Support
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-3 p-3 bg-blue-50 rounded-lg">
+                      <Phone className="h-5 w-5 text-blue-600" />
+                      <div>
+                        <p className="font-medium">Phone Support</p>
+                        <p className="text-sm text-gray-600">+91 98765 43210</p>
+                        <p className="text-xs text-gray-500">Mon-Fri, 9 AM - 6 PM</p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-3 p-3 bg-green-50 rounded-lg">
+                      <Mail className="h-5 w-5 text-green-600" />
+                      <div>
+                        <p className="font-medium">Email Support</p>
+                        <p className="text-sm text-gray-600">support@carbonmrv.com</p>
+                        <p className="text-xs text-gray-500">Response within 24 hours</p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-3 p-3 bg-purple-50 rounded-lg">
+                      <HelpCircle className="h-5 w-5 text-purple-600" />
+                      <div>
+                        <p className="font-medium">Field Coordinator</p>
+                        <p className="text-sm text-gray-600">Rajesh Kumar</p>
+                        <p className="text-xs text-gray-500">Local area support</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Button className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700">
+                      <Phone className="h-4 w-4 mr-2" />
+                      Request Callback
+                    </Button>
+
+                    <Button variant="outline" className="w-full">
+                      <Mail className="h-4 w-4 mr-2" />
+                      Send Email
+                    </Button>
+                  </div>
+
+                  <div className="pt-4 border-t">
+                    <h4 className="font-medium mb-2">Video Tutorials</h4>
+                    <div className="space-y-2">
+                      <Button variant="outline" size="sm" className="w-full justify-start">
+                        📹 How to Record Measurements
+                      </Button>
+                      <Button variant="outline" size="sm" className="w-full justify-start">
+                        📹 Understanding Carbon Credits
+                      </Button>
+                      <Button variant="outline" size="sm" className="w-full justify-start">
+                        📹 Using the Mobile App
+                      </Button>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
           </TabsContent>
 
           {/* Profile Tab */}
