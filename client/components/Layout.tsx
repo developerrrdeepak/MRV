@@ -110,7 +110,7 @@ export default function Layout({ children }: LayoutProps) {
                 className="flex items-center space-x-2 border-2 border-green-300 hover:bg-gradient-to-r hover:from-green-50 hover:to-emerald-50 text-green-700 hover:text-green-800 font-bold shadow-md hover:shadow-lg transition-all duration-300 rounded-full px-4 py-2"
               >
                 <MessageCircle className="h-4 w-4 animate-pulse" />
-                <span className="hidden lg:inline">🤖 Kisan AI</span>
+                <span className="hidden lg:inline">��� Kisan AI</span>
               </Button>
 
               {isAuthenticated ? (
@@ -413,15 +413,27 @@ export default function Layout({ children }: LayoutProps) {
         selectedLanguage={language}
       />
 
-      {/* Floating AI Assistant Button */}
+      {/* Enhanced Floating AI Assistant Button */}
       {!chatbotOpen && (
-        <Button
-          onClick={() => setChatbotOpen(true)}
-          className="fixed bottom-6 right-6 z-40 h-14 w-14 rounded-full bg-gradient-to-r from-green-600 via-emerald-600 to-amber-500 shadow-2xl hover:shadow-3xl hover:scale-110 transition-all duration-300 border-2 border-white"
-          size="sm"
-        >
-          <MessageCircle className="h-6 w-6 text-white" />
-        </Button>
+        <div className="fixed bottom-6 right-6 z-40">
+          <Button
+            onClick={() => setChatbotOpen(true)}
+            className="relative h-16 w-16 rounded-full bg-gradient-to-r from-green-600 via-emerald-600 to-amber-500 shadow-2xl hover:shadow-3xl hover:scale-110 transition-all duration-300 border-4 border-white animate-pulse hover:animate-none"
+            size="sm"
+          >
+            <MessageCircle className="h-7 w-7 text-white animate-bounce" />
+            {/* Notification Badge */}
+            <div className="absolute -top-1 -right-1 h-5 w-5 bg-red-500 rounded-full flex items-center justify-center">
+              <span className="text-white text-xs font-bold">AI</span>
+            </div>
+            {/* Glow Effect */}
+            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-green-600 via-emerald-600 to-amber-500 opacity-30 blur-md animate-pulse"></div>
+          </Button>
+          {/* Helper Text */}
+          <div className="absolute bottom-full right-0 mb-3 bg-black/80 text-white px-3 py-2 rounded-lg text-sm font-medium whitespace-nowrap backdrop-blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            🤖 Kisan AI से पूछें
+          </div>
+        </div>
       )}
     </div>
   );
