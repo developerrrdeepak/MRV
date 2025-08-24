@@ -55,21 +55,22 @@ export default function Layout({ children }: LayoutProps) {
         >
           <div className="flex w-full items-center justify-between py-4">
             <div className="flex items-center">
-              <Link to="/" className="flex items-center space-x-3">
-                <div className="relative">
-                  <div className="bg-gradient-to-r from-green-600 via-emerald-600 to-amber-500 p-2 rounded-xl shadow-lg">
-                    <TreePine className="h-6 w-6 text-white" />
+              <Link to="/" className="flex items-center space-x-3 group">
+                <div className="relative transform group-hover:scale-110 transition-transform duration-300">
+                  <div className="bg-gradient-to-r from-green-600 via-emerald-600 to-amber-500 p-3 rounded-2xl shadow-xl shadow-green-200 group-hover:shadow-2xl group-hover:shadow-green-300 transition-all duration-300">
+                    <TreePine className="h-7 w-7 text-white" />
                   </div>
-                  <div className="absolute -bottom-1 -right-1 bg-orange-500 p-1 rounded-full">
-                    <Wheat className="h-3 w-3 text-white" />
+                  <div className="absolute -bottom-1 -right-1 bg-gradient-to-r from-orange-500 to-amber-500 p-1.5 rounded-full shadow-lg animate-pulse">
+                    <Wheat className="h-4 w-4 text-white" />
                   </div>
+                  <div className="absolute inset-0 bg-gradient-to-r from-green-600 via-emerald-600 to-amber-500 rounded-2xl opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-300"></div>
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-xl font-display font-black bg-gradient-to-r from-green-600 via-emerald-600 to-amber-500 bg-clip-text text-transparent tracking-tight leading-none">
+                  <span className="text-2xl font-display font-black bg-gradient-to-r from-green-600 via-emerald-600 to-amber-500 bg-clip-text text-transparent tracking-tight leading-none group-hover:scale-105 transition-transform duration-300">
                     Carbon Roots
                   </span>
-                  <span className="text-xs font-semibold text-gray-600 tracking-wide">
-                    KISAN CARBONTECH
+                  <span className="text-xs font-bold text-gray-600 tracking-wider bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
+                    🌾 KISAN CARBONTECH
                   </span>
                 </div>
               </Link>
