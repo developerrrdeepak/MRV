@@ -22,18 +22,10 @@ export default function AuthModal({ open, onOpenChange }: AuthModalProps) {
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
   const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
   const [otpSent, setOtpSent] = useState(false);
   const [loading, setLoading] = useState(false);
   const [generatedOTP, setGeneratedOTP] = useState("");
-  const [farmerAuthType, setFarmerAuthType] = useState<"otp" | "password">(
-    "password",
-  ); // Default to password
-  const [isRegistering, setIsRegistering] = useState(false);
-
-  const { sendOTP, verifyOTP, adminLogin, farmerRegister, farmerLogin } =
-    useAuth();
+  const { sendOTP, verifyOTP, adminLogin } = useAuth();
   const navigate = useNavigate();
 
   const handleSendOTP = async () => {
@@ -80,53 +72,6 @@ export default function AuthModal({ open, onOpenChange }: AuthModalProps) {
     setLoading(false);
   };
 
-  const handleFarmerPasswordAuth = async () => {
-    if (!email || !password) {
-      toast.error("Please enter email and password");
-      return;
-    }
-
-    if (isRegistering && password.length < 6) {
-      toast.error("Password must be at least 6 characters");
-      return;
-    }
-
-    setLoading(true);
-    try {
-      let result;
-
-      if (isRegistering) {
-        // Registration
-        result = await farmerRegister({
-          email,
-          password,
-          name: name || email.split("@")[0],
-          phone,
-        });
-        if (result.success) {
-          toast.success("Registration successful! Welcome!");
-          onOpenChange(false);
-          navigate("/farmer-dashboard");
-        } else {
-          toast.error(result.message || "Registration failed");
-        }
-      } else {
-        // Login
-        result = await farmerLogin({ email, password });
-        if (result.success) {
-          toast.success("Login successful!");
-          onOpenChange(false);
-          navigate("/farmer-dashboard");
-        } else {
-          toast.error(result.message || "Invalid credentials");
-        }
-      }
-    } catch (error) {
-      toast.error("Failed to authenticate");
-    }
-    setLoading(false);
-  };
-
   const handleAdminLogin = async () => {
     if (!email || !password) {
       toast.error("Please enter email and password");
@@ -153,12 +98,8 @@ export default function AuthModal({ open, onOpenChange }: AuthModalProps) {
     setEmail("");
     setOtp("");
     setPassword("");
-    setName("");
-    setPhone("");
     setOtpSent(false);
     setGeneratedOTP("");
-    setIsRegistering(false);
-    setFarmerAuthType("password");
   };
 
   return (
@@ -180,28 +121,7 @@ export default function AuthModal({ open, onOpenChange }: AuthModalProps) {
           </TabsList>
 
           <TabsContent value="farmer" className="space-y-4 mt-4">
-            {/* Farmer Auth Type Selector */}
-            <div className="flex space-x-2 mb-4">
-              <Button
-                variant={farmerAuthType === "password" ? "default" : "outline"}
-                onClick={() => setFarmerAuthType("password")}
-                className="flex-1 text-sm"
-                size="sm"
-              >
-                Password Login
-              </Button>
-              <Button
-                variant={farmerAuthType === "otp" ? "default" : "outline"}
-                onClick={() => setFarmerAuthType("otp")}
-                className="flex-1 text-sm"
-                size="sm"
-              >
-                OTP Login
-              </Button>
-            </div>
-
-            {farmerAuthType === "password" ? (
-              // Password-based authentication
+            {!otpSent ? (
               <div className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="farmer-email">Email</Label>
@@ -213,144 +133,58 @@ export default function AuthModal({ open, onOpenChange }: AuthModalProps) {
                     onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
-
-                {isRegistering && (
-                  <>
-                    <div className="space-y-2">
-                      <Label htmlFor="farmer-name">Name (Optional)</Label>
-                      <Input
-                        id="farmer-name"
-                        type="text"
-                        placeholder="Your name"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="farmer-phone">Phone (Optional)</Label>
-                      <Input
-                        id="farmer-phone"
-                        type="tel"
-                        placeholder="Your phone number"
-                        value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
-                      />
-                    </div>
-                  </>
-                )}
-
-                <div className="space-y-2">
-                  <Label htmlFor="farmer-password">Password</Label>
-                  <Input
-                    id="farmer-password"
-                    type="password"
-                    placeholder={
-                      isRegistering
-                        ? "Create password (min 6 chars)"
-                        : "Enter your password"
-                    }
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
-                </div>
-
                 <Button
-                  onClick={handleFarmerPasswordAuth}
+                  onClick={handleSendOTP}
                   disabled={loading}
                   className="w-full bg-gradient-to-r from-green-600 via-emerald-600 to-amber-500"
                 >
-                  {loading
-                    ? isRegistering
-                      ? "Registering..."
-                      : "Signing in..."
-                    : isRegistering
-                      ? "Register"
-                      : "Sign In"}
+                  {loading ? "Sending..." : "Send OTP"}
                 </Button>
-
-                <div className="text-center">
+              </div>
+            ) : (
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="otp">Enter OTP</Label>
+                  <Input
+                    id="otp"
+                    type="text"
+                    placeholder="Enter 6-digit OTP"
+                    value={otp}
+                    onChange={(e) => setOtp(e.target.value)}
+                    maxLength={6}
+                  />
+                  <p className="text-sm text-gray-600">OTP sent to {email}</p>
+                  {generatedOTP && (
+                    <div className="p-3 bg-blue-50 border border-blue-200 rounded-md">
+                      <p className="text-sm font-medium text-blue-800">
+                        🔐 Your OTP:{" "}
+                        <span className="font-mono text-lg">
+                          {generatedOTP}
+                        </span>
+                      </p>
+                      <p className="text-xs text-blue-600 mt-1">
+                        (For testing purposes only)
+                      </p>
+                    </div>
+                  )}
+                </div>
+                <div className="space-y-2">
                   <Button
-                    variant="link"
-                    onClick={() => setIsRegistering(!isRegistering)}
-                    className="text-sm text-green-600"
+                    onClick={handleVerifyOTP}
+                    disabled={loading}
+                    className="w-full bg-gradient-to-r from-green-600 via-emerald-600 to-amber-500"
                   >
-                    {isRegistering
-                      ? "Already have an account? Sign in"
-                      : "New farmer? Create account"}
+                    {loading ? "Verifying..." : "Verify OTP"}
+                  </Button>
+                  <Button
+                    variant="outline"
+                    onClick={() => setOtpSent(false)}
+                    className="w-full"
+                  >
+                    Change Email
                   </Button>
                 </div>
               </div>
-            ) : (
-              // OTP-based authentication
-              <>
-                {!otpSent ? (
-                  <div className="space-y-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="farmer-email-otp">Email</Label>
-                      <Input
-                        id="farmer-email-otp"
-                        type="email"
-                        placeholder="Enter your email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                      />
-                    </div>
-                    <Button
-                      onClick={handleSendOTP}
-                      disabled={loading}
-                      className="w-full bg-gradient-to-r from-green-600 via-emerald-600 to-amber-500"
-                    >
-                      {loading ? "Sending..." : "Send OTP"}
-                    </Button>
-                  </div>
-                ) : (
-                  <div className="space-y-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="otp">Enter OTP</Label>
-                      <Input
-                        id="otp"
-                        type="text"
-                        placeholder="Enter 6-digit OTP"
-                        value={otp}
-                        onChange={(e) => setOtp(e.target.value)}
-                        maxLength={6}
-                      />
-                      <p className="text-sm text-gray-600">
-                        OTP sent to {email}
-                      </p>
-                      {generatedOTP && (
-                        <div className="p-3 bg-blue-50 border border-blue-200 rounded-md">
-                          <p className="text-sm font-medium text-blue-800">
-                            🔐 Your OTP:{" "}
-                            <span className="font-mono text-lg">
-                              {generatedOTP}
-                            </span>
-                          </p>
-                          <p className="text-xs text-blue-600 mt-1">
-                            (For testing purposes only)
-                          </p>
-                        </div>
-                      )}
-                    </div>
-                    <div className="space-y-2">
-                      <Button
-                        onClick={handleVerifyOTP}
-                        disabled={loading}
-                        className="w-full bg-gradient-to-r from-green-600 via-emerald-600 to-amber-500"
-                      >
-                        {loading ? "Verifying..." : "Verify OTP"}
-                      </Button>
-                      <Button
-                        variant="outline"
-                        onClick={() => setOtpSent(false)}
-                        className="w-full"
-                      >
-                        Change Email
-                      </Button>
-                    </div>
-                  </div>
-                )}
-              </>
             )}
           </TabsContent>
 

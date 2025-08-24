@@ -5,8 +5,6 @@ import {
   Admin,
   LoginResponse,
   EnhancedFarmerRegistration,
-  FarmerPasswordRequest,
-  FarmerLoginRequest,
 } from "@shared/auth";
 
 // Mock data storage - in production, use a proper database
@@ -49,10 +47,7 @@ export const sendOTP: RequestHandler = async (req, res) => {
   try {
     const { email } = req.body;
 
-    console.log(`🔐 [SEND OTP] Request for email: ${email}`);
-
     if (!email) {
-      console.log("❌ [SEND OTP] Email is missing");
       return res
         .status(400)
         .json({ success: false, message: "Email is required" });
@@ -68,29 +63,17 @@ export const sendOTP: RequestHandler = async (req, res) => {
     const emailSent = await sendOTPEmail(email, otp);
 
     if (emailSent) {
-      console.log(`✅ [SEND OTP] OTP sent successfully to ${email}`);
-
-      // In development/test mode, include OTP in response
-      const response: any = {
+      // For testing purposes, include OTP in response (remove in production)
+      res.json({
         success: true,
         message: "OTP sent successfully",
-      };
-
-      // Only include OTP in response for development/testing
-      if (
-        process.env.NODE_ENV !== "production" ||
-        process.env.DEBUG_AUTH === "true"
-      ) {
-        response.otp = otp;
-      }
-
-      res.json(response);
+        otp: otp, // Remove this in production!
+      });
     } else {
-      console.log(`❌ [SEND OTP] Failed to send email to ${email}`);
       res.status(500).json({ success: false, message: "Failed to send OTP" });
     }
   } catch (error) {
-    console.error("❌ [SEND OTP] Error:", error);
+    console.error("Send OTP error:", error);
     res.status(500).json({ success: false, message: "Internal server error" });
   }
 };
@@ -99,10 +82,7 @@ export const verifyOTP: RequestHandler = async (req, res) => {
   try {
     const { email, otp, registrationData } = req.body;
 
-    console.log(`🔐 [OTP VERIFICATION] Request for email: ${email}`);
-
     if (!email || !otp) {
-      console.log("❌ [OTP VERIFICATION] Missing email or OTP");
       return res
         .status(400)
         .json({ success: false, message: "Email and OTP are required" });
@@ -117,22 +97,17 @@ export const verifyOTP: RequestHandler = async (req, res) => {
     console.log(`   Expires at: ${storedOTP?.expires || "N/A"}`);
 
     if (!storedOTP) {
-      console.log(`❌ [OTP VERIFICATION] No OTP found for ${email}`);
       return res
         .status(400)
         .json({ success: false, message: "OTP not found or expired" });
     }
 
     if (Date.now() > storedOTP.expires) {
-      console.log(`❌ [OTP VERIFICATION] OTP expired for ${email}`);
       delete otpStorage[email];
       return res.status(400).json({ success: false, message: "OTP expired" });
     }
 
     if (storedOTP.otp !== otp) {
-      console.log(
-        `❌ [OTP VERIFICATION] Invalid OTP for ${email}. Expected: ${storedOTP.otp}, Got: ${otp}`,
-      );
       return res.status(400).json({ success: false, message: "Invalid OTP" });
     }
 
@@ -222,35 +197,23 @@ export const adminLogin: RequestHandler = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    console.log(`🔐 [ADMIN LOGIN] Attempt for email: ${email}`);
-
     if (!email || !password) {
-      console.log("❌ [ADMIN LOGIN] Missing email or password");
       return res
         .status(400)
         .json({ success: false, message: "Email and password are required" });
     }
 
-    // Get admin credentials from environment variables or fallback to defaults
-    const validEmail = process.env.ADMIN_EMAIL || "developerrdeepak@gmail.com";
-    const validPassword = process.env.ADMIN_PASSWORD || "IITdelhi2023@";
-
-    console.log(`🔍 [ADMIN LOGIN] Checking against admin email: ${validEmail}`);
-
     // Check credentials
-    if (email === validEmail && password === validPassword) {
-      let admin = admins.find((a) => a.email === email);
+    if (
+      email === "developerrdeepak@gmail.com" &&
+      password === "IITdelhi2023@"
+    ) {
+      const admin = admins.find((a) => a.email === email);
 
-      // If admin doesn't exist in memory, create one
       if (!admin) {
-        admin = {
-          id: "admin-1",
-          email: validEmail,
-          name: "Admin",
-          role: "admin",
-          createdAt: new Date(),
-        };
-        admins = [admin]; // Replace the array with current admin
+        return res
+          .status(401)
+          .json({ success: false, message: "Invalid credentials" });
       }
 
       // Create session
@@ -268,14 +231,12 @@ export const adminLogin: RequestHandler = async (req, res) => {
         token,
       };
 
-      console.log(`✅ [ADMIN LOGIN] Successful login for ${email}`);
       res.json(response);
     } else {
-      console.log(`❌ [ADMIN LOGIN] Invalid credentials for ${email}`);
       res.status(401).json({ success: false, message: "Invalid credentials" });
     }
   } catch (error) {
-    console.error("❌ [ADMIN LOGIN] Error:", error);
+    console.error("Admin login error:", error);
     res.status(500).json({ success: false, message: "Internal server error" });
   }
 };
@@ -412,144 +373,6 @@ export const getFarmers: RequestHandler = async (req, res) => {
     res.json({ success: true, farmers });
   } catch (error) {
     console.error("Get farmers error:", error);
-    res.status(500).json({ success: false, message: "Internal server error" });
-  }
-};
-
-// Farmer password registration
-export const farmerPasswordRegister: RequestHandler = async (req, res) => {
-  try {
-    const { email, password, name, phone } = req.body as FarmerPasswordRequest;
-
-    console.log(`👨‍🌾 [FARMER REGISTER] Registration attempt for: ${email}`);
-
-    if (!email || !password) {
-      console.log("❌ [FARMER REGISTER] Missing email or password");
-      return res
-        .status(400)
-        .json({ success: false, message: "Email and password are required" });
-    }
-
-    if (password.length < 6) {
-      console.log("❌ [FARMER REGISTER] Password too short");
-      return res
-        .status(400)
-        .json({
-          success: false,
-          message: "Password must be at least 6 characters",
-        });
-    }
-
-    // Check if farmer already exists
-    const existingFarmer = farmers.find((f) => f.email === email);
-    if (existingFarmer) {
-      console.log(`❌ [FARMER REGISTER] Farmer already exists: ${email}`);
-      return res
-        .status(400)
-        .json({
-          success: false,
-          message: "Farmer already registered with this email",
-        });
-    }
-
-    // Create new farmer
-    const farmer: Farmer = {
-      id: `farmer-${Date.now()}`,
-      email,
-      name: name || email.split("@")[0],
-      phone,
-      verified: true,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      estimatedIncome: 0,
-    };
-
-    farmers.push(farmer);
-
-    // Store password (in production, hash this!)
-    otpStorage[`password_${email}`] = {
-      otp: password,
-      expires: Date.now() + 365 * 24 * 60 * 60 * 1000,
-    }; // 1 year
-
-    // Create session
-    const token = generateToken();
-    const user: AuthUser = {
-      type: "farmer",
-      farmer,
-    };
-
-    sessions[token] = user;
-
-    console.log(
-      `✅ [FARMER REGISTER] Farmer registered successfully: ${email}`,
-    );
-
-    const response: LoginResponse = {
-      success: true,
-      user,
-      token,
-    };
-
-    res.json(response);
-  } catch (error) {
-    console.error("❌ [FARMER REGISTER] Error:", error);
-    res.status(500).json({ success: false, message: "Internal server error" });
-  }
-};
-
-// Farmer password login
-export const farmerPasswordLogin: RequestHandler = async (req, res) => {
-  try {
-    const { email, password } = req.body as FarmerLoginRequest;
-
-    console.log(`👨‍🌾 [FARMER LOGIN] Login attempt for: ${email}`);
-
-    if (!email || !password) {
-      console.log("❌ [FARMER LOGIN] Missing email or password");
-      return res
-        .status(400)
-        .json({ success: false, message: "Email and password are required" });
-    }
-
-    // Find farmer
-    const farmer = farmers.find((f) => f.email === email);
-    if (!farmer) {
-      console.log(`❌ [FARMER LOGIN] Farmer not found: ${email}`);
-      return res
-        .status(401)
-        .json({ success: false, message: "Invalid credentials" });
-    }
-
-    // Check password (in production, compare hashed passwords!)
-    const storedPassword = otpStorage[`password_${email}`];
-    if (!storedPassword || storedPassword.otp !== password) {
-      console.log(`❌ [FARMER LOGIN] Invalid password for: ${email}`);
-      return res
-        .status(401)
-        .json({ success: false, message: "Invalid credentials" });
-    }
-
-    // Create session
-    const token = generateToken();
-    const user: AuthUser = {
-      type: "farmer",
-      farmer,
-    };
-
-    sessions[token] = user;
-
-    console.log(`✅ [FARMER LOGIN] Farmer logged in successfully: ${email}`);
-
-    const response: LoginResponse = {
-      success: true,
-      user,
-      token,
-    };
-
-    res.json(response);
-  } catch (error) {
-    console.error("❌ [FARMER LOGIN] Error:", error);
     res.status(500).json({ success: false, message: "Internal server error" });
   }
 };
