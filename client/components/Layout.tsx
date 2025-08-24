@@ -153,9 +153,10 @@ export default function Layout({ children }: LayoutProps) {
               ) : (
                 <Button
                   onClick={() => setAuthModalOpen(true)}
-                  className="bg-gradient-to-r from-green-600 via-emerald-600 to-amber-500 hover:from-green-700 hover:via-emerald-700 hover:to-amber-600 font-bold text-sm tracking-wide shadow-lg hover:shadow-xl transition-all duration-200"
+                  className="bg-gradient-to-r from-green-600 via-emerald-600 to-amber-500 hover:from-green-700 hover:via-emerald-700 hover:to-amber-600 font-bold text-sm tracking-wide shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 rounded-full px-6 py-3"
                 >
-                  Sign in (Farmer)
+                  <User className="mr-2 h-4 w-4" />
+                  🚜 Farmer Login
                 </Button>
               )}
             </div>
