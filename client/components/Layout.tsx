@@ -107,10 +107,10 @@ export default function Layout({ children }: LayoutProps) {
                 variant="outline"
                 size="sm"
                 onClick={() => setChatbotOpen(true)}
-                className="flex items-center space-x-2 border-green-200 hover:bg-green-50"
+                className="flex items-center space-x-2 border-2 border-green-300 hover:bg-gradient-to-r hover:from-green-50 hover:to-emerald-50 text-green-700 hover:text-green-800 font-bold shadow-md hover:shadow-lg transition-all duration-300 rounded-full px-4 py-2"
               >
-                <MessageCircle className="h-4 w-4" />
-                <span className="hidden lg:inline">Kisan AI</span>
+                <MessageCircle className="h-4 w-4 animate-pulse" />
+                <span className="hidden lg:inline">🤖 Kisan AI</span>
               </Button>
 
               {isAuthenticated ? (
