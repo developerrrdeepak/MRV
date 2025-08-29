@@ -61,6 +61,7 @@ interface SatelliteData {
 
 export default function Tools() {
   const [selectedTool, setSelectedTool] = useState("monitoring");
+  const estimatorUrl = "https://carbonstockestimation.mgx.world/";
   const [farmData, setFarmData] = useState({
     farmerId: "",
     location: "",
@@ -238,12 +239,13 @@ export default function Tools() {
           onValueChange={setSelectedTool}
           className="space-y-6"
         >
-          <TabsList className="grid w-full grid-cols-5">
+          <TabsList className="grid w-full grid-cols-6">
             <TabsTrigger value="monitoring">Monitoring</TabsTrigger>
             <TabsTrigger value="reporting">Reporting</TabsTrigger>
             <TabsTrigger value="verification">Verification</TabsTrigger>
             <TabsTrigger value="calculator">Calculator</TabsTrigger>
             <TabsTrigger value="mobile">Mobile Tools</TabsTrigger>
+            <TabsTrigger value="estimator">Estimator</TabsTrigger>
           </TabsList>
 
           {/* Monitoring Tab */}
@@ -829,6 +831,31 @@ export default function Tools() {
                 </CardContent>
               </Card>
             </div>
+          </TabsContent>
+          {/* Estimator Tab */}
+          <TabsContent value="estimator">
+            <Card>
+              <CardHeader className="flex items-center justify-between space-y-0">
+                <div>
+                  <CardTitle>Carbon Stock Estimator</CardTitle>
+                  <CardDescription>Embedded external estimator</CardDescription>
+                </div>
+                <Button asChild variant="outline">
+                  <a href={estimatorUrl} target="_blank" rel="noopener noreferrer">Open in new tab</a>
+                </Button>
+              </CardHeader>
+              <CardContent>
+                <div className="w-full h-[75vh] rounded-lg overflow-hidden border">
+                  <iframe
+                    title="Carbon Stock Estimator"
+                    src={estimatorUrl}
+                    className="w-full h-full"
+                    loading="lazy"
+                    allow="fullscreen; clipboard-read; clipboard-write"
+                  />
+                </div>
+              </CardContent>
+            </Card>
           </TabsContent>
         </Tabs>
       </div>
