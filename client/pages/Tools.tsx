@@ -77,14 +77,9 @@ export default function Tools() {
   });
 
   const [sensorData, setSensorData] = useState<SensorData[]>([
-    {
-      temperature: 28.5,
-      humidity: 65,
-      soilMoisture: 42,
-      ph: 6.8,
-      timestamp: new Date(),
-    },
+    { temperature: 28.5, humidity: 65, soilMoisture: 42, ph: 6.8, timestamp: new Date() },
   ]);
+  const [geoMain, setGeoMain] = useState<{ lat?: number; lon?: number }>({});
 
   const [satelliteData, setSatelliteData] = useState<SatelliteData>({
     ndvi: 0.75,
@@ -206,21 +201,47 @@ export default function Tools() {
     }
   }
 
-  // Mock IoT sensor simulation
+  // Acquire device location once
   useEffect(() => {
-    const interval = setInterval(() => {
-      const newData: SensorData = {
-        temperature: 25 + Math.random() * 10,
-        humidity: 50 + Math.random() * 30,
-        soilMoisture: 30 + Math.random() * 40,
-        ph: 6.0 + Math.random() * 2,
-        timestamp: new Date(),
-      };
-      setSensorData((prev) => [newData, ...prev.slice(0, 9)]);
-    }, 5000);
-
-    return () => clearInterval(interval);
+    if (navigator?.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => setGeoMain({ lat: pos.coords.latitude, lon: pos.coords.longitude }),
+        () => setGeoMain({ lat: 28.6139, lon: 77.209 }),
+        { enableHighAccuracy: true, timeout: 5000 },
+      );
+    } else {
+      setGeoMain({ lat: 28.6139, lon: 77.209 });
+    }
   }, []);
+
+  // Live soil sensor polling (simulated IoT via API)
+  useEffect(() => {
+    let stop = false;
+    async function tick() {
+      if (!geoMain.lat || !geoMain.lon) return;
+      try {
+        const url = `/api/iot/soil?lat=${geoMain.lat}&lon=${geoMain.lon}`;
+        const res = await fetch(url);
+        const json = await res.json();
+        if (json?.success && json?.data && !stop) {
+          const d = json.data as { temperatureC?: number | null; moisturePercent?: number | null; humidity?: number | null };
+          const newData: SensorData = {
+            temperature: Number(d.temperatureC ?? sensorData[0]?.temperature ?? 28),
+            humidity: Number(d.humidity ?? sensorData[0]?.humidity ?? 60),
+            soilMoisture: Number(d.moisturePercent ?? sensorData[0]?.soilMoisture ?? 40),
+            ph: sensorData[0]?.ph ?? 6.8,
+            timestamp: new Date(),
+          };
+          setSensorData((prev) => [newData, ...prev.slice(0, 19)]);
+        }
+      } catch {
+        // ignore network errors, keep last values
+      }
+    }
+    const id = setInterval(tick, 15000);
+    tick();
+    return () => { stop = true; clearInterval(id); };
+  }, [geoMain.lat, geoMain.lon]);
 
   const calculateCarbonCredits = () => {
     const area = parseFloat(farmData.area) || 0;
