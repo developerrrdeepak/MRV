@@ -513,7 +513,7 @@ export default function FarmerDashboard() {
                       <span className="font-medium">Estimated Income:</span>
                       <span className="font-bold text-green-600 flex items-center">
                         <IndianRupee className="h-4 w-4 mr-1" />
-                        {estimatedIncome.toLocaleString("en-IN")}
+                        {estimator.estimatedIncome.toLocaleString("en-IN")}
                       </span>
                     </div>
                   </div>
