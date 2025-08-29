@@ -72,6 +72,10 @@ export function createServer() {
   app.post("/api/ml/train", trainModel);
   app.get("/api/ml/model", getModelInfo);
 
+  // IoT routes
+  const { getSoilData } = await import("./routes/iot");
+  app.get("/api/iot/soil", getSoilData);
+
   // Admin routes (protected)
   app.get("/api/admin/farmers", getFarmers);
   app.put("/api/admin/farmer-status", updateFarmerStatus);
