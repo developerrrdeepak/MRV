@@ -19,6 +19,7 @@ import {
   farmerPasswordLogin,
   socialAuth,
   socialCallback,
+  initializeDatabase,
 } from "./routes/auth";
 
 export function createServer() {
@@ -38,6 +39,11 @@ export function createServer() {
       );
       next();
     });
+  }
+
+  // Initialize DB in development
+  if (process.env.NODE_ENV !== "production") {
+    initializeDatabase().catch(console.error);
   }
 
   // System routes
