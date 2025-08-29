@@ -67,7 +67,6 @@ export function createServer() {
   app.post("/api/estimator/calculate", calculateEstimator);
 
   // ML routes
-  const { ingestExample, trainModel, getModelInfo } = await import("./routes/ml");
   app.post("/api/ml/ingest", ingestExample);
   app.post("/api/ml/train", trainModel);
   app.get("/api/ml/model", getModelInfo);
