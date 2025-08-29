@@ -34,9 +34,11 @@ function dot(a: number[], b: number[]): number {
   return s;
 }
 
-export function standardizeFeatures(
-  X: number[][],
-): { Xs: number[][]; means: number[]; stds: number[] } {
+export function standardizeFeatures(X: number[][]): {
+  Xs: number[][];
+  means: number[];
+  stds: number[];
+} {
   if (X.length === 0) return { Xs: [], means: [], stds: [] };
   const nFeatures = X[0].length;
   const means: number[] = Array(nFeatures).fill(0);
@@ -121,7 +123,12 @@ export function trainLinearRegression(
   const r2 = 1 - ssRes / ssTot;
 
   return {
-    model: { coefficients: w, intercept: b, featureMeans: means, featureStd: stds },
+    model: {
+      coefficients: w,
+      intercept: b,
+      featureMeans: means,
+      featureStd: stds,
+    },
     rmse,
     r2,
     iterations: Math.min(epochs, noImprove),

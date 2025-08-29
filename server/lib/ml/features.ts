@@ -7,7 +7,10 @@ function oneHot(value: string | undefined, categories: string[]): number[] {
   return categories.map((c) => (value === c ? 1 : 0));
 }
 
-export function buildFeatures(input: Partial<EstimatorRequest>, ext?: ExternalData): FeatureVector {
+export function buildFeatures(
+  input: Partial<EstimatorRequest>,
+  ext?: ExternalData,
+): FeatureVector {
   const area = Math.max(0, Number(input.areaHectares ?? 0));
   const ndvi = clamp(Number(input.ndvi ?? 0.7), 0, 1);
   const biomass = Math.max(0, Number(input.biomass ?? 12));

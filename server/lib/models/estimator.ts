@@ -4,7 +4,9 @@ function clamp(n: number, min: number, max: number) {
   return Math.max(min, Math.min(max, n));
 }
 
-export async function estimateCarbon(payload: EstimatorRequest): Promise<EstimatorResult> {
+export async function estimateCarbon(
+  payload: EstimatorRequest,
+): Promise<EstimatorResult> {
   // Try ML model first
   try {
     const repo = (await import("../ml/repository")).MLRepository.getInstance();
@@ -18,7 +20,10 @@ export async function estimateCarbon(payload: EstimatorRequest): Promise<Estimat
       const feats = buildFeatures(payload, ext);
       const pred = predict(latest.model, feats);
 
-      const yearsML = Math.max(1, Math.floor(Number(payload.durationYears ?? 1)));
+      const yearsML = Math.max(
+        1,
+        Math.floor(Number(payload.durationYears ?? 1)),
+      );
       const totalML = pred * yearsML;
       const priceINR = 500;
       return {
@@ -71,7 +76,13 @@ export async function estimateCarbon(payload: EstimatorRequest): Promise<Estimat
     creditsPerHa = payload.baselineCarbon;
   }
 
-  const creditsPerYear = area * creditsPerHa * ndviFactor * biomassFactor * irrigationFactor * phPenalty;
+  const creditsPerYear =
+    area *
+    creditsPerHa *
+    ndviFactor *
+    biomassFactor *
+    irrigationFactor *
+    phPenalty;
   const totalCredits = creditsPerYear * years;
   const priceINR = 500;
   const estimatedIncomeINR = totalCredits * priceINR;

@@ -28,15 +28,23 @@ export class MLRepository {
     return Database.getInstance().getDb().collection<StoredModel>("ml_models");
   }
   private examplesCol() {
-    return Database.getInstance().getDb().collection<TrainingExample>("ml_training_examples");
+    return Database.getInstance()
+      .getDb()
+      .collection<TrainingExample>("ml_training_examples");
   }
 
   async saveModel(doc: StoredModel) {
     await this.modelsCol().insertOne(doc as any);
   }
 
-  async getLatestModel(name = "carbonEstimatorV1"): Promise<StoredModel | null> {
-    return await this.modelsCol().find({ name }).sort({ version: -1, createdAt: -1 }).limit(1).next();
+  async getLatestModel(
+    name = "carbonEstimatorV1",
+  ): Promise<StoredModel | null> {
+    return await this.modelsCol()
+      .find({ name })
+      .sort({ version: -1, createdAt: -1 })
+      .limit(1)
+      .next();
   }
 
   async nextVersion(name = "carbonEstimatorV1"): Promise<number> {

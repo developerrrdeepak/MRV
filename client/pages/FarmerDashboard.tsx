@@ -143,7 +143,11 @@ export default function FarmerDashboard() {
     setLoading(false);
   };
 
-  const [estimator, setEstimator] = useState<{ totalCredits: number; estimatedIncome: number; loading: boolean; }>({ totalCredits: 0, estimatedIncome: 0, loading: false });
+  const [estimator, setEstimator] = useState<{
+    totalCredits: number;
+    estimatedIncome: number;
+    loading: boolean;
+  }>({ totalCredits: 0, estimatedIncome: 0, loading: false });
 
   const runEstimator = async () => {
     const landSize = parseFloat(profile.landSize) || 0;
@@ -155,8 +159,12 @@ export default function FarmerDashboard() {
         body: JSON.stringify({
           areaHectares: landSize,
           projectType: "agroforestry",
-          ndvi: farmData.soilMoisture ? Math.min(1, Math.max(0, Number(farmData.soilMoisture) / 100)) : 0.75,
-          biomass: farmData.areaPlanted ? Math.max(8, Number(farmData.areaPlanted) * 2) : 12,
+          ndvi: farmData.soilMoisture
+            ? Math.min(1, Math.max(0, Number(farmData.soilMoisture) / 100))
+            : 0.75,
+          biomass: farmData.areaPlanted
+            ? Math.max(8, Number(farmData.areaPlanted) * 2)
+            : 12,
           irrigation: (farmData.irrigationType as any) || "rainfed",
           soilPh: farmData.soilPh ? Number(farmData.soilPh) : 6.8,
           durationYears: 1,
@@ -168,7 +176,11 @@ export default function FarmerDashboard() {
         const data = await res.json();
         const total = data.data?.totalCredits ?? 0;
         const income = data.data?.estimatedIncomeINR ?? 0;
-        setEstimator({ totalCredits: total, estimatedIncome: income, loading: false });
+        setEstimator({
+          totalCredits: total,
+          estimatedIncome: income,
+          loading: false,
+        });
       } else {
         throw new Error("estimator failed");
       }
@@ -535,8 +547,14 @@ export default function FarmerDashboard() {
                     </div>
                   </div>
                   <div className="pt-4">
-                    <Button onClick={runEstimator} disabled={estimator.loading} className="bg-green-600 hover:bg-green-700">
-                      {estimator.loading ? "Calculating..." : "Recalculate with AI Model"}
+                    <Button
+                      onClick={runEstimator}
+                      disabled={estimator.loading}
+                      className="bg-green-600 hover:bg-green-700"
+                    >
+                      {estimator.loading
+                        ? "Calculating..."
+                        : "Recalculate with AI Model"}
                     </Button>
                   </div>
                 </CardContent>

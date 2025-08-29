@@ -17,7 +17,10 @@ async function safeFetch(url: string, timeoutMs = 8000): Promise<any> {
   }
 }
 
-export async function fetchOpenMeteo(lat: number, lon: number): Promise<ClimateSummary | undefined> {
+export async function fetchOpenMeteo(
+  lat: number,
+  lon: number,
+): Promise<ClimateSummary | undefined> {
   try {
     const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=temperature_2m_max,temperature_2m_min,precipitation_sum&past_days=30&forecast_days=0`;
     const json = await safeFetch(url);
@@ -45,7 +48,10 @@ function formatDateYYYYMMDD(dt: Date): string {
   return `${y}${m}${d}`;
 }
 
-export async function fetchNasaPowerSolar(lat: number, lon: number): Promise<number | undefined> {
+export async function fetchNasaPowerSolar(
+  lat: number,
+  lon: number,
+): Promise<number | undefined> {
   try {
     const end = new Date();
     const start = new Date(Date.now() - 30 * 86400000);
@@ -55,7 +61,9 @@ export async function fetchNasaPowerSolar(lat: number, lon: number): Promise<num
     const json = await safeFetch(url);
     const vals = json?.properties?.parameter?.ALLSKY_SFC_SW_DWN;
     if (!vals) return undefined;
-    const arr = Object.values(vals).map((v: any) => Number(v)).filter((v: any) => !isNaN(v));
+    const arr = Object.values(vals)
+      .map((v: any) => Number(v))
+      .filter((v: any) => !isNaN(v));
     if (!arr.length) return undefined;
     const avg = arr.reduce((a: number, b: number) => a + b, 0) / arr.length;
     return avg;
@@ -64,7 +72,10 @@ export async function fetchNasaPowerSolar(lat: number, lon: number): Promise<num
   }
 }
 
-export async function fetchSoilOrganicCarbon(lat: number, lon: number): Promise<number | undefined> {
+export async function fetchSoilOrganicCarbon(
+  lat: number,
+  lon: number,
+): Promise<number | undefined> {
   try {
     // SoilGrids approximate endpoint; may change. Best-effort fetch.
     const url = `https://rest.isric.org/soilgrids/v2.0/properties/query?lon=${lon}&lat=${lat}&property=ocd&depth=0-5cm`;
@@ -81,7 +92,10 @@ export async function fetchSoilOrganicCarbon(lat: number, lon: number): Promise<
   }
 }
 
-export async function gatherExternalData(lat?: number, lon?: number): Promise<ExternalData> {
+export async function gatherExternalData(
+  lat?: number,
+  lon?: number,
+): Promise<ExternalData> {
   if (typeof lat !== "number" || typeof lon !== "number") return {};
   const [climate, solar, soc] = await Promise.all([
     fetchOpenMeteo(lat, lon),
