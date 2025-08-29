@@ -103,6 +103,86 @@ export default function Tools() {
     finalApproval: "pending",
   });
 
+  // Mobile features state
+  const [openPhoto, setOpenPhoto] = useState(false);
+  const [openGPS, setOpenGPS] = useState(false);
+  const [openData, setOpenData] = useState(false);
+  const [openWeather, setOpenWeather] = useState(false);
+
+  const [photoPreview, setPhotoPreview] = useState<string | null>(null);
+  const [geo, setGeo] = useState<{ lat?: number; lon?: number }>({});
+  const [path, setPath] = useState<{ lat: number; lon: number }[]>([]);
+  const [entries, setEntries] = useState<{ date: string; activity: string; notes: string }[]>(() => {
+    try {
+      const s = localStorage.getItem("farm_entries");
+      return s ? JSON.parse(s) : [];
+    } catch {
+      return [];
+    }
+  });
+  const [weather, setWeather] = useState<{ temp?: number; precip?: number; summary?: string } | null>(null);
+
+  function onPhotoChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const f = e.target.files?.[0];
+    if (!f) return;
+    const url = URL.createObjectURL(f);
+    setPhotoPreview(url);
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const stored = JSON.parse(localStorage.getItem("farm_photos") || "[]");
+        stored.unshift({ name: f.name, dataUrl: reader.result, ts: Date.now() });
+        localStorage.setItem("farm_photos", JSON.stringify(stored.slice(0, 20)));
+        toast.success("Photo saved locally");
+      } catch {
+        // ignore
+      }
+    };
+    reader.readAsDataURL(f);
+  }
+
+  function getLocation() {
+    if (!navigator?.geolocation) {
+      toast.error("Geolocation not supported");
+      return;
+    }
+    navigator.geolocation.getCurrentPosition(
+      (pos) => setGeo({ lat: pos.coords.latitude, lon: pos.coords.longitude }),
+      () => toast.error("Unable to get location"),
+      { enableHighAccuracy: true, timeout: 5000 },
+    );
+  }
+
+  function addPoint() {
+    if (geo.lat && geo.lon) setPath((p) => [...p, { lat: geo.lat!, lon: geo.lon! }]);
+  }
+
+  function saveEntry(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const fd = new FormData(e.currentTarget);
+    const item = { date: String(fd.get("date")), activity: String(fd.get("activity")), notes: String(fd.get("notes")) };
+    const next = [item, ...entries].slice(0, 50);
+    setEntries(next);
+    localStorage.setItem("farm_entries", JSON.stringify(next));
+    toast.success("Saved offline");
+    e.currentTarget.reset();
+  }
+
+  async function fetchWeather() {
+    const lat = geo.lat ?? 28.6139;
+    const lon = geo.lon ?? 77.209;
+    try {
+      const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,precipitation&forecast_days=1`;
+      const res = await fetch(url);
+      const json = await res.json();
+      const t = json?.current?.temperature_2m;
+      const p = json?.current?.precipitation;
+      setWeather({ temp: t, precip: p, summary: `Temp ${t}°C, Precip ${p}mm` });
+    } catch {
+      toast.error("Weather fetch failed");
+    }
+  }
+
   // Mock IoT sensor simulation
   useEffect(() => {
     const interval = setInterval(() => {
@@ -755,44 +835,140 @@ export default function Tools() {
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
-                    <div className="flex items-center space-x-3 p-3 border rounded-lg">
-                      <Camera className="h-6 w-6 text-blue-600" />
-                      <div>
-                        <p className="font-medium">Photo Upload</p>
-                        <p className="text-sm text-gray-600">
-                          Capture field photos for verification
-                        </p>
+                    <button onClick={() => setOpenPhoto(true)} className="w-full text-left">
+                      <div className="flex items-center space-x-3 p-3 border rounded-lg hover:bg-gray-50">
+                        <Camera className="h-6 w-6 text-blue-600" />
+                        <div>
+                          <p className="font-medium">Photo Upload</p>
+                          <p className="text-sm text-gray-600">Capture field photos for verification</p>
+                        </div>
                       </div>
-                    </div>
-                    <div className="flex items-center space-x-3 p-3 border rounded-lg">
-                      <MapPin className="h-6 w-6 text-green-600" />
-                      <div>
-                        <p className="font-medium">GPS Mapping</p>
-                        <p className="text-sm text-gray-600">
-                          Mark field boundaries accurately
-                        </p>
+                    </button>
+                    <button onClick={() => setOpenGPS(true)} className="w-full text-left">
+                      <div className="flex items-center space-x-3 p-3 border rounded-lg hover:bg-gray-50">
+                        <MapPin className="h-6 w-6 text-green-600" />
+                        <div>
+                          <p className="font-medium">GPS Mapping</p>
+                          <p className="text-sm text-gray-600">Mark field boundaries accurately</p>
+                        </div>
                       </div>
-                    </div>
-                    <div className="flex items-center space-x-3 p-3 border rounded-lg">
-                      <BarChart3 className="h-6 w-6 text-purple-600" />
-                      <div>
-                        <p className="font-medium">Data Entry</p>
-                        <p className="text-sm text-gray-600">
-                          Record farming activities offline
-                        </p>
+                    </button>
+                    <button onClick={() => setOpenData(true)} className="w-full text-left">
+                      <div className="flex items-center space-x-3 p-3 border rounded-lg hover:bg-gray-50">
+                        <BarChart3 className="h-6 w-6 text-purple-600" />
+                        <div>
+                          <p className="font-medium">Data Entry</p>
+                          <p className="text-sm text-gray-600">Record farming activities offline</p>
+                        </div>
                       </div>
-                    </div>
-                    <div className="flex items-center space-x-3 p-3 border rounded-lg">
-                      <Globe className="h-6 w-6 text-amber-600" />
-                      <div>
-                        <p className="font-medium">Weather Integration</p>
-                        <p className="text-sm text-gray-600">
-                          Local weather and predictions
-                        </p>
+                    </button>
+                    <button onClick={() => setOpenWeather(true)} className="w-full text-left">
+                      <div className="flex items-center space-x-3 p-3 border rounded-lg hover:bg-gray-50">
+                        <Globe className="h-6 w-6 text-amber-600" />
+                        <div>
+                          <p className="font-medium">Weather Integration</p>
+                          <p className="text-sm text-gray-600">Local weather and predictions</p>
+                        </div>
                       </div>
-                    </div>
+                    </button>
                   </div>
                 </CardContent>
+
+                {/* Photo Upload Dialog */}
+                <Dialog open={openPhoto} onOpenChange={setOpenPhoto}>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>Photo Upload</DialogTitle>
+                    </DialogHeader>
+                    <div className="space-y-3">
+                      <Input type="file" accept="image/*" capture="environment" onChange={onPhotoChange} />
+                      {photoPreview && (
+                        <img src={photoPreview} alt="preview" className="w-full h-56 object-cover rounded" />
+                      )}
+                      <p className="text-xs text-gray-500">Saved locally. Upload service can be wired to backend later.</p>
+                    </div>
+                  </DialogContent>
+                </Dialog>
+
+                {/* GPS Dialog */}
+                <Dialog open={openGPS} onOpenChange={setOpenGPS}>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>GPS Mapping</DialogTitle>
+                    </DialogHeader>
+                    <div className="space-y-3">
+                      <div className="flex items-center gap-2">
+                        <Button onClick={getLocation} variant="outline">Get Location</Button>
+                        <Button onClick={addPoint} variant="secondary">Add Point</Button>
+                      </div>
+                      <div className="text-sm text-gray-700">Current: {geo.lat?.toFixed(5) ?? "-"}, {geo.lon?.toFixed(5) ?? "-"}</div>
+                      <div className="max-h-40 overflow-auto border rounded p-2 text-sm">
+                        {path.length === 0 ? <div>No points yet</div> : path.map((p, i) => (
+                          <div key={i}>#{i + 1} → {p.lat.toFixed(5)}, {p.lon.toFixed(5)}</div>
+                        ))}
+                      </div>
+                      {geo.lat && geo.lon && (
+                        <a className="text-blue-600 underline text-sm" target="_blank" rel="noreferrer" href={`https://www.openstreetmap.org/?mlat=${geo.lat}&mlon=${geo.lon}#map=16/${geo.lat}/${geo.lon}`}>Open in Map</a>
+                      )}
+                    </div>
+                  </DialogContent>
+                </Dialog>
+
+                {/* Data Entry Dialog */}
+                <Dialog open={openData} onOpenChange={setOpenData}>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>Offline Data Entry</DialogTitle>
+                    </DialogHeader>
+                    <form onSubmit={saveEntry} className="space-y-3">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div>
+                          <Label htmlFor="date">Date</Label>
+                          <Input id="date" name="date" type="date" required />
+                        </div>
+                        <div>
+                          <Label htmlFor="activity">Activity</Label>
+                          <Input id="activity" name="activity" placeholder="Sowing / Irrigation / Harvest" required />
+                        </div>
+                      </div>
+                      <div>
+                        <Label htmlFor="notes">Notes</Label>
+                        <Textarea id="notes" name="notes" placeholder="Details" />
+                      </div>
+                      <Button type="submit" className="w-full">Save</Button>
+                      <div className="max-h-32 overflow-auto text-sm border rounded p-2">
+                        {entries.length === 0 ? <div>No entries yet</div> : entries.map((e, i) => (
+                          <div key={i} className="py-1 border-b last:border-0">
+                            <div className="font-medium">{e.date} • {e.activity}</div>
+                            <div className="text-gray-600">{e.notes}</div>
+                          </div>
+                        ))}
+                      </div>
+                    </form>
+                  </DialogContent>
+                </Dialog>
+
+                {/* Weather Dialog */}
+                <Dialog open={openWeather} onOpenChange={setOpenWeather}>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>Weather Integration</DialogTitle>
+                    </DialogHeader>
+                    <div className="space-y-3">
+                      <div className="flex items-center gap-2">
+                        <Button onClick={getLocation} variant="outline">Use GPS</Button>
+                        <Button onClick={fetchWeather}>Get Weather</Button>
+                      </div>
+                      <div className="text-sm text-gray-700">Coords: {geo.lat?.toFixed(4) ?? "-"}, {geo.lon?.toFixed(4) ?? "-"}</div>
+                      {weather && (
+                        <div className="p-3 bg-amber-50 border rounded">
+                          <div className="font-medium">Current</div>
+                          <div>{weather.summary}</div>
+                        </div>
+                      )}
+                    </div>
+                  </DialogContent>
+                </Dialog>
               </Card>
 
               <Card>
