@@ -128,18 +128,40 @@ export default function FarmerDashboard() {
     setLoading(false);
   };
 
-  const calculateCarbonCredits = () => {
+  const [estimator, setEstimator] = useState<{ totalCredits: number; estimatedIncome: number; loading: boolean; }>({ totalCredits: 0, estimatedIncome: 0, loading: false });
+
+  const runEstimator = async () => {
     const landSize = parseFloat(profile.landSize) || 0;
-    const creditsPerHectare = 2.5; // Example rate
-    const pricePerCredit = 500; // INR per credit
-
-    const totalCredits = landSize * creditsPerHectare;
-    const estimatedIncome = totalCredits * pricePerCredit;
-
-    return { totalCredits, estimatedIncome };
+    setEstimator((s) => ({ ...s, loading: true }));
+    try {
+      const res = await fetch("/api/estimator/calculate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          areaHectares: landSize,
+          projectType: "agroforestry",
+          ndvi: farmData.soilMoisture ? Math.min(1, Math.max(0, Number(farmData.soilMoisture) / 100)) : 0.75,
+          biomass: farmData.areaPlanted ? Math.max(8, Number(farmData.areaPlanted) * 2) : 12,
+          irrigation: (farmData.irrigationType as any) || "rainfed",
+          soilPh: farmData.soilPh ? Number(farmData.soilPh) : 6.8,
+          durationYears: 1,
+        }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        const total = data.data?.totalCredits ?? 0;
+        const income = data.data?.estimatedIncomeINR ?? 0;
+        setEstimator({ totalCredits: total, estimatedIncome: income, loading: false });
+      } else {
+        throw new Error("estimator failed");
+      }
+    } catch {
+      const creditsPerHectare = 2.5;
+      const totalCredits = landSize * creditsPerHectare;
+      const estimatedIncome = totalCredits * 500;
+      setEstimator({ totalCredits, estimatedIncome, loading: false });
+    }
   };
-
-  const { totalCredits, estimatedIncome } = calculateCarbonCredits();
 
   const projects = [
     {
