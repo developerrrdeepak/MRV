@@ -77,7 +77,13 @@ export default function Tools() {
   });
 
   const [sensorData, setSensorData] = useState<SensorData[]>([
-    { temperature: 28.5, humidity: 65, soilMoisture: 42, ph: 6.8, timestamp: new Date() },
+    {
+      temperature: 28.5,
+      humidity: 65,
+      soilMoisture: 42,
+      ph: 6.8,
+      timestamp: new Date(),
+    },
   ]);
   const [geoMain, setGeoMain] = useState<{ lat?: number; lon?: number }>({});
 
@@ -205,7 +211,8 @@ export default function Tools() {
   useEffect(() => {
     if (navigator?.geolocation) {
       navigator.geolocation.getCurrentPosition(
-        (pos) => setGeoMain({ lat: pos.coords.latitude, lon: pos.coords.longitude }),
+        (pos) =>
+          setGeoMain({ lat: pos.coords.latitude, lon: pos.coords.longitude }),
         () => setGeoMain({ lat: 28.6139, lon: 77.209 }),
         { enableHighAccuracy: true, timeout: 5000 },
       );
@@ -224,11 +231,19 @@ export default function Tools() {
         const res = await fetch(url);
         const json = await res.json();
         if (json?.success && json?.data && !stop) {
-          const d = json.data as { temperatureC?: number | null; moisturePercent?: number | null; humidity?: number | null };
+          const d = json.data as {
+            temperatureC?: number | null;
+            moisturePercent?: number | null;
+            humidity?: number | null;
+          };
           const newData: SensorData = {
-            temperature: Number(d.temperatureC ?? sensorData[0]?.temperature ?? 28),
+            temperature: Number(
+              d.temperatureC ?? sensorData[0]?.temperature ?? 28,
+            ),
             humidity: Number(d.humidity ?? sensorData[0]?.humidity ?? 60),
-            soilMoisture: Number(d.moisturePercent ?? sensorData[0]?.soilMoisture ?? 40),
+            soilMoisture: Number(
+              d.moisturePercent ?? sensorData[0]?.soilMoisture ?? 40,
+            ),
             ph: sensorData[0]?.ph ?? 6.8,
             timestamp: new Date(),
           };
@@ -240,7 +255,10 @@ export default function Tools() {
     }
     const id = setInterval(tick, 15000);
     tick();
-    return () => { stop = true; clearInterval(id); };
+    return () => {
+      stop = true;
+      clearInterval(id);
+    };
   }, [geoMain.lat, geoMain.lon]);
 
   const calculateCarbonCredits = () => {
