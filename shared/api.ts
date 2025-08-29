@@ -44,3 +44,24 @@ export interface PaginationMeta {
 export interface PaginatedResponse<T> extends APIResponse<T[]> {
   meta: PaginationMeta;
 }
+
+// Carbon estimation API types
+export type CarbonEstimateRequest = {
+  mode: "soil" | "soil_gkg" | "agb" | "allometric";
+  payload: any;
+  metadata?: {
+    aoi?: string;
+    source?: string;
+    unit?: string;
+  };
+};
+
+export interface CarbonEstimateResponse {
+  success: boolean;
+  type: "soil" | "agb";
+  carbon_t_ha: number;
+  co2e_t_ha: number;
+  details?: Record<string, number>;
+  timestamp: string;
+  id?: string;
+}

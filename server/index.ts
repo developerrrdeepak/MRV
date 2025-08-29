@@ -17,6 +17,7 @@ import {
   socialAuth,
   socialCallback,
 } from "./routes/auth";
+import { estimateCarbon } from "./routes/carbon";
 
 export function createServer() {
   const app = express();
@@ -47,6 +48,9 @@ export function createServer() {
   });
 
   app.get("/api/health", healthCheck);
+
+  // Carbon estimation
+  app.post("/api/carbon/estimate", estimateCarbon);
 
   // Authentication routes
   app.post("/api/auth/send-otp", sendOTP);
