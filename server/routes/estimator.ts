@@ -2,7 +2,7 @@ import { RequestHandler } from "express";
 import { EstimatorRequest, APIResponse, EstimatorResult } from "@shared/api";
 import { estimateCarbon } from "../lib/models/estimator";
 
-export const calculateEstimator: RequestHandler = (req, res) => {
+export const calculateEstimator: RequestHandler = async (req, res) => {
   try {
     const payload = req.body as EstimatorRequest;
 
@@ -10,7 +10,7 @@ export const calculateEstimator: RequestHandler = (req, res) => {
       return res.status(400).json({ success: false, message: "Invalid input" } satisfies APIResponse);
     }
 
-    const result: EstimatorResult = estimateCarbon(payload);
+    const result: EstimatorResult = await estimateCarbon(payload);
     const response: APIResponse<EstimatorResult> = { success: true, data: result };
     res.json(response);
   } catch (error: any) {
