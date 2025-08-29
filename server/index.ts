@@ -3,6 +3,7 @@ import express from "express";
 import cors from "cors";
 import { healthCheck } from "./routes/health";
 import { testEmail, getEmailStatus } from "./routes/test";
+import { calculateEstimator } from "./routes/estimator";
 import {
   sendOTP,
   verifyOTP,
@@ -63,7 +64,7 @@ export function createServer() {
   // app.get("/api/auth/social/:provider/callback", socialCallback);
 
   // Estimator routes (no DB required)
-  app.post("/api/estimator/calculate", (await import("./routes/estimator")).calculateEstimator);
+  app.post("/api/estimator/calculate", calculateEstimator);
 
   // Admin routes (protected)
   app.get("/api/admin/farmers", getFarmers);
