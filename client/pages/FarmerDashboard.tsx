@@ -62,6 +62,21 @@ export default function FarmerDashboard() {
   });
   const [loading, setLoading] = useState(false);
   const [profileComplete, setProfileComplete] = useState(false);
+  const [geo, setGeo] = useState<{ lat?: number; lon?: number }>({});
+
+  useEffect(() => {
+    if (navigator?.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          setGeo({ lat: pos.coords.latitude, lon: pos.coords.longitude });
+        },
+        () => {
+          // ignore errors; server will fall back
+        },
+        { enableHighAccuracy: true, timeout: 5000 },
+      );
+    }
+  }, []);
 
   useEffect(() => {
     if (user?.farmer) {
@@ -146,6 +161,8 @@ export default function FarmerDashboard() {
           irrigation: (farmData.irrigationType as any) || "rainfed",
           soilPh: farmData.soilPh ? Number(farmData.soilPh) : 6.8,
           durationYears: 1,
+          latitude: geo.lat,
+          longitude: geo.lon,
         }),
       });
       if (res.ok) {
