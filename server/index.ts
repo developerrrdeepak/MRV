@@ -5,6 +5,7 @@ import { healthCheck } from "./routes/health";
 import { testEmail, getEmailStatus } from "./routes/test";
 import { calculateEstimator } from "./routes/estimator";
 import { ingestExample, trainModel, getModelInfo } from "./routes/ml";
+import { getSoilData } from "./routes/iot";
 import {
   sendOTP,
   verifyOTP,
