@@ -414,7 +414,7 @@ export default function Index() {
                 {
                   src: "https://images.pexels.com/photos/7299994/pexels-photo-7299994.jpeg",
                   alt: "Sustainable greenhouse farming with modern technology",
-                  title: "स्मार्��� फार्मिंग",
+                  title: "स्मार्ट फार्मिंग",
                   subtitle: "आधुनिक तकनीक से खेती",
                   badge: "AI Powered",
                   gradientFrom: "emerald-900/90",
@@ -567,7 +567,7 @@ export default function Index() {
               <span className="text-emerald-600">Carbon Farming?</span>
             </h2>
             <p className="text-xl text-gray-600 font-medium max-w-3xl mx-auto">
-              आसान, फायदेमंद, और पर्यावरण ��े लिए बेहतर
+              आसान, फायदेमंद, और पर्यावरण केलिए बेहतर
             </p>
           </div>
           <motion.div
