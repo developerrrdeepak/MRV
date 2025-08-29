@@ -104,7 +104,7 @@ export default function Index() {
       description: "भारत भर में",
     },
     {
-      number: "₹50 करोड���+",
+      number: "₹5 करोड",
       label: "Carbon Income",
       description: "किसानों को मिली",
     },
@@ -414,7 +414,7 @@ export default function Index() {
                 {
                   src: "https://images.pexels.com/photos/7299994/pexels-photo-7299994.jpeg",
                   alt: "Sustainable greenhouse farming with modern technology",
-                  title: "स्मार्ट फार्मिंग",
+                  title: "स्मार्��� फार्मिंग",
                   subtitle: "आधुनिक तकनीक से खेती",
                   badge: "AI Powered",
                   gradientFrom: "emerald-900/90",
@@ -655,7 +655,7 @@ export default function Index() {
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
               <h2 className="text-4xl lg:text-5xl font-display font-black text-gray-900 mb-6 leading-tight">
-                <span className="text-emerald-600">फायदे</span> जो आ��को मिलेंगे
+                <span className="text-emerald-600">फायदे</span> जो आपको मिलेंगे
               </h2>
               <p className="text-xl text-gray-600 mb-8 font-medium leading-relaxed">
                 Carbon farming से न केवल आपकी आय बढ़ेगी, बल्कि पर्यावरण भी बेहतर
