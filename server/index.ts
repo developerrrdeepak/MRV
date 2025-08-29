@@ -62,6 +62,9 @@ export function createServer() {
   // app.post("/api/auth/social/:provider", socialAuth);
   // app.get("/api/auth/social/:provider/callback", socialCallback);
 
+  // Estimator routes (no DB required)
+  app.post("/api/estimator/calculate", (await import("./routes/estimator")).calculateEstimator);
+
   // Admin routes (protected)
   app.get("/api/admin/farmers", getFarmers);
   app.put("/api/admin/farmer-status", updateFarmerStatus);
