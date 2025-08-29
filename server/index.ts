@@ -74,7 +74,6 @@ export function createServer() {
   app.get("/api/ml/model", getModelInfo);
 
   // IoT routes
-  const { getSoilData } = await import("./routes/iot");
   app.get("/api/iot/soil", getSoilData);
 
   // Admin routes (protected)
