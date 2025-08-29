@@ -40,7 +40,9 @@ export function round(value: number, digits = 3): number {
 // Soil organic carbon stock calculator.
 // Returns SOC stock in tC/ha and tCO2e/ha using standard IPCC approach.
 export function computeSoilCarbon(input: SoilInput): CarbonOutputs {
-  const rf = input.rock_fragment_pct ? Math.max(0, Math.min(100, input.rock_fragment_pct)) / 100 : 0;
+  const rf = input.rock_fragment_pct
+    ? Math.max(0, Math.min(100, input.rock_fragment_pct)) / 100
+    : 0;
   const bd_t_m3 = input.bulk_density_g_cm3; // 1 g/cm3 == 1 t/m3
   const depth_m = input.depth_cm / 100;
 
@@ -48,7 +50,7 @@ export function computeSoilCarbon(input: SoilInput): CarbonOutputs {
   if (input.kind === "soil") {
     // Using SOC% by weight. Common simplification yields factor 0.1 when BD in g/cm3 and depth in cm.
     const soc_frac = input.soc_percent / 100; // fraction
-    soc_t_ha = soc_frac * bd_t_m3 * (input.depth_cm) * (1 - rf) * 10; // = soc%/100 * BD * depth(cm) * 10
+    soc_t_ha = soc_frac * bd_t_m3 * input.depth_cm * (1 - rf) * 10; // = soc%/100 * BD * depth(cm) * 10
   } else {
     // SOC in g/kg. Formula: SOC_stock (t/ha) = SOC(g/kg) * BD(t/m3) * depth(m) * 10 * (1 - RF)
     soc_t_ha = input.soc_g_per_kg * bd_t_m3 * depth_m * 10 * (1 - rf);

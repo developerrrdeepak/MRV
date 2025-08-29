@@ -79,16 +79,25 @@ export const handler: Handler = async (event, context) => {
         return {
           statusCode: 400,
           headers: corsHeaders,
-          body: JSON.stringify({ success: false, message: "mode and payload are required" }),
+          body: JSON.stringify({
+            success: false,
+            message: "mode and payload are required",
+          }),
         };
       }
 
-      let result: { carbon_t_ha: number; co2e_t_ha: number; details?: Record<string, number> } | null = null;
+      let result: {
+        carbon_t_ha: number;
+        co2e_t_ha: number;
+        details?: Record<string, number>;
+      } | null = null;
       let type: "soil" | "agb" | null = null;
 
       if (mode === "soil" || mode === "soil_gkg") {
         const r = computeSoilCarbon(
-          mode === "soil" ? { kind: "soil", ...payload } : { kind: "soil_gkg", ...payload },
+          mode === "soil"
+            ? { kind: "soil", ...payload }
+            : { kind: "soil_gkg", ...payload },
         );
         result = r;
         type = "soil";
@@ -96,7 +105,9 @@ export const handler: Handler = async (event, context) => {
 
       if (mode === "agb" || mode === "allometric") {
         const r = computeAGBCarbon(
-          mode === "agb" ? { kind: "agb", ...payload } : { kind: "allometric", ...payload },
+          mode === "agb"
+            ? { kind: "agb", ...payload }
+            : { kind: "allometric", ...payload },
         );
         result = r;
         type = "agb";
@@ -106,7 +117,11 @@ export const handler: Handler = async (event, context) => {
         return {
           statusCode: 400,
           headers: corsHeaders,
-          body: JSON.stringify({ success: false, message: "Unsupported mode. Use soil, soil_gkg, agb, or allometric." }),
+          body: JSON.stringify({
+            success: false,
+            message:
+              "Unsupported mode. Use soil, soil_gkg, agb, or allometric.",
+          }),
         };
       }
 
@@ -127,7 +142,13 @@ export const handler: Handler = async (event, context) => {
           const client = await MongoClient.connect(uri);
           const db = client.db(dbName);
           const collection = db.collection("carbon_estimates");
-          const insert = await collection.insertOne({ mode, payload, metadata: metadata ?? null, result: response, createdAt: new Date() });
+          const insert = await collection.insertOne({
+            mode,
+            payload,
+            metadata: metadata ?? null,
+            result: response,
+            createdAt: new Date(),
+          });
           response.id = insert.insertedId.toString();
           await client.close();
         }
@@ -135,7 +156,11 @@ export const handler: Handler = async (event, context) => {
         console.warn("[NETLIFY CARBON] DB persistence skipped:", e.message);
       }
 
-      return { statusCode: 200, headers: corsHeaders, body: JSON.stringify(response) };
+      return {
+        statusCode: 200,
+        headers: corsHeaders,
+        body: JSON.stringify(response),
+      };
     }
 
     // Ping endpoint

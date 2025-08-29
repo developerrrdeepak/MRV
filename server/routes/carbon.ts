@@ -1,7 +1,10 @@
 import type { RequestHandler } from "express";
 import Database from "../lib/database";
 import { computeAGBCarbon, computeSoilCarbon } from "@shared/carbon";
-import type { CarbonEstimateRequest, CarbonEstimateResponse } from "@shared/api";
+import type {
+  CarbonEstimateRequest,
+  CarbonEstimateResponse,
+} from "@shared/api";
 
 async function ensureDb() {
   try {
