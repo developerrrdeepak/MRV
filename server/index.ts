@@ -48,6 +48,9 @@ export function createServer() {
 
   app.get("/api/health", healthCheck);
 
+  // Carbon estimation
+  app.post("/api/carbon/estimate", (await import("./routes/carbon")).estimateCarbon);
+
   // Authentication routes
   app.post("/api/auth/send-otp", sendOTP);
   app.post("/api/auth/verify-otp", verifyOTP);
