@@ -1,4 +1,6 @@
 import type { Handler } from "@netlify/functions";
+import { MongoClient } from "mongodb";
+import { computeAGBCarbon, computeSoilCarbon } from "@shared/carbon";
 
 // Simple in-memory storage for OTPs (in production, use a database)
 const otpStore = new Map<string, { otp: string; timestamp: number }>();
@@ -63,6 +65,77 @@ export const handler: Handler = async (event, context) => {
           message: "Netlify function is running",
         }),
       };
+    }
+
+    // Carbon estimation endpoint
+    if (path === "/api/carbon/estimate" && method === "POST") {
+      const { mode, payload, metadata } = body as {
+        mode: "soil" | "soil_gkg" | "agb" | "allometric";
+        payload: any;
+        metadata?: Record<string, any>;
+      };
+
+      if (!mode || !payload) {
+        return {
+          statusCode: 400,
+          headers: corsHeaders,
+          body: JSON.stringify({ success: false, message: "mode and payload are required" }),
+        };
+      }
+
+      let result: { carbon_t_ha: number; co2e_t_ha: number; details?: Record<string, number> } | null = null;
+      let type: "soil" | "agb" | null = null;
+
+      if (mode === "soil" || mode === "soil_gkg") {
+        const r = computeSoilCarbon(
+          mode === "soil" ? { kind: "soil", ...payload } : { kind: "soil_gkg", ...payload },
+        );
+        result = r;
+        type = "soil";
+      }
+
+      if (mode === "agb" || mode === "allometric") {
+        const r = computeAGBCarbon(
+          mode === "agb" ? { kind: "agb", ...payload } : { kind: "allometric", ...payload },
+        );
+        result = r;
+        type = "agb";
+      }
+
+      if (!result || !type) {
+        return {
+          statusCode: 400,
+          headers: corsHeaders,
+          body: JSON.stringify({ success: false, message: "Unsupported mode. Use soil, soil_gkg, agb, or allometric." }),
+        };
+      }
+
+      const response = {
+        success: true,
+        type,
+        carbon_t_ha: result.carbon_t_ha,
+        co2e_t_ha: result.co2e_t_ha,
+        details: result.details,
+        timestamp: new Date().toISOString(),
+      } as any;
+
+      // Persist if MongoDB configured
+      try {
+        const uri = process.env.MONGODB_URI;
+        const dbName = process.env.DB_NAME || "carbonroots";
+        if (uri) {
+          const client = await MongoClient.connect(uri);
+          const db = client.db(dbName);
+          const collection = db.collection("carbon_estimates");
+          const insert = await collection.insertOne({ mode, payload, metadata: metadata ?? null, result: response, createdAt: new Date() });
+          response.id = insert.insertedId.toString();
+          await client.close();
+        }
+      } catch (e: any) {
+        console.warn("[NETLIFY CARBON] DB persistence skipped:", e.message);
+      }
+
+      return { statusCode: 200, headers: corsHeaders, body: JSON.stringify(response) };
     }
 
     // Ping endpoint
