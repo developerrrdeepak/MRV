@@ -20,7 +20,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Textarea } from "@/components/ui/textarea";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { toast } from "sonner";
 import {
   Satellite,
@@ -112,7 +117,9 @@ export default function Tools() {
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
   const [geo, setGeo] = useState<{ lat?: number; lon?: number }>({});
   const [path, setPath] = useState<{ lat: number; lon: number }[]>([]);
-  const [entries, setEntries] = useState<{ date: string; activity: string; notes: string }[]>(() => {
+  const [entries, setEntries] = useState<
+    { date: string; activity: string; notes: string }[]
+  >(() => {
     try {
       const s = localStorage.getItem("farm_entries");
       return s ? JSON.parse(s) : [];
@@ -120,7 +127,11 @@ export default function Tools() {
       return [];
     }
   });
-  const [weather, setWeather] = useState<{ temp?: number; precip?: number; summary?: string } | null>(null);
+  const [weather, setWeather] = useState<{
+    temp?: number;
+    precip?: number;
+    summary?: string;
+  } | null>(null);
 
   function onPhotoChange(e: React.ChangeEvent<HTMLInputElement>) {
     const f = e.target.files?.[0];
@@ -131,8 +142,15 @@ export default function Tools() {
     reader.onload = () => {
       try {
         const stored = JSON.parse(localStorage.getItem("farm_photos") || "[]");
-        stored.unshift({ name: f.name, dataUrl: reader.result, ts: Date.now() });
-        localStorage.setItem("farm_photos", JSON.stringify(stored.slice(0, 20)));
+        stored.unshift({
+          name: f.name,
+          dataUrl: reader.result,
+          ts: Date.now(),
+        });
+        localStorage.setItem(
+          "farm_photos",
+          JSON.stringify(stored.slice(0, 20)),
+        );
         toast.success("Photo saved locally");
       } catch {
         // ignore
@@ -154,13 +172,18 @@ export default function Tools() {
   }
 
   function addPoint() {
-    if (geo.lat && geo.lon) setPath((p) => [...p, { lat: geo.lat!, lon: geo.lon! }]);
+    if (geo.lat && geo.lon)
+      setPath((p) => [...p, { lat: geo.lat!, lon: geo.lon! }]);
   }
 
   function saveEntry(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const fd = new FormData(e.currentTarget);
-    const item = { date: String(fd.get("date")), activity: String(fd.get("activity")), notes: String(fd.get("notes")) };
+    const item = {
+      date: String(fd.get("date")),
+      activity: String(fd.get("activity")),
+      notes: String(fd.get("notes")),
+    };
     const next = [item, ...entries].slice(0, 50);
     setEntries(next);
     localStorage.setItem("farm_entries", JSON.stringify(next));
@@ -835,39 +858,59 @@ export default function Tools() {
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
-                    <button onClick={() => setOpenPhoto(true)} className="w-full text-left">
+                    <button
+                      onClick={() => setOpenPhoto(true)}
+                      className="w-full text-left"
+                    >
                       <div className="flex items-center space-x-3 p-3 border rounded-lg hover:bg-gray-50">
                         <Camera className="h-6 w-6 text-blue-600" />
                         <div>
                           <p className="font-medium">Photo Upload</p>
-                          <p className="text-sm text-gray-600">Capture field photos for verification</p>
+                          <p className="text-sm text-gray-600">
+                            Capture field photos for verification
+                          </p>
                         </div>
                       </div>
                     </button>
-                    <button onClick={() => setOpenGPS(true)} className="w-full text-left">
+                    <button
+                      onClick={() => setOpenGPS(true)}
+                      className="w-full text-left"
+                    >
                       <div className="flex items-center space-x-3 p-3 border rounded-lg hover:bg-gray-50">
                         <MapPin className="h-6 w-6 text-green-600" />
                         <div>
                           <p className="font-medium">GPS Mapping</p>
-                          <p className="text-sm text-gray-600">Mark field boundaries accurately</p>
+                          <p className="text-sm text-gray-600">
+                            Mark field boundaries accurately
+                          </p>
                         </div>
                       </div>
                     </button>
-                    <button onClick={() => setOpenData(true)} className="w-full text-left">
+                    <button
+                      onClick={() => setOpenData(true)}
+                      className="w-full text-left"
+                    >
                       <div className="flex items-center space-x-3 p-3 border rounded-lg hover:bg-gray-50">
                         <BarChart3 className="h-6 w-6 text-purple-600" />
                         <div>
                           <p className="font-medium">Data Entry</p>
-                          <p className="text-sm text-gray-600">Record farming activities offline</p>
+                          <p className="text-sm text-gray-600">
+                            Record farming activities offline
+                          </p>
                         </div>
                       </div>
                     </button>
-                    <button onClick={() => setOpenWeather(true)} className="w-full text-left">
+                    <button
+                      onClick={() => setOpenWeather(true)}
+                      className="w-full text-left"
+                    >
                       <div className="flex items-center space-x-3 p-3 border rounded-lg hover:bg-gray-50">
                         <Globe className="h-6 w-6 text-amber-600" />
                         <div>
                           <p className="font-medium">Weather Integration</p>
-                          <p className="text-sm text-gray-600">Local weather and predictions</p>
+                          <p className="text-sm text-gray-600">
+                            Local weather and predictions
+                          </p>
                         </div>
                       </div>
                     </button>
@@ -881,11 +924,23 @@ export default function Tools() {
                       <DialogTitle>Photo Upload</DialogTitle>
                     </DialogHeader>
                     <div className="space-y-3">
-                      <Input type="file" accept="image/*" capture="environment" onChange={onPhotoChange} />
+                      <Input
+                        type="file"
+                        accept="image/*"
+                        capture="environment"
+                        onChange={onPhotoChange}
+                      />
                       {photoPreview && (
-                        <img src={photoPreview} alt="preview" className="w-full h-56 object-cover rounded" />
+                        <img
+                          src={photoPreview}
+                          alt="preview"
+                          className="w-full h-56 object-cover rounded"
+                        />
                       )}
-                      <p className="text-xs text-gray-500">Saved locally. Upload service can be wired to backend later.</p>
+                      <p className="text-xs text-gray-500">
+                        Saved locally. Upload service can be wired to backend
+                        later.
+                      </p>
                     </div>
                   </DialogContent>
                 </Dialog>
@@ -898,17 +953,37 @@ export default function Tools() {
                     </DialogHeader>
                     <div className="space-y-3">
                       <div className="flex items-center gap-2">
-                        <Button onClick={getLocation} variant="outline">Get Location</Button>
-                        <Button onClick={addPoint} variant="secondary">Add Point</Button>
+                        <Button onClick={getLocation} variant="outline">
+                          Get Location
+                        </Button>
+                        <Button onClick={addPoint} variant="secondary">
+                          Add Point
+                        </Button>
                       </div>
-                      <div className="text-sm text-gray-700">Current: {geo.lat?.toFixed(5) ?? "-"}, {geo.lon?.toFixed(5) ?? "-"}</div>
+                      <div className="text-sm text-gray-700">
+                        Current: {geo.lat?.toFixed(5) ?? "-"},{" "}
+                        {geo.lon?.toFixed(5) ?? "-"}
+                      </div>
                       <div className="max-h-40 overflow-auto border rounded p-2 text-sm">
-                        {path.length === 0 ? <div>No points yet</div> : path.map((p, i) => (
-                          <div key={i}>#{i + 1} → {p.lat.toFixed(5)}, {p.lon.toFixed(5)}</div>
-                        ))}
+                        {path.length === 0 ? (
+                          <div>No points yet</div>
+                        ) : (
+                          path.map((p, i) => (
+                            <div key={i}>
+                              #{i + 1} → {p.lat.toFixed(5)}, {p.lon.toFixed(5)}
+                            </div>
+                          ))
+                        )}
                       </div>
                       {geo.lat && geo.lon && (
-                        <a className="text-blue-600 underline text-sm" target="_blank" rel="noreferrer" href={`https://www.openstreetmap.org/?mlat=${geo.lat}&mlon=${geo.lon}#map=16/${geo.lat}/${geo.lon}`}>Open in Map</a>
+                        <a
+                          className="text-blue-600 underline text-sm"
+                          target="_blank"
+                          rel="noreferrer"
+                          href={`https://www.openstreetmap.org/?mlat=${geo.lat}&mlon=${geo.lon}#map=16/${geo.lat}/${geo.lon}`}
+                        >
+                          Open in Map
+                        </a>
                       )}
                     </div>
                   </DialogContent>
@@ -928,21 +1003,41 @@ export default function Tools() {
                         </div>
                         <div>
                           <Label htmlFor="activity">Activity</Label>
-                          <Input id="activity" name="activity" placeholder="Sowing / Irrigation / Harvest" required />
+                          <Input
+                            id="activity"
+                            name="activity"
+                            placeholder="Sowing / Irrigation / Harvest"
+                            required
+                          />
                         </div>
                       </div>
                       <div>
                         <Label htmlFor="notes">Notes</Label>
-                        <Textarea id="notes" name="notes" placeholder="Details" />
+                        <Textarea
+                          id="notes"
+                          name="notes"
+                          placeholder="Details"
+                        />
                       </div>
-                      <Button type="submit" className="w-full">Save</Button>
+                      <Button type="submit" className="w-full">
+                        Save
+                      </Button>
                       <div className="max-h-32 overflow-auto text-sm border rounded p-2">
-                        {entries.length === 0 ? <div>No entries yet</div> : entries.map((e, i) => (
-                          <div key={i} className="py-1 border-b last:border-0">
-                            <div className="font-medium">{e.date} • {e.activity}</div>
-                            <div className="text-gray-600">{e.notes}</div>
-                          </div>
-                        ))}
+                        {entries.length === 0 ? (
+                          <div>No entries yet</div>
+                        ) : (
+                          entries.map((e, i) => (
+                            <div
+                              key={i}
+                              className="py-1 border-b last:border-0"
+                            >
+                              <div className="font-medium">
+                                {e.date} • {e.activity}
+                              </div>
+                              <div className="text-gray-600">{e.notes}</div>
+                            </div>
+                          ))
+                        )}
                       </div>
                     </form>
                   </DialogContent>
@@ -956,10 +1051,15 @@ export default function Tools() {
                     </DialogHeader>
                     <div className="space-y-3">
                       <div className="flex items-center gap-2">
-                        <Button onClick={getLocation} variant="outline">Use GPS</Button>
+                        <Button onClick={getLocation} variant="outline">
+                          Use GPS
+                        </Button>
                         <Button onClick={fetchWeather}>Get Weather</Button>
                       </div>
-                      <div className="text-sm text-gray-700">Coords: {geo.lat?.toFixed(4) ?? "-"}, {geo.lon?.toFixed(4) ?? "-"}</div>
+                      <div className="text-sm text-gray-700">
+                        Coords: {geo.lat?.toFixed(4) ?? "-"},{" "}
+                        {geo.lon?.toFixed(4) ?? "-"}
+                      </div>
                       {weather && (
                         <div className="p-3 bg-amber-50 border rounded">
                           <div className="font-medium">Current</div>
