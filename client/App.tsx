@@ -18,6 +18,7 @@ import AdminDashboard from "./pages/AdminDashboard";
 import AboutUs from "./pages/AboutUs";
 import TestEmail from "./pages/TestEmail";
 import Layout from "./components/Layout";
+import CarbonEstimator from "./pages/CarbonEstimator";
 
 const queryClient = new QueryClient();
 
@@ -38,6 +39,7 @@ const App = () => (
               <Route path="/about" element={<AboutUs />} />
               <Route path="/farmer-dashboard" element={<FarmerDashboard />} />
               <Route path="/admin-dashboard" element={<AdminDashboard />} />
+              <Route path="/tools/carbon" element={<CarbonEstimator />} />
               {/* Development only routes */}
               {import.meta.env.DEV && (
                 <Route path="/test-email" element={<TestEmail />} />
