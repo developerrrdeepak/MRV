@@ -55,6 +55,27 @@ export interface EstimatorRequest {
   soilPh?: number; // 0-14
   durationYears?: number; // years
   baselineCarbon?: number; // optional baseline tCO2/ha/yr
+  latitude?: number; // optional coordinates for external data
+  longitude?: number; // optional coordinates for external data
+}
+
+export interface MLIngestRequest {
+  label: number; // target creditsPerYear
+  estimatorInput?: Partial<EstimatorRequest>;
+  latitude?: number;
+  longitude?: number;
+}
+
+export interface MLTrainResponse {
+  success: boolean;
+  model?: {
+    name: string;
+    version: number;
+    metrics: { rmse: number; r2: number };
+    trainingCount: number;
+    createdAt: string;
+  };
+  message?: string;
 }
 
 export interface EstimatorResult {
