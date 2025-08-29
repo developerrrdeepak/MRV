@@ -1,6 +1,6 @@
 import type { Handler } from "@netlify/functions";
 import { MongoClient } from "mongodb";
-import { computeAGBCarbon, computeSoilCarbon } from "@shared/carbon";
+import { computeAGBCarbon, computeSoilCarbon } from "../../shared/carbon";
 
 // Simple in-memory storage for OTPs (in production, use a database)
 const otpStore = new Map<string, { otp: string; timestamp: number }>();
