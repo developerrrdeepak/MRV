@@ -192,7 +192,7 @@ export default function Index() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8, delay: 0.6 }}
               >
-                किसानों&nbsp; &nbsp;लिए
+                किसानों&nbsp; के&nbsp;लिए
               </motion.span>
               <br />
               <motion.span
@@ -655,7 +655,7 @@ export default function Index() {
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
               <h2 className="text-4xl lg:text-5xl font-display font-black text-gray-900 mb-6 leading-tight">
-                <span className="text-emerald-600">फायदे</span> जो आपको मिलेंगे
+                <span className="text-emerald-600">फायदे</span> जो आ��को मिलेंगे
               </h2>
               <p className="text-xl text-gray-600 mb-8 font-medium leading-relaxed">
                 Carbon farming से न केवल आपकी आय बढ़ेगी, बल्कि पर्यावरण भी बेहतर
