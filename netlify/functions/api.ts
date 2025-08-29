@@ -20,12 +20,19 @@ function isValidEmail(email: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
+function b64encode(input: string): string {
+  return Buffer.from(input, "utf8").toString("base64");
+}
+function b64decode(input: string): string {
+  return Buffer.from(input, "base64").toString("utf8");
+}
+
 function generateJWT(payload: any): string {
   // Simple JWT implementation (in production, use proper JWT library)
   const header = { alg: "HS256", typ: "JWT" };
-  const encodedHeader = btoa(JSON.stringify(header));
-  const encodedPayload = btoa(JSON.stringify(payload));
-  const signature = btoa(`${encodedHeader}.${encodedPayload}.secret`);
+  const encodedHeader = b64encode(JSON.stringify(header));
+  const encodedPayload = b64encode(JSON.stringify(payload));
+  const signature = b64encode(`${encodedHeader}.${encodedPayload}.secret`);
   return `${encodedHeader}.${encodedPayload}.${signature}`;
 }
 
@@ -383,7 +390,7 @@ export const handler: Handler = async (event, context) => {
           throw new Error("Invalid token format");
         }
 
-        const payload = JSON.parse(atob(parts[1]));
+        const payload = JSON.parse(b64decode(parts[1]));
 
         return {
           statusCode: 200,
