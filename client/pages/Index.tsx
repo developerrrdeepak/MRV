@@ -53,7 +53,7 @@ export default function Index() {
     {
       icon: Smartphone,
       title: "सरल मोबाइल ऐप",
-      description: "��सान interface के साथ हिंदी में carbon farming track करें",
+      description: "��सान interface के साथ हिंदी में carbon farming track कर��ं",
       color: "blue",
     },
     {
@@ -398,6 +398,21 @@ export default function Index() {
                     className="border-2 border-teal-600/70 text-teal-600 hover:bg-gradient-to-r hover:from-teal-100/90 hover:to-emerald-100/90 text-lg px-8 font-semibold tracking-wide hover:shadow-xl transition-all duration-300 backdrop-blur-sm bg-white/80 hover:border-teal-500"
                   >
                     और जानें
+                  </Button>
+                </motion.div>
+              </Link>
+              <Link to="/estimator">
+                <motion.div
+                  whileHover={{ scale: 1.05, y: -2 }}
+                  whileTap={{ scale: 0.98 }}
+                  transition={{ type: "spring", stiffness: 300 }}
+                >
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    className="border-2 border-emerald-600/70 text-emerald-700 hover:bg-gradient-to-r hover:from-emerald-100/90 hover:to-teal-100/90 text-lg px-8 font-semibold tracking-wide hover:shadow-xl transition-all duration-300 backdrop-blur-sm bg-white/80 hover:border-emerald-500"
+                  >
+                    Carbon Estimator
                   </Button>
                 </motion.div>
               </Link>
