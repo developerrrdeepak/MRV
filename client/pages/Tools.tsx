@@ -841,7 +841,13 @@ export default function Tools() {
                   <CardDescription>Embedded external estimator</CardDescription>
                 </div>
                 <Button asChild variant="outline">
-                  <a href={estimatorUrl} target="_blank" rel="noopener noreferrer">Open in new tab</a>
+                  <a
+                    href={estimatorUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Open in new tab
+                  </a>
                 </Button>
               </CardHeader>
               <CardContent>

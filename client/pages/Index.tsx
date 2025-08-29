@@ -53,7 +53,8 @@ export default function Index() {
     {
       icon: Smartphone,
       title: "सरल मोबाइल ऐप",
-      description: "��सान interface के साथ हिंदी में carbon farming track कर��ं",
+      description:
+        "��सान interface के साथ हिंदी में carbon farming track कर��ं",
       color: "blue",
     },
     {
