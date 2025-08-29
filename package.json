@@ -22,7 +22,8 @@
     "setup": "node scripts/setup.js",
     "setup:db": "node scripts/setup.js",
     "test:api": "node scripts/test-api.js",
-    "generate:secret": "node scripts/generate-secret.js"
+    "generate:secret": "node scripts/generate-secret.js",
+    "train:ml": "tsx scripts/train-ml.ts"
   },
   "dependencies": {
     "@sendgrid/mail": "^8.1.5",

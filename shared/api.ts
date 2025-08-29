@@ -44,3 +44,43 @@ export interface PaginationMeta {
 export interface PaginatedResponse<T> extends APIResponse<T[]> {
   meta: PaginationMeta;
 }
+
+// Estimator API types
+export interface EstimatorRequest {
+  areaHectares: number; // land area
+  projectType: "agroforestry" | "rice" | "soil" | "biomass";
+  ndvi?: number; // 0-1
+  biomass?: number; // t/ha
+  irrigation?: "drip" | "sprinkler" | "flood" | "rainfed";
+  soilPh?: number; // 0-14
+  durationYears?: number; // years
+  baselineCarbon?: number; // optional baseline tCO2/ha/yr
+  latitude?: number; // optional coordinates for external data
+  longitude?: number; // optional coordinates for external data
+}
+
+export interface MLIngestRequest {
+  label: number; // target creditsPerYear
+  estimatorInput?: Partial<EstimatorRequest>;
+  latitude?: number;
+  longitude?: number;
+}
+
+export interface MLTrainResponse {
+  success: boolean;
+  model?: {
+    name: string;
+    version: number;
+    metrics: { rmse: number; r2: number };
+    trainingCount: number;
+    createdAt: string;
+  };
+  message?: string;
+}
+
+export interface EstimatorResult {
+  creditsPerYear: number; // tCO2e credits/year
+  totalCredits: number; // over duration
+  estimatedIncomeINR: number; // INR
+  assumptions: Record<string, number | string>;
+}

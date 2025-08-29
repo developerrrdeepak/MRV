@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { Navigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -61,6 +61,21 @@ export default function FarmerDashboard() {
   });
   const [loading, setLoading] = useState(false);
   const [profileComplete, setProfileComplete] = useState(false);
+  const [geo, setGeo] = useState<{ lat?: number; lon?: number }>({});
+
+  useEffect(() => {
+    if (navigator?.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          setGeo({ lat: pos.coords.latitude, lon: pos.coords.longitude });
+        },
+        () => {
+          // ignore errors; server will fall back
+        },
+        { enableHighAccuracy: true, timeout: 5000 },
+      );
+    }
+  }, []);
 
   useEffect(() => {
     if (user?.farmer) {
@@ -128,18 +143,54 @@ export default function FarmerDashboard() {
     setLoading(false);
   };
 
-  const calculateCarbonCredits = () => {
+  const [estimator, setEstimator] = useState<{
+    totalCredits: number;
+    estimatedIncome: number;
+    loading: boolean;
+  }>({ totalCredits: 0, estimatedIncome: 0, loading: false });
+
+  const runEstimator = async () => {
     const landSize = parseFloat(profile.landSize) || 0;
-    const creditsPerHectare = 2.5; // Example rate
-    const pricePerCredit = 500; // INR per credit
-
-    const totalCredits = landSize * creditsPerHectare;
-    const estimatedIncome = totalCredits * pricePerCredit;
-
-    return { totalCredits, estimatedIncome };
+    setEstimator((s) => ({ ...s, loading: true }));
+    try {
+      const res = await fetch("/api/estimator/calculate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          areaHectares: landSize,
+          projectType: "agroforestry",
+          ndvi: farmData.soilMoisture
+            ? Math.min(1, Math.max(0, Number(farmData.soilMoisture) / 100))
+            : 0.75,
+          biomass: farmData.areaPlanted
+            ? Math.max(8, Number(farmData.areaPlanted) * 2)
+            : 12,
+          irrigation: (farmData.irrigationType as any) || "rainfed",
+          soilPh: farmData.soilPh ? Number(farmData.soilPh) : 6.8,
+          durationYears: 1,
+          latitude: geo.lat,
+          longitude: geo.lon,
+        }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        const total = data.data?.totalCredits ?? 0;
+        const income = data.data?.estimatedIncomeINR ?? 0;
+        setEstimator({
+          totalCredits: total,
+          estimatedIncome: income,
+          loading: false,
+        });
+      } else {
+        throw new Error("estimator failed");
+      }
+    } catch {
+      const creditsPerHectare = 2.5;
+      const totalCredits = landSize * creditsPerHectare;
+      const estimatedIncome = totalCredits * 500;
+      setEstimator({ totalCredits, estimatedIncome, loading: false });
+    }
   };
-
-  const { totalCredits, estimatedIncome } = calculateCarbonCredits();
 
   const projects = [
     {
@@ -484,16 +535,27 @@ export default function FarmerDashboard() {
                     <div className="flex justify-between items-center">
                       <span className="font-medium">Total Credits:</span>
                       <span className="font-bold text-green-600">
-                        {totalCredits.toFixed(1)}
+                        {estimator.totalCredits.toFixed(1)}
                       </span>
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="font-medium">Estimated Income:</span>
                       <span className="font-bold text-green-600 flex items-center">
                         <IndianRupee className="h-4 w-4 mr-1" />
-                        {estimatedIncome.toLocaleString("en-IN")}
+                        {estimator.estimatedIncome.toLocaleString("en-IN")}
                       </span>
                     </div>
+                  </div>
+                  <div className="pt-4">
+                    <Button
+                      onClick={runEstimator}
+                      disabled={estimator.loading}
+                      className="bg-green-600 hover:bg-green-700"
+                    >
+                      {estimator.loading
+                        ? "Calculating..."
+                        : "Recalculate with AI Model"}
+                    </Button>
                   </div>
                 </CardContent>
               </Card>

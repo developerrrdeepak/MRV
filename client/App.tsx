@@ -12,6 +12,7 @@ import Solutions from "./pages/Solutions";
 import Tools from "./pages/Tools";
 import CaseStudies from "./pages/CaseStudies";
 import Resources from "./pages/Resources";
+import Estimator from "./pages/Estimator";
 import NotFound from "./pages/NotFound";
 import FarmerDashboard from "./pages/FarmerDashboard";
 import AdminDashboard from "./pages/AdminDashboard";
@@ -35,6 +36,7 @@ const App = () => (
               <Route path="/tools" element={<Tools />} />
               <Route path="/case-studies" element={<CaseStudies />} />
               <Route path="/resources" element={<Resources />} />
+              <Route path="/estimator" element={<Estimator />} />
               <Route path="/about" element={<AboutUs />} />
               <Route path="/farmer-dashboard" element={<FarmerDashboard />} />
               <Route path="/admin-dashboard" element={<AdminDashboard />} />

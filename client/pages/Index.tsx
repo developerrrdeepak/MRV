@@ -53,7 +53,8 @@ export default function Index() {
     {
       icon: Smartphone,
       title: "सरल मोबाइल ऐप",
-      description: "��सान interface के साथ हिंदी में carbon farming track करें",
+      description:
+        "��सान interface के साथ हिंदी में carbon farming track कर��ं",
       color: "blue",
     },
     {
@@ -104,7 +105,7 @@ export default function Index() {
       description: "भारत भर में",
     },
     {
-      number: "₹50 करोड���+",
+      number: "₹5 करोड",
       label: "Carbon Income",
       description: "किसानों को मिली",
     },
@@ -192,7 +193,7 @@ export default function Index() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8, delay: 0.6 }}
               >
-                किसानों&nbsp; &nbsp;लिए
+                किसानों&nbsp; के&nbsp;लिए
               </motion.span>
               <br />
               <motion.span
@@ -401,6 +402,21 @@ export default function Index() {
                   </Button>
                 </motion.div>
               </Link>
+              <Link to="/estimator">
+                <motion.div
+                  whileHover={{ scale: 1.05, y: -2 }}
+                  whileTap={{ scale: 0.98 }}
+                  transition={{ type: "spring", stiffness: 300 }}
+                >
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    className="border-2 border-emerald-600/70 text-emerald-700 hover:bg-gradient-to-r hover:from-emerald-100/90 hover:to-teal-100/90 text-lg px-8 font-semibold tracking-wide hover:shadow-xl transition-all duration-300 backdrop-blur-sm bg-white/80 hover:border-emerald-500"
+                  >
+                    Carbon Estimator
+                  </Button>
+                </motion.div>
+              </Link>
             </motion.div>
 
             {/* Hero Images - Modern AI Generated */}
@@ -567,7 +583,7 @@ export default function Index() {
               <span className="text-emerald-600">Carbon Farming?</span>
             </h2>
             <p className="text-xl text-gray-600 font-medium max-w-3xl mx-auto">
-              आसान, फायदेमंद, और पर्यावरण ��े लिए बेहतर
+              आसान, फायदेमंद, और पर्यावरण केलिए बेहतर
             </p>
           </div>
           <motion.div

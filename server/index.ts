@@ -3,6 +3,9 @@ import express from "express";
 import cors from "cors";
 import { healthCheck } from "./routes/health";
 import { testEmail, getEmailStatus } from "./routes/test";
+import { calculateEstimator } from "./routes/estimator";
+import { ingestExample, trainModel, getModelInfo } from "./routes/ml";
+import { getSoilData } from "./routes/iot";
 import {
   sendOTP,
   verifyOTP,
@@ -16,6 +19,7 @@ import {
   farmerPasswordLogin,
   socialAuth,
   socialCallback,
+  initializeDatabase,
 } from "./routes/auth";
 
 export function createServer() {
@@ -35,6 +39,11 @@ export function createServer() {
       );
       next();
     });
+  }
+
+  // Initialize DB in development
+  if (process.env.NODE_ENV !== "production") {
+    initializeDatabase().catch(console.error);
   }
 
   // System routes
@@ -61,6 +70,17 @@ export function createServer() {
   // Social Authentication routes (temporarily disabled due to path-to-regexp issue)
   // app.post("/api/auth/social/:provider", socialAuth);
   // app.get("/api/auth/social/:provider/callback", socialCallback);
+
+  // Estimator routes (no DB required)
+  app.post("/api/estimator/calculate", calculateEstimator);
+
+  // ML routes
+  app.post("/api/ml/ingest", ingestExample);
+  app.post("/api/ml/train", trainModel);
+  app.get("/api/ml/model", getModelInfo);
+
+  // IoT routes
+  app.get("/api/iot/soil", getSoilData);
 
   // Admin routes (protected)
   app.get("/api/admin/farmers", getFarmers);
@@ -125,6 +145,7 @@ export function createServer() {
         "GET /api/auth/social/:provider/callback",
         "GET /api/admin/farmers",
         "PUT /api/admin/farmer-status",
+        "GET /api/iot/soil?lat={lat}&lon={lon}",
         ...(process.env.NODE_ENV !== "production"
           ? ["POST /api/test/email", "GET /api/test/email-status"]
           : []),
