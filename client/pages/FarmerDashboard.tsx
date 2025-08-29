@@ -506,7 +506,7 @@ export default function FarmerDashboard() {
                     <div className="flex justify-between items-center">
                       <span className="font-medium">Total Credits:</span>
                       <span className="font-bold text-green-600">
-                        {totalCredits.toFixed(1)}
+                        {estimator.totalCredits.toFixed(1)}
                       </span>
                     </div>
                     <div className="flex justify-between items-center">
