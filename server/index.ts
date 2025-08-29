@@ -139,6 +139,7 @@ export function createServer() {
         "GET /api/auth/social/:provider/callback",
         "GET /api/admin/farmers",
         "PUT /api/admin/farmer-status",
+        "GET /api/iot/soil?lat={lat}&lon={lon}",
         ...(process.env.NODE_ENV !== "production"
           ? ["POST /api/test/email", "GET /api/test/email-status"]
           : []),
