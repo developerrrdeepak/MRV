@@ -517,6 +517,11 @@ export default function FarmerDashboard() {
                       </span>
                     </div>
                   </div>
+                  <div className="pt-4">
+                    <Button onClick={runEstimator} disabled={estimator.loading} className="bg-green-600 hover:bg-green-700">
+                      {estimator.loading ? "Calculating..." : "Recalculate with AI Model"}
+                    </Button>
+                  </div>
                 </CardContent>
               </Card>
 
